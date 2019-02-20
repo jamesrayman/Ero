@@ -27,7 +27,17 @@ this_is = not_a_comment
 
 ### Data Types
 
+The Euclid language has a core data type which is called a figure.
 
+The following structures are all represented as figures.
+* Line
+* Point
+* Plane
+* Space
+* Null
+* Circle
+* Sphere
+* Segment
 
 ### The Four Postulates
 
@@ -42,8 +52,14 @@ Let the following be postulated:
 
 ### Suggestions
 Create a `given` function which will allow for the passing of points into Euclid, eliminating the use of numbers.
+
 Should `##` be a multiline comment?
-Deterministic `point_on` should be implemented somehow.
+
+Deterministic `point_on` should be implemented somehow. We could possibly use a point_on function that seeds the randomness to make it consistently give the same point.
+
+Do we want segment to be a figure type?
+
+Do we want an import system as this could help with library and organization of complex diagrams?
 
 ### Examples
 
