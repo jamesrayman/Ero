@@ -19,4 +19,5 @@ Let the following be postulated:
 1. To select a point on a given figure.
 
 ### Suggestions
-Create a `given` function which will allow for the passing of points into Euclid, eliminating the use of numbers. 
+Create a `given` function which will allow for the passing of points into Euclid, eliminating the use of numbers.
+ 
