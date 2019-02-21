@@ -5,7 +5,7 @@ namespace geo {
     template <typename Real = long double>
     class Vector3 {
     public:
-        const Real x, y, z;
+        Real x, y, z;
         Vector3(Real x = Real(), Real y = Real(), Real z = Real());
         Vector3 operator + (const Vector3& other) const;
         Vector3 operator - (const Vector3& other) const;
@@ -19,7 +19,7 @@ namespace geo {
             x = other.x;
             y = other.y;
             z = other.z;
-            return this;
+            return *this;
         }
         Real magnitude() const;
         Real sqrMagnitude() const;
@@ -31,6 +31,7 @@ namespace geo {
     template <typename Real>
     Vector3<Real> cross(Vector3<Real> v, Vector3<Real> u);
 
+    /* Begin implementation */
     template <typename Real>
     Vector3<Real>::Vector3(Real x, Real y, Real z) : x(x), y(y), z(z) {
     }
