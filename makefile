@@ -1,8 +1,6 @@
 src = $(wildcard *.cpp) \
-	$(wildcard geometry/*.cpp) \
-	$(wildcard *.tpp) \
-	$(wildcard geometry/*.tpp)
-obj = $(src:.c=.o)
+	$(wildcard geometry/*.cpp)
+obj = $(src:.cpp=.o)
 
 LDFLAGS = -std=c++17
 
