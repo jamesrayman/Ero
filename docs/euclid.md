@@ -26,6 +26,7 @@ this_is = not_a_comment
 
 
 
+
 ### Data Types
 
 The Euclid language has a core data type which is called a figure.
@@ -59,13 +60,15 @@ Let the following be postulated:
 There is a built in standard library with Euclid.
 
 ### Issues
+What is our viewpoint on abuse of the language? Should the language be allowed to be abused, like C++? Or should abuse be completely disabled?
+
 Deterministic `point_on` should be implemented somehow. We could possibly use a point_on function that seeds the randomness to make it consistently give the same point?
 
 How should we handle real numbers? Should we allow the passing of numerical properties out of Euclid, such as area?
 
 What is a complete list of figure types we want? What about non-figure types? To what extent are non-figure types usable in Euclid?
 
-
+How mobile should constructions be? Should constructions be reassignable within the same scope? Within other scopes? Should constructions be allowed as parameters?
 
 
 
