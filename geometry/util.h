@@ -3,9 +3,8 @@
 
 const double EPS = 1e-6;
 
-bool approx(float a, float b) {
-    return fabs(a - b) < EPS;
-}
+template <typename Real>
+bool approx(Real a, Real b);
 
 #endif
 

@@ -17,15 +17,15 @@ namespace geo {
         bool operator == (const Vector3<Real>& other) const;
         bool operator != (const Vector3<Real>& other) const;
         Vector3<Real>& operator = (const Vector3<Real>& other);
-        Real magnitude() const;
         Real sqrMagnitude() const;
+        Real magnitude() const;
     };
 
     template <typename Real>
-    Real dot (Vector3<Real> u, Vector3<Real> v);
+    Real dot (Vector3<Real>& u, Vector3<Real>& v);
 
     template <typename Real>
-    Vector3<Real> cross(Vector3<Real> u, Vector3<Real> v);
+    Vector3<Real> cross(Vector3<Real>& u, Vector3<Real>& v);
 
 }
 
