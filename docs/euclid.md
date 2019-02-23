@@ -70,5 +70,9 @@ What is a complete list of figure types we want? What about non-figure types? To
 
 How mobile should constructions be? Should constructions be reassignable within the same scope? Within other scopes? Should constructions be allowed as parameters?
 
+Should we include decisions other than `type_check`?
 
+Should we generalize block statements?
+
+Should a more sophisticated tuple system be implemented?
 
