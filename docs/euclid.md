@@ -12,7 +12,7 @@ Euclid is a functional scripting language intended to describe and render Euclid
 
 ### Basic Structure
 
-The basic building block of a Euclid program is a "statement". Statements are normally one line long, ended by a newline. Statements may be explicitly ended by a semicolon. A backslash at the end of a line will cancel the statement ending, allowing statements to span multiple lines. Hashtags denote single line comments. Anything on the same line after a hashtag will be ignored by the Euclid interpreter.
+The basic building block of a Euclid program is a "statement." Statements are normally one line long, ended by a newline. Statements may be explicitly ended by a semicolon. A backslash at the end of a line will cancel the statement ending, allowing statements to span multiple lines. Hashtags denote single line comments. Anything on the same line after a hashtag will be ignored by the Euclid interpreter.
 
 ```
 p = point_on(space)   # single line statement
@@ -23,6 +23,7 @@ a b c \               # multiline statement
 # backslashes do not work on comments \
 this_is = not_a_comment
 ```
+
 
 
 
@@ -41,6 +42,8 @@ The following structures are all represented as figures.
 * Sphere
 * Segment
 * Arc
+
+The non-figure types in Euclid are reals, strings, and constructions.
 
 ### The Postulates
 
@@ -77,6 +80,8 @@ Should we generalize block statements?
 Should a more sophisticated tuple system be implemented?
 
 Should the extremities of a solid (e.g. the surface of a sphere, the edges of a polygon) be distinguished from the interior?
+
+Should we put commas between elements in a tuple?
 
 Which of the following figure types should be implemented?
 * Polygon
