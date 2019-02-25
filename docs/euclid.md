@@ -7,7 +7,6 @@ Euclid is a functional scripting language intended to describe and render Euclid
 1. [Data Types](#data-types)
 1. [The Postulates](#the-postulates)
 1. [Standard Library](#standard-library)
-1. [Issues](#issues)
 1. [Examples](#examples)
 
 ### Basic Structure
@@ -63,6 +62,8 @@ Let the following be postulated:
 There is a built in standard library with Euclid.
 
 ### Issues
+TODO: Change all of these issues to proposals
+
 What is our viewpoint on abuse of the language? Should the language be allowed to be abused, like C++? Or should abuse be completely disabled?
 
 Deterministic `point_on` should be implemented somehow. We could possibly use a point_on function that seeds the randomness to make it consistently give the same point?
@@ -93,5 +94,9 @@ Which of the following figure types should be implemented?
 * Polyhedron
 
 Should we add booleans?
+
+How should error handling/debugging be done?
+
+How should external communication be done?
 
 
