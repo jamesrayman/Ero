@@ -76,3 +76,17 @@ Should we generalize block statements?
 
 Should a more sophisticated tuple system be implemented?
 
+Should the extremities of a solid (e.g. the surface of a sphere, the edges of a polygon) be distinguished from the interior?
+
+Which of the following figure types should be implemented?
+* Polygon
+* Polyline
+* Polyarc
+* Ray
+* Angle
+* Solid angle
+* Polyhedron
+
+
+
+
