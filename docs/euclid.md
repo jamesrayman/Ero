@@ -68,8 +68,6 @@ What is our viewpoint on abuse of the language? Should the language be allowed t
 
 Deterministic `point_on` should be implemented somehow. We could possibly use a point_on function that seeds the randomness to make it consistently give the same point?
 
-How should we handle real numbers? Should we allow the passing of numerical properties out of Euclid, such as area? Should we include a complete arithmetic system?
-
 What is a complete list of figure types we want? What about non-figure types? To what extent are non-figure types usable in Euclid?
 
 How mobile should constructions be? Should constructions be reassignable within the same scope? Within other scopes? Should constructions be allowed as parameters?
@@ -82,8 +80,6 @@ Should a more sophisticated tuple system be implemented?
 
 Should the extremities of a solid (e.g. the surface of a sphere, the edges of a polygon) be distinguished from the interior?
 
-Should we put commas between elements in a tuple?
-
 Which of the following figure types should be implemented?
 * Polygon
 * Polyline
@@ -92,8 +88,6 @@ Which of the following figure types should be implemented?
 * Angle
 * Solid angle
 * Polyhedron
-
-Should we add booleans?
 
 How should error handling/debugging be done?
 
