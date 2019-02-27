@@ -2,7 +2,7 @@
 
 Real numbers can be used in any construction.
 
-Real numbers are stored as `long double`s in C++, 
+Real numbers are stored with the same precision as `Vector3`s. Special values (e.g. `NaN`, `inf`) are represented as `Null`. 
 
 Add infix operators:
 * `+` addition
@@ -20,7 +20,15 @@ Add the following figure to real constructions:
 * `volume(alpha)` for a figure `alpha`
 
 Add the following real to real constructions:
-* I'll add this stuff later.
+* `sin`, `cos`, `tan`, `asin`, `acos`, `atan`, `atan2` trigometric functions
+* `sqrt` square root
+* `cbrt` cube root
+* `hypot` square root of sum of squares of passed arguments
+* `floor`, `ceil`, `round` rounding functions
+* `exp` exponential function
+* `log`, `log10`, `logb`, logarithms
+* `abs` absolute value
+* `min`, `max` minimum and maximum functions
 
 ### Pros
 
