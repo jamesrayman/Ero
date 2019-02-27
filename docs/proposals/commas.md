@@ -1,4 +1,4 @@
-# Proposal: require commas between parameter arguments and tuple elements
+# Proposal: require commas between construction arguments and tuple elements
 
 ### Pros:
 
