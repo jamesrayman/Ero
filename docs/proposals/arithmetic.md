@@ -30,6 +30,8 @@ Add the following real to real constructions:
 * `abs` absolute value
 * `min`, `max` minimum and maximum functions
 
+Mathematical constants are not implemented. π can be represented as `acos(-1)` and e can be represented as `exp(1)`.
+
 ### Pros
 
 * Real arithmetic would make Euclid easier to use.
