@@ -1,3 +1,3 @@
-# Proposal: Add interior_intersection to the standard library
+# Proposal: add interior_intersection to the standard library
 
 I'll write this proposal later.
