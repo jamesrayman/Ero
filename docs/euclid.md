@@ -59,27 +59,16 @@ Let the following be postulated:
 
 ### Standard Library
 
-There is a built in standard library with Euclid.
+There is a built in standard library with Euclid. It will be documented here.
 
 ### Issues
-TODO: Change all of these issues to proposals
-
 What is our viewpoint on abuse of the language? Should the language be allowed to be abused, like C++? Or should abuse be completely disabled?
-
-Deterministic `point_on` should be implemented somehow. We could possibly use a point_on function that seeds the randomness to make it consistently give the same point?
-
-What is a complete list of figure types we want? What about non-figure types? To what extent are non-figure types usable in Euclid?
-
-How mobile should constructions be? Should constructions be reassignable within the same scope? Within other scopes? Should constructions be allowed as parameters?
 
 Should we include decisions other than `type_check`?
 
 Should we generalize block statements?
 
-Should a more sophisticated tuple system be implemented?
-
-Should the extremities of a solid (e.g. the surface of a sphere, the edges of a polygon) be distinguished from the interior?
-
+What is a complete list of figure types we want? What about non-figure types? To what extent are non-figure types usable in Euclid?
 Which of the following figure types should be implemented?
 * Polygon
 * Polyline
@@ -88,9 +77,5 @@ Which of the following figure types should be implemented?
 * Angle
 * Solid angle
 * Polyhedron
-
-How should error handling/debugging be done?
-
-How should external communication be done?
 
 
