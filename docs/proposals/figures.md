@@ -1,4 +1,4 @@
-Proposal: use the following list complete list of figure types in Euclid
+# Proposal: use the following list as the complete list of figure types in Euclid
 
 * Null
 * Point
