@@ -28,34 +28,34 @@ Block statements are a list of statements enclosed by braces (`{` and `}`) on ei
 
 ### Data Types
 
-The central data type of the is a figure: a locus that exists in three dimensional space.
+The central data type of the is a figure: a set of points that exists in three dimensional space.
 
 The following structures are all represented as figures.
-* Point
-* Line
-* Segment
-* Ray
-* Plane
-* Circle
-* Arc
-* Sphere
-* Null
-* Space
+* Point: just one point
+* Line: 
+* Segment: a line bounded by two endpoints
+* Ray: a line bounded by one endpoint
+* Plane: 
+* Circle: the set of all points in a plane equidistant from a center
+* Arc: a circle that is bounded by two endpoints
+* Sphere: the set of all points in space equidistant from a center
+* Null: no points
+* Space: all points in three dimensional space
 
 The non-figure types in Euclid are reals, strings, and constructions.
 
 ### The Postulates
 
 Let the following be postulated:
-1. `intersection` To describe the intersection of two given figures.
-1. `point_on` To select a point on a given figure.
-1. `plane` To describe a plane given three points not on one line.
-1. `sphere` To describe a sphere given a center and a point on that sphere.
-1. `point` To define a given point.
-1. `segment` To define a line segment.
-1. `null` To create a null figure.
-1. `space` To create a space figure.
-1. `arc` To create a arc figure.
+1. `intersection`: To describe the intersection of two given figures.
+1. `point_on`: To select a point on a given figure.
+1. `plane`: To describe a plane given three points not on one line.
+1. `sphere`: To describe a sphere given a center and a point on that sphere.
+1. `point`: To define a given point.
+1. `segment`: To define a line segment.
+1. `null`: To create a null figure.
+1. `space`: To create a space figure.
+1. `arc`: To create a arc figure.
 
 ### Standard Library
 
@@ -65,4 +65,7 @@ There is a built in standard library with Euclid. It will be documented here.
 Should we include decisions other than `type_check`?
 
 Should we generalize block statements?
+
+How should global variables be implemented?
+
 
