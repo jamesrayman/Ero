@@ -1,10 +1,10 @@
 # Proposal: require commas between construction arguments and tuple elements
 
-### Pros:
+## Pros
 
 * readability
 * statement partitioning is deterministic, i.e. statement endings/continuations are not needed
 
-### Cons:
+## Cons
 
 * more to type

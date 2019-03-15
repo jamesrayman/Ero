@@ -4,14 +4,14 @@ Newlines no longer automatically end statements.
 
 Backslashes can no longer extend statements.
 
-### Pros
+## Pros
 
 * Simpler, more readable syntax
 
-### Cons
+## Cons
 
 * May limit extensibility
 
-### Prerequisites
+## Prerequisites
 
 * `commas.md`

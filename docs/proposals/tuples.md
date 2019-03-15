@@ -2,6 +2,6 @@
 
 I'll write this proposal later.
 
-### Pros
+## Pros
 
-### Cons
+## Cons
