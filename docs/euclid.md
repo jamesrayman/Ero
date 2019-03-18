@@ -64,7 +64,19 @@ These postulates are implemented in Euclid using the following constructions:
 
 ### `intersection(alpha, beta, ...)`
 
-I'll write this later.
+### `point_on(alpha, seed, index)`
+
+### `plane(alpha, beta, gamma)`
+
+### `sphere(center, p)`
+
+### `point(x, y, z)`
+
+### `ray(endpoint, p)`
+
+### `arc(start, p, end)`
+
+### `type(alpha)`
 
 ## Global Constants
 
@@ -78,6 +90,8 @@ Global constants are like global variables, but they may not be reassiged. Custo
 ## Operators
 
 ## Control Flow
+
+## Input/Output
 
 ## Standard Library
 
