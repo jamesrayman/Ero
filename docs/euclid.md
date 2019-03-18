@@ -7,6 +7,8 @@ Euclid is a functional scripting language intended to describe and render Euclid
 1. [Basic Structure](#basic-structure)
 1. [Data Types](#data-types)
 1. [The Postulates](#the-postulates)
+1. [Operators](#operators)
+1. [Control Flow](#control-flow)
 1. [Standard Library](#standard-library)
 
 ## Basic Structure
@@ -43,7 +45,7 @@ Below is a list of all figure types in Euclid:
 
 Note that circles and spheres, by definition, do not include the points on their interiors.
 
-The non-figure types in Euclid: reals, strings, and constructions.
+The non-figure types in Euclid are: reals, strings, booleans, references, tuples, and constructions.
 
 ## The Postulates
 
@@ -59,14 +61,10 @@ Let the following be postulated:
 1. `space`: To create a space figure.
 1. `arc`: To create a arc figure.
 
+## Operators
+
+## Control Flow
+
 ## Standard Library
 
 There is a built in standard library with Euclid. It will be documented here.
-
-## Issues
-
-Should we include decisions other than `type_check`?
-
-Should we generalize block statements?
-
-How should global variables be implemented?
