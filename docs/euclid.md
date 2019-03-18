@@ -51,15 +51,29 @@ The non-figure types in Euclid are: reals, strings, booleans, references, tuples
 
 Let the following be postulated:
 
-1. `intersection`: To describe the intersection of two given figures.
-1. `point_on`: To select a point on a given figure.
-1. `plane`: To describe a plane given three points not on one line.
-1. `sphere`: To describe a sphere given a center and a point on that sphere.
-1. `point`: To define a given point.
-1. `segment`: To define a line segment.
-1. `null`: To create a null figure.
-1. `space`: To create a space figure.
-1. `arc`: To create a arc figure.
+1. To describe the intersection of two given figures.
+1. To select a point on a given figure.
+1. To describe a plane given three points not on one line.
+1. To describe a sphere given a center and a point on that sphere.
+1. To describe a point given its coordinates.
+1. To describe a ray given an endpoint and a point on that ray.
+1. To describe an arc given its endpoints and a point on that arc.
+1. To determine the type of a given object.
+
+These postulates are implemented in Euclid using the following constructions:
+
+### `intersection(alpha, beta, ...)`
+
+I'll write this later.
+
+## Global Constants
+
+Global constants are like global variables, but they may not be reassiged. Custom global constants can't be created. The full list of global constants is shown below:
+
+* `space`: The single possible Space figure
+* `null`: The single possible Null figure
+* `true`: True boolean
+* `false`: False boolean
 
 ## Operators
 
