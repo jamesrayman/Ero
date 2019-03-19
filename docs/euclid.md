@@ -1,6 +1,6 @@
 # Euclid
 
-Euclid is a functional scripting language intended to describe and render Euclidean constructions in two or three dimensions. The Euclid language is inspired by _Elements_, an ancient geometry textbook by Euclid of Alexandria. As a result, the Euclid language does not focus on algebra or arithmetic. Rather, it relies on geometry as its main method of computation. Euclid is Turing complete (able to compute anything which is computable) and Euclid complete (able to construct any Euclidean construction), despite being built on a few basic constructions (which we will call "postulates") and a simple syntax.
+Euclid is a functional scripting language intended to describe and render Euclidean constructions in two or three dimensions. The Euclid language is inspired by _Elements_, an ancient geometry textbook by Euclid of Alexandria. As a result, the Euclid language does not focus on algebra or arithmetic. Rather, it relies on geometry as its main method of computation. Euclid is Turing complete (able to compute anything which is computable) and Euclid complete (able to construct any Euclidean construction). Euclid can also be used to create non-Euclidean constructions (such as an angle trisection and squaring the circle).
 
 ## Table of Contents
 
@@ -45,7 +45,21 @@ Below is a list of all figure types in Euclid:
 
 Note that circles and spheres, by definition, do not include the points on their interiors.
 
-The non-figure types in Euclid are: reals, strings, booleans, references, tuples, and constructions.
+Below is a list of all non-figure types in Euclid:
+
+* Real: A real number (i.e. NaN, inf, etc. are not implemented)
+* Boolean: Either `true` or `false`
+* Tuple: A list of other types
+* String: A tuple of integers interpreted as text
+* Construction: A function
+* Type: Describes a type
+* Reference: Describes a variable
+
+References and Types are non-assignable. That is, no variable in Euclid is allowed to be of type Reference or Type. Using a Type object in an assignment (explicit or implicit) will result in an error.
+
+The only implicit type conversion in Euclid is from Reference to another type, done when a Reference is used on the right hand side of an assignment (explicit or implicit).
+
+There are no custom types in Euclid.
 
 ## The Postulates
 
@@ -60,7 +74,7 @@ Let the following be postulated:
 1. To describe an arc given its endpoints and a point on that arc.
 1. To determine the type of a given object.
 
-These postulates are implemented in Euclid using the following constructions:
+These postulates, which are the basis for figure manipulation in Euclid, are implemented using the following constructions:
 
 ### `intersection(alpha, beta, ...)`
 
@@ -87,11 +101,17 @@ Global constants are like global variables, but they may not be reassiged. Custo
 * `true`: True boolean
 * `false`: False boolean
 
+The following global constants all describe Type objects:
+
+
+
 ## Operators
 
 ## Control Flow
 
 ## Input/Output
+
+Input and output in Euclid is done through "streams" which are 
 
 ## Standard Library
 
