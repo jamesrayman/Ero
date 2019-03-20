@@ -103,7 +103,16 @@ Global constants are like global variables, but they may not be reassiged. Custo
 
 The following global constants all describe Type objects:
 
-
+* `Point`
+* `Line`
+* `Segment`
+* `Ray`
+* `Plaen`
+* `Line`
+* `Line`
+* `Line`
+* `Line`
+* `Line`
 
 ## Operators
 
