@@ -55,11 +55,13 @@ Below is a list of all non-figure types in Euclid:
 * Type: Describes a type
 * Reference: Describes a variable
 
-References and Types are non-assignable. That is, no variable in Euclid is allowed to be of type Reference or Type. Using a Type object in an assignment (explicit or implicit) will result in an error.
+References and Types are non-assignable. That is, no variable in Euclid is allowed to be of type Reference or Type. Using a Type object in an assignment (explicit or implicit) will result in an error. Constructions are explicity non-assignable. That is, even though varaibles may have type Construction, a Construction object may not be used in an explicit assignment.
 
-The only implicit type conversion in Euclid is from Reference to another type, done when a Reference is used on the right hand side of an assignment (explicit or implicit).
+The only implicit type conversion in Euclid is from Reference to another type, done when a Reference is used in any operation.
 
 There are no custom types in Euclid.
+
+As convention compound geometric figures are represented
 
 ## The Postulates
 
@@ -72,7 +74,6 @@ Let the following be postulated:
 1. To describe a point given its coordinates.
 1. To describe a ray given an endpoint and a point on that ray.
 1. To describe an arc given its endpoints and a point on that arc.
-1. To determine the type of a given object.
 
 These postulates, which are the basis for figure manipulation in Euclid, are implemented using the following constructions:
 
@@ -90,11 +91,9 @@ These postulates, which are the basis for figure manipulation in Euclid, are imp
 
 ### `arc(start, p, end)`
 
-### `type(alpha)`
-
 ## Global Constants
 
-Global constants are like global variables, but they may not be reassiged. Custom global constants can't be created. The full list of global constants is shown below:
+Global constants are global variables which may not be reassiged. Custom global constants can't be created. The full list of global constants is shown below:
 
 * `space`: The single possible Space figure
 * `null`: The single possible Null figure
@@ -107,21 +106,34 @@ The following global constants all describe Type objects:
 * `Line`
 * `Segment`
 * `Ray`
-* `Plaen`
-* `Line`
-* `Line`
-* `Line`
-* `Line`
-* `Line`
+* `Plane`
+* `Circle`
+* `Arc`
+* `Sphere`
+* `Null`
+* `Space`
+* `Real`
+* `Boolean`
+* `Tuple`
+* `String`
+* `Construction`
+* `Type`
+* `Reference`
+
+The following global constants are shorthand for Type expressions:
+
+* `Figure`: equivalent to `Point + Line + Segment + Ray + Circle + Arc + Sphere + Null + Space`
 
 ## Operators
+
+Compound assignment operators, such as `+=` and `*=`, along with increment and decrement operators, i.e. `++` and `--`, are not supported in Euclid.
 
 ## Control Flow
 
 ## Input/Output
 
-Input and output in Euclid is done through "streams" which are 
+Input and output in Euclid is done through "streams" which are
 
 ## Standard Library
 
-There is a built in standard library with Euclid. It will be documented here.
+The Euclid standard library is a set of constructions
