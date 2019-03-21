@@ -61,7 +61,12 @@ The only implicit type conversion in Euclid is from Reference to another type, d
 
 There are no custom types in Euclid.
 
-As convention compound geometric figures are represented
+As convention, compound geometric figures are represented as tuples of figures. Each standard convention is documented below:
+
+* Angle: a pair of rays with a common endpoint
+* Polyline: a tuple of segments such that segments adjacent in the tuple share an endpoint
+* Polygon: a tuple of segments all in the same plane such that segments adjacent in the tuple (including the first and last) share an endpoint
+* Polyhedron: a tuple of polygons that enclose a region in space
 
 ## The Postulates
 
@@ -77,19 +82,19 @@ Let the following be postulated:
 
 These postulates, which are the basis for figure manipulation in Euclid, are implemented using the following constructions:
 
-### `intersection(alpha, beta, ...)`
+### `intersection(alpha : Figure, beta : Figure, ... : Figure)`
 
-### `point_on(alpha, seed, index)`
+### `point_on(alpha : Figure and not Null, seed : Real, index : Real)`
 
-### `plane(alpha, beta, gamma)`
+### `plane(alpha : Point, beta : Point, gamma : Point)`
 
-### `sphere(center, p)`
+### `sphere(center : Point, p : Point)`
 
-### `point(x, y, z)`
+### `point(x : Real, y : Real, z: Real)`
 
-### `ray(endpoint, p)`
+### `ray(endpoint : Point, p : Point)`
 
-### `arc(start, p, end)`
+### `arc(start : Point, p : Point, end : Point)`
 
 ## Global Constants
 
@@ -136,4 +141,10 @@ Input and output in Euclid is done through "streams" which are
 
 ## Standard Library
 
-The Euclid standard library is a set of constructions
+The Euclid standard library is a set of constructions which is standard in the Euclid language, but may be defined in terms of Euclid itself. However it is not necessary to define them in Euclid. In fact, it is recommended to implement standard constructions marked with an asterisk (`*`) outside of Euclid for efficiency or accuracy.
+
+## Issues
+
+Tuple and string manipulation should be functional, but strict functional manipulation is too expensive.
+
+Using ... as the variadic tuple is inconsistent.
