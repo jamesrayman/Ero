@@ -55,7 +55,7 @@ Below is a list of all non-figure types in Euclid:
 * Type: Describes a type
 * Reference: Describes a variable
 
-References and Types are non-assignable. That is, no variable in Euclid is allowed to be of type Reference or Type. Using a Type object in an assignment (explicit or implicit) will result in an error. Constructions are explicity non-assignable. That is, even though varaibles may have type Construction, a Construction object may not be used in an explicit assignment.
+References and Types are non-assignable. That is, no variable in Euclid is allowed to be of type Reference or Type. Using a Type object in an assignment (explicit or implicit) will result in an error.
 
 The only implicit type conversion in Euclid is from Reference to another type, done when a Reference is used in any operation.
 
