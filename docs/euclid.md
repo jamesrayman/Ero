@@ -10,6 +10,7 @@ Euclid is a functional scripting language intended to describe and render Euclid
 1. [Operators](#operators)
 1. [Control Flow](#control-flow)
 1. [Standard Library](#standard-library)
+1. [Issues](#issues)
 
 ## Basic Structure
 
@@ -47,7 +48,7 @@ Note that circles and spheres, by definition, do not include the points on their
 
 Below is a list of all non-figure types in Euclid:
 
-* Real: A real number (i.e. NaN, inf, etc. are not implemented)
+* Real: A real number (NaN, inf, etc. are not implemented)
 * Boolean: Either `true` or `false`
 * Tuple: A list of other types
 * String: A tuple of integers interpreted as text
@@ -57,7 +58,7 @@ Below is a list of all non-figure types in Euclid:
 
 References and Types are non-assignable. That is, no variable in Euclid is allowed to be of type Reference or Type. Using a Type object in an assignment (explicit or implicit) will result in an error.
 
-The only implicit type conversion in Euclid is from Reference to another type, done when a Reference is used in any operation.
+The only implicit type conversion in Euclid is from Reference to another type, done when a Reference is used in any operation which does not explicitly take a reference as a parameter.
 
 There are no custom types in Euclid.
 
@@ -144,6 +145,8 @@ Input and output in Euclid is done through "streams" which are
 The Euclid standard library is a set of constructions which is standard in the Euclid language, but may be defined in terms of Euclid itself. However it is not necessary to define them in Euclid. In fact, it is recommended to implement standard constructions marked with an asterisk (`*`) outside of Euclid for efficiency or accuracy.
 
 ## Issues
+
+Should there be multi-line comments?
 
 Tuple and string manipulation should be functional, but strict functional manipulation is too expensive.
 
