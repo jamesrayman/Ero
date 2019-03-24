@@ -1,11 +1,13 @@
 # Euclid
 
-Euclid is a functional scripting language intended to describe and render Euclidean constructions in two or three dimensions. The Euclid language is inspired by _Elements_, an ancient geometry textbook by Euclid of Alexandria. As a result, the Euclid language does not focus on algebra or arithmetic. Rather, it relies on geometry as its main method of computation. Euclid is Turing complete (able to compute anything which is computable) and Euclid complete (able to construct any Euclidean construction). Euclid can also be used to create non-Euclidean constructions (such as an angle trisection and squaring the circle).
+Euclid is a functional scripting language intended to describe and render Euclidean constructions in two or three dimensions. The Euclid language is inspired by _Elements_, an ancient geometry textbook by Euclid of Alexandria. As a result, the Euclid language does not focus on algebra or arithmetic. Rather, it relies on geometry as its main method of computation, even though real arithmetic is still supported. Euclid is Turing complete (able to compute anything which is computable) and Euclid complete (able to construct any Euclidean construction). Euclid can also be used to create non-Euclidean constructions (such as an angle trisection and squaring the circle).
 
 ## Table of Contents
 
 1. [Basic Structure](#basic-structure)
 1. [Data Types](#data-types)
+1. [Global Constants](#global-constants)
+1. [Literals](#literals)
 1. [The Postulates](#the-postulates)
 1. [Operators](#operators)
 1. [Control Flow](#control-flow)
@@ -69,33 +71,14 @@ As convention, compound geometric figures are represented as tuples of figures. 
 * Polygon: a tuple of segments all in the same plane such that segments adjacent in the tuple (including the first and last) share an endpoint
 * Polyhedron: a tuple of polygons that enclose a region in space
 
-## The Postulates
+## Literals
 
-Let the following be postulated:
+Literals are straightforwards specifications of objects. Below is a list of every type of literal in Euclid:
 
-1. To describe the intersection of two given figures.
-1. To select a point on a given figure.
-1. To describe a plane given three points not on one line.
-1. To describe a sphere given a center and a point on that sphere.
-1. To describe a point given its coordinates.
-1. To describe a ray given an endpoint and a point on that ray.
-1. To describe an arc given its endpoints and a point on that arc.
+### Real Literal
 
-These postulates, which are the basis for figure manipulation in Euclid, are implemented using the following constructions:
 
-### `intersection(alpha : Figure, beta : Figure, ... : Figure)`
-
-### `point_on(alpha : Figure and not Null, seed : Real, index : Real)`
-
-### `plane(alpha : Point, beta : Point, gamma : Point)`
-
-### `sphere(center : Point, p : Point)`
-
-### `point(x : Real, y : Real, z: Real)`
-
-### `ray(endpoint : Point, p : Point)`
-
-### `arc(start : Point, p : Point, end : Point)`
+There are no custom literals in Euclid.
 
 ## Global Constants
 
@@ -130,6 +113,28 @@ The following global constants are shorthand for Type expressions:
 
 * `Figure`: equivalent to `Point + Line + Segment + Ray + Circle + Arc + Sphere + Null + Space`
 
+## The Postulates
+
+The postulates are the basis for figure manipulation in Euclid. They are implemented using the following constructions:
+
+### `plane(alpha : Point, beta : Point, gamma : Point)`
+
+### `sphere(center : Point, p : Point)`
+
+### `point(x : Real, y : Real, z: Real)`
+
+### `ray(endpoint : Point, p : Point)`
+
+### `arc(start : Point, p : Point, end : Point)`
+
+### `intersection(alpha : Figure, beta : Figure, ... : Figure)`
+
+### `point_on(alpha : Figure and not Null, seed : Real, index : Real)`
+
+### `endpoints(alpha : Figure)`
+
+### `length(alpha : Figure)`
+
 ## Operators
 
 Compound assignment operators, such as `+=` and `*=`, along with increment and decrement operators, i.e. `++` and `--`, are not supported in Euclid.
@@ -145,8 +150,6 @@ Input and output in Euclid is done through "streams" which are
 The Euclid standard library is a set of constructions which is standard in the Euclid language, but may be defined in terms of Euclid itself. However it is not necessary to define them in Euclid. In fact, it is recommended to implement standard constructions marked with an asterisk (`*`) outside of Euclid for efficiency or accuracy.
 
 ## Issues
-
-Should there be multi-line comments?
 
 Tuple and string manipulation should be functional, but strict functional manipulation is too expensive.
 
