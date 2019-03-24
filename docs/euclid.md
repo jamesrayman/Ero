@@ -16,7 +16,9 @@ Euclid is a functional scripting language intended to describe and render Euclid
 
 ## Basic Structure
 
-The basic building block of a Euclid program is a "statement." The Euclid syntax is specified in a way that it is always clear where a statement ends, so statement enders (like semicolons) are not implemented. Hashtags denote single line comments: anything on the same line after a hashtag will be ignored by the Euclid interpreter.
+The basic building block of a Euclid program is a "statement." The Euclid syntax is specified in a way that it is always clear where a statement ends, so statement terminators (like semicolons) are not implemented. Hashtags denote single line comments: anything on the same line after a hashtag will be ignored by the Euclid interpreter.
+
+Euclid code samples thorughout this documentation is displayed like the sample below:
 
 ```text
 p = point_on(space)  # single line statement
@@ -75,8 +77,15 @@ As convention, compound geometric figures are represented as tuples of figures. 
 
 Literals are straightforwards specifications of objects. Below is a list of every type of literal in Euclid:
 
-### Real Literal
+### Real Literals
 
+### String Literals
+
+There are two types of String literals: long and short.
+
+### Reference Literals
+
+### Tuple Literals
 
 There are no custom literals in Euclid.
 
