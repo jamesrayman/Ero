@@ -132,17 +132,26 @@ lines''' # equivalent to 'Multiple\nlines"
 
 Within a String literal, long or short, a backslash indicates that the next character should be interpreted as part of the String. For example `"\'\"\\"` signifies a String containing a single quote, a double quote, and a backslash. Certain lowercase letters, when escaped, signify a special escape code. For example `\n` signifies the newline character. A full list of escape codes is shown below:
 
-| Escape Code | Significance                                             |
-|-------------|----------------------------------------------------------|
-| `\t`        | tab                                                      |
-| `\n`        | newline                                                  |
-| `\x--`      | hexadecimal character --, where - is a hexadecimal digit |
+| Escape Code | Significance                                                 |
+|-------------|--------------------------------------------------------------|
+| `\t`        | tab                                                          |
+| `\n`        | newline                                                      |
+| `\x**`      | hexadecimal character `**`, where `*` is a hexadecimal digit |
 
 ### Reference Literals
 
+Reference literals are strings of uppercase letters, lowercase letters, numbers, and underscores which are not keywords in Euclid. Also, Reference literals may not start with numbers. Each unique Reference literal points to a unique variable. Example Reference literals are `x`, `redCounter`, `var_3`, and `b324_nx04`.
+
 ### Tuple Literals
 
-There are no custom literals in Euclid.
+Tuple literals are comma seperated lists of objects. Note that References put into the Tuple literal are not dereferenced in the resultant Tuple. Tuple literals may be enclosed in brackets ('[' and ']') to prevent ambiguity, but this is unnecessary in most cases. Below are some example Tuple literals:
+
+```text
+45, "Hello", alpha
+
+[5.6, 3.14
+, "]}}", x]
+```
 
 ## Global Constants
 
@@ -211,7 +220,7 @@ Input and output in Euclid is done through "streams" which are
 
 ## Standard Library
 
-The Euclid standard library is a set of constructions which is standard in the Euclid language, but may be defined in terms of Euclid itself. However it is not necessary to define them in Euclid. In fact, it is recommended to implement standard constructions marked with an asterisk (`*`) outside of Euclid for efficiency or accuracy.
+The Euclid standard library is a set of constructions which is standard in the Euclid language, but may be defined in terms of Euclid itself. However it is not necessary to define them in Euclid. In fact, it is recommended to implement standard constructions marked with an asterisk (`*`) outside of Euclid for efficiency and accuracy.
 
 ## Issues
 
