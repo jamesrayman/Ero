@@ -75,13 +75,67 @@ As convention, compound geometric figures are represented as tuples of figures. 
 
 ## Literals
 
-Literals are straightforwards specifications of objects. Below is a list of every type of literal in Euclid:
+Literals are straightforwards specifications of objects. Below is a list of all types of literals in Euclid:
 
 ### Real Literals
 
 ### String Literals
 
-There are two types of String literals: long and short.
+String literals may include any ASCII characters. Since Strings are tuples of integers in Euclid, each character is converted into its character code and stored in the resultant String. There are two types of String literals: short and long.
+
+#### Short String Literals
+
+Short String literals begin and end with one unescaped quote character. The quote character used may be a single quote (`'`) or a double quote (`"`), but a single String literal can't use both. If a short String literal continues onto the next line, the previous line must end with a backslash (`\`), and the newline will not be included in the resultant String.
+
+Below are some valid short String literals:
+
+```text
+"Hello, world!"
+
+'print("Hello, world!")'
+
+"This literal spa\
+ns multi\
+ple lines" # equivalent to "This literal spans multiple lines"
+```
+
+The following literals are not valid:
+
+```text
+'Mismatched quotes"
+
+'Can't use unescaped quotes'
+
+"Multiple
+lines"
+```
+
+#### Long String Literals
+
+Long String literals begin and end with three consecutive unescaped quote characters. Again, either a single quote or a double quote may be used, but the quote character must be the same within a single String literal. Long String literals can span multiple lines without a backslash indicator, and newlines from continuation are preseved. Adding the backslash at the end of a line will remove the newline from the resultant string.
+
+Below are some valid long String literals:
+
+```text
+'''Multiple
+lines''' # equivalent to 'Multiple\nlines"
+
+'''\
+'' \
+'\'' \
+''\
+''' # equivalent to "'' ''' ''"
+# notice how the middle ''' was escaped
+```
+
+#### Escape Codes
+
+Within a String literal, long or short, a backslash indicates that the next character should be interpreted as part of the String. For example `"\'\"\\"` signifies a String containing a single quote, a double quote, and a backslash. Certain lowercase letters, when escaped, signify a special escape code. For example `\n` signifies the newline character. A full list of escape codes is shown below:
+
+| `\t`   | tab                                                      |
+|--------|----------------------------------------------------------|
+| `\n`   | newline                                                  |
+| `\x--` | hexadecimal character --, where - is a hexadecimal digit |
 
 ### Reference Literals
 
@@ -163,3 +217,5 @@ The Euclid standard library is a set of constructions which is standard in the E
 Tuple and string manipulation should be functional, but strict functional manipulation is too expensive.
 
 Using ... as the variadic tuple is inconsistent.
+
+How should we support unicode?
