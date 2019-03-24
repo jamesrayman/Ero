@@ -132,10 +132,11 @@ lines''' # equivalent to 'Multiple\nlines"
 
 Within a String literal, long or short, a backslash indicates that the next character should be interpreted as part of the String. For example `"\'\"\\"` signifies a String containing a single quote, a double quote, and a backslash. Certain lowercase letters, when escaped, signify a special escape code. For example `\n` signifies the newline character. A full list of escape codes is shown below:
 
-| `\t`   | tab                                                      |
-|--------|----------------------------------------------------------|
-| `\n`   | newline                                                  |
-| `\x--` | hexadecimal character --, where - is a hexadecimal digit |
+| Escape Code | Significance                                             |
+|-------------|----------------------------------------------------------|
+| `\t`        | tab                                                      |
+| `\n`        | newline                                                  |
+| `\x--`      | hexadecimal character --, where - is a hexadecimal digit |
 
 ### Reference Literals
 
