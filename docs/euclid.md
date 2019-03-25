@@ -16,7 +16,19 @@ Euclid is a functional scripting language intended to describe and render Euclid
 
 ## Basic Structure
 
-The basic building block of a Euclid program is a "statement." The Euclid syntax is specified in a way that it is always clear where a statement ends, so statement terminators (like semicolons) are not implemented. Hashtags denote single line comments: anything on the same line after a hashtag will be ignored by the Euclid interpreter.
+### Objects
+
+In Euclid, an "object" is some piece of data that signifies something. For example the sphere with center (3, 4, 2) and radius 2 is an object. The real number -4.34 is also an object. Data types in Euclid are discussed in detail later.
+
+### Expressions
+
+An "expression" is an instruction on how to compute the value of an object. Simple literals like `-4.34` and `"Hello, world"` are considered expressions, as they specify how to create a real object and a string object, respectively. More complex expressions can be created through the use of constructions, or functions, along with operators. For example `sqrt(x^2 + y^2 + z^2)` is an expression that computes the distance from the origin to point (`x`, `y`, `z`).
+
+### Statements
+
+A "statement" on how to change the state of the program. A Euclid program is a list of statement. Upon program execution, these statements are run in order unless they are part of a control flow structure that states to do otherwise (like an `if` statement).
+
+The Euclid syntax is specified in a way that it is always clear where a statement ends, so statement terminators (like semicolons) are not implemented. Hashtags denote single line comments: anything on the same line after a hashtag will be ignored by the Euclid interpreter.
 
 Euclid code samples thorughout this documentation is displayed like the sample below:
 
@@ -29,7 +41,18 @@ a, b, c              # multiline statement
 # this is a comment
 ```
 
-Block statements are a list of statements enclosed by braces (`{` and `}`) on either end.
+A block statement is a list of statements enclosed by braces (`{` and `}`) on either end. Block statements are used in control flow. If a block statement is encountered outside of a control flow statement, every individual statement within the block is run in order as if the braces were never there.
+
+Possibly the most frequent statement in Euclid is an assignment. The assignment operator is discussed in detail later. Below are some examples of assignment statements:
+
+```text
+a = b                   # the value of variable b is copied into variable a
+a, b, c = p, q, r       # Python-like tuple assignment
+omega = radius(         # assignment with a complex expression
+  sphere(
+    point_on(space), 
+    point_on(space)))
+```
 
 ## Data Types
 
@@ -48,7 +71,7 @@ Below is a list of all figure types in Euclid:
 * Null: no points
 * Space: all points in three dimensional space
 
-Note that circles and spheres, by definition, do not include the points on their interiors.
+Note that Circles and Spheres, by definition, do not include the points on their interiors.
 
 Below is a list of all non-figure types in Euclid:
 
@@ -96,7 +119,7 @@ Below are some valid short String literals:
 
 "This literal spa\
 ns multi\
-ple lines" # equivalent to "This literal spans multiple lines"
+ple lines"          # equivalent to "This literal spans multiple lines"
 ```
 
 The following literals are not valid:
@@ -118,14 +141,14 @@ Below are some valid long String literals:
 
 ```text
 '''Multiple
-lines''' # equivalent to 'Multiple\nlines"
+lines'''            # equivalent to 'Multiple\nlines"
 
 '''\
 '' \
 '\'' \
 ''\
-''' # equivalent to "'' ''' ''"
-# notice how the middle ''' was escaped
+'''         # equivalent to "'' ''' ''"
+            # notice how the middle ''' was escaped
 ```
 
 #### Escape Codes
