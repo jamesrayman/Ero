@@ -292,3 +292,6 @@ Tuple and string manipulation should be functional, but strict functional manipu
 Using ... as the variadic tuple is inconsistent.
 
 How should we support unicode?
+
+Use tables instead of bulleted lists in the docs.
+
