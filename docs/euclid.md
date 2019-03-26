@@ -98,7 +98,7 @@ As convention, compound geometric figures are represented as tuples of figures. 
 
 ## Literals
 
-Literals are straightforward specifications of objects. Below is a list of all types of literals in Euclid:
+Literals are straightforward specifications of objects, the simplest type of expression. Below is a list of all types of literals in Euclid:
 
 ### Real Literals
 
