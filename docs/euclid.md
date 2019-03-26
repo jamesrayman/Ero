@@ -98,19 +98,19 @@ As convention, compound geometric figures are represented as tuples of figures. 
 
 ## Literals
 
-Literals are straightforwards specifications of objects. Below is a list of all types of literals in Euclid:
+Literals are straightforward specifications of objects. Below is a list of all types of literals in Euclid:
 
 ### Real Literals
 
 ### String Literals
 
-String literals may include any ASCII characters. Since Strings are tuples of integers in Euclid, each character is converted into its character code and stored in the resultant String. There are two types of String literals: short and long.
+String literals may include any ASCII characters. Since strings are tuples of integers in Euclid, each character is converted into its character code and stored in the resultant string. There are two types of string literals: short and long.
 
 #### Short String Literals
 
-Short String literals begin and end with one unescaped quote character. The quote character used may be a single quote (`'`) or a double quote (`"`), but a single String literal can't use both. If a short String literal continues onto the next line, the previous line must end with a backslash (`\`), and the newline will not be included in the resultant String.
+Short string literals begin and end with one unescaped quote character. The quote character used may be a single quote (`'`) or a double quote (`"`), but a single string literal can't use both. If a short string literal continues onto the next line, the previous line must end with a backslash (`\`), and the newline will not be included in the resultant string.
 
-Below are some valid short String literals:
+Below are some valid short string literals:
 
 ```text
 "Hello, world!"
@@ -135,9 +135,9 @@ lines"
 
 #### Long String Literals
 
-Long String literals begin and end with three consecutive unescaped quote characters. Again, either a single quote or a double quote may be used, but the quote character must be the same within a single String literal. Long String literals can span multiple lines without a backslash indicator, and newlines from continuation are preseved. Adding the backslash at the end of a line will remove the newline from the resultant string.
+Long string literals begin and end with three consecutive unescaped quote characters. Again, either a single quote or a double quote may be used, but the quote character must be the same within a single string literal. Long string literals can span multiple lines without a backslash indicator, and newlines from continuation are preseved. Adding the backslash at the end of a line will remove the newline from the resultant string.
 
-Below are some valid long String literals:
+Below are some valid long string literals:
 
 ```text
 '''Multiple
@@ -167,7 +167,7 @@ Reference literals are strings of uppercase letters, lowercase letters, numbers,
 
 ### Tuple Literals
 
-Tuple literals are comma seperated lists of objects. Note that References put into the Tuple literal are not dereferenced in the resultant Tuple. Tuple literals may be enclosed in brackets ('[' and ']') to prevent ambiguity, but this is unnecessary in most cases. Below are some example Tuple literals:
+Tuple literals are comma seperated lists of objects. Note that References put into the Tuple literal are not dereferenced in the resultant Tuple. Tuple literals may be enclosed in brackets (`[` and `]`) to prevent ambiguity, but this is unnecessary in most cases. Below are some example Tuple literals:
 
 ```text
 45, "Hello", alpha
@@ -233,13 +233,53 @@ The postulates are the basis for figure manipulation in Euclid. They are impleme
 
 ## Operators
 
-Compound assignment operators, such as `+=` and `*=`, along with increment and decrement operators, i.e. `++` and `--`, are not supported in Euclid.
+Compound assignment operators, such as `+=` and `*=`, along with increment and decrement operators, i.e. `++` and `--`, are not supported in Euclid. -Issues: but should they?
 
 ## Control Flow
 
 ## Input/Output
 
-Input and output in Euclid is done through "streams" which are
+Input and output in Euclid is done through "streams." A "stream" is a collection of objects that can be added to using the `write` construction and taken from using the `read` construction. Streams are identified using strings, but unique names need not correspond to unique streams. In other words, streams may be aliased. Below is the documentation of the stream interface in Euclid:
+
+### `read(stream : String)`
+
+Read and return an object from the stream called `stream`.
+
+### `read()`
+
+Read and return an object from the default read stream. The default read stream is `"stdin"` unless set otherwise.
+
+### `write(obj, stream : String)`
+
+Write `obj` to the stream called `stream`.
+
+### `write(obj)`
+
+Write `obj` to the default write stream. The default write stream is `"stdout"` unless set otherwise.
+
+### `read_from(stream : String)`
+
+Change the default read stream to `stream`.
+
+### `write_to(stream : String)`
+
+Change the default write stream to `stream`.
+
+### Implementation
+
+The specification of streams is intentionally vague to allow for versatility of the Euclid language. How objects are represented in streams, for example, is not standardized. It is recommended that either JSON or EON be used for representation (EON is Euclid Object Notation, which is documented in `eon.md`), but it is not necessary to follow this recommendation.
+
+### Standard Streams
+
+The following streams are recommended to be implemented or aliased in Euclid:
+
+| Stream    | Function                                         |
+|-----------|--------------------------------------------------|
+| `stdin`   | default input stream                             |
+| `stdout`  | default output stream                            |
+| `error`   | stream for logging fatal errors                  |
+| `warning` | stream for logging non-fatal errors and warnings |
+| `log`     | stream for logging miscellaneous information     |
 
 ## Standard Library
 
