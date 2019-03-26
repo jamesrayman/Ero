@@ -50,7 +50,7 @@ a = b                   # the value of variable b is copied into variable a
 a, b, c = p, q, r       # Python-like tuple assignment
 omega = radius(         # assignment with a complex expression
   sphere(
-    point_on(space), 
+    point_on(space),
     point_on(space)))
 ```
 
@@ -294,4 +294,3 @@ Using ... as the variadic tuple is inconsistent.
 How should we support unicode?
 
 Use tables instead of bulleted lists in the docs.
-
