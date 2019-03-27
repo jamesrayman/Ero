@@ -22,7 +22,7 @@ In Euclid, an "object" is some piece of data that signifies something. For examp
 
 ### Expressions
 
-An "expression" is an instruction on how to compute the value of an object. Simple literals like `-4.34` and `"Hello, world"` are considered expressions, as they specify how to create a real object and a string object, respectively. More complex expressions can be created through the use of constructions, or functions, along with operators. For example `sqrt(x^2 + y^2 + z^2)` is an expression that computes the distance from the origin to point (`x`, `y`, `z`).
+An "expression" is an instruction on how to compute the value of an object. Simple literals like `-4.34` and `"Hello, world"` are considered expressions, as they specify how to create a real object and a string object, respectively. More complex expressions can be created through the use of constructions, or functions, along with operators. For example, `sqrt(x^2 + y^2 + z^2)` is an expression that computes the distance from the origin to point (`x`, `y`, `z`).
 
 ### Statements
 
@@ -41,7 +41,7 @@ a, b, c              # multiline statement
 # this is a comment
 ```
 
-A block statement is a list of statements enclosed by braces (`{` and `}`) on either end. Block statements are used in control flow. If a block statement is encountered outside of a control flow statement, every individual statement within the block is run in order as if the braces were never there.
+A block statement is a list of statements enclosed by braces (`{` and `}`). Block statements are used in control flow. If a block statement is encountered outside of a control flow statement, every individual statement within the block is run in order as if the braces were never there.
 
 Possibly the most frequent statement in Euclid is an assignment. The assignment operator is discussed in detail later. Below are some examples of assignment statements:
 
@@ -52,6 +52,17 @@ omega = radius(         # assignment with a complex expression
   sphere(
     point_on(space),
     point_on(space)))
+```
+
+#### `import` Statements
+
+`import` statements are statements which run another Euclid file. These statements have the syntax `import(name)` where `name` is a string which contains the library or file path to import. Each library or file may only be imported once per execution. Duplicate imports are ignored and should not generate any warnings or errors. Below are some examples of imports:
+
+```text
+import("test.euclid")           # import a file
+import("olympiad")              # import a library
+import("folder/file.euclid")    # import from a different directory
+import("test.euclid")           # this line does nothing
 ```
 
 ## Data Types
