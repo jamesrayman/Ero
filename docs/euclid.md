@@ -2,6 +2,8 @@
 
 Euclid is a functional scripting language intended to describe and render Euclidean constructions in two or three dimensions. The Euclid language is inspired by _Elements_, an ancient geometry textbook by Euclid of Alexandria. As a result, the Euclid language does not focus on algebra or arithmetic. Rather, it relies on geometry as its main method of computation, even though real arithmetic is still supported. Euclid is Turing complete (able to compute anything which is computable) and Euclid complete (able to construct any Euclidean construction). Euclid can also be used to create non-Euclidean constructions (such as an angle trisection and squaring the circle).
 
+> For editing purposes, put comments and suggested changes in block quotes.
+
 ## Table of Contents
 
 1. [Basic Structure](#basic-structure)
@@ -56,14 +58,19 @@ omega = radius(         # assignment with a complex expression
 
 #### `import` Statements
 
-`import` statements are statements which run another Euclid file. These statements have the syntax `import(name)` where `name` is a string which contains the library or file path to import. Each library or file may only be imported once per execution. Duplicate imports are ignored and should not generate any warnings or errors. Below are some examples of imports:
+`import` statements are statements which run another Euclid file. These statements have the syntax `import(name)` where `name` is a string which contains the library or file path to import. Multiple imports can be done with one import by adding multiple names as parameters. Each library or file may only be imported once per execution. Duplicate imports are ignored and should not generate any warnings or errors. Below are some examples of imports:
 
 ```text
 import("test.euclid")           # import a file
 import("olympiad")              # import a library
 import("folder/file.euclid")    # import from a different directory
 import("test.euclid")           # this line does nothing
+import("a.euclid",              # multiple imports with one statement.
+       "b.euclid",
+       "c.euclid")
 ```
+
+If a name can refer to both a file and a library, the library is imported instead of a file. The standard Euclid libraries are discussed in detail later. Custom library implementation is not standardized.
 
 ## Data Types
 
@@ -112,6 +119,8 @@ As convention, compound geometric figures are represented as tuples of figures. 
 Literals are straightforward specifications of objects, the simplest type of expression. Below is a list of all types of literals in Euclid:
 
 ### Real Literals
+
+Real literals iin Euclid...
 
 ### String Literals
 
@@ -244,7 +253,8 @@ The postulates are the basis for figure manipulation in Euclid. They are impleme
 
 ## Operators
 
-Compound assignment operators, such as `+=` and `*=`, along with increment and decrement operators, i.e. `++` and `--`, are not supported in Euclid. -Issues: but should they?
+Compound assignment operators, such as `+=` and `*=`, along with increment and decrement operators, i.e. `++` and `--`, are not supported in Euclid.
+> But should they?
 
 ## Control Flow
 
