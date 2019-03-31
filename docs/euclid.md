@@ -156,7 +156,7 @@ Negative real literals technically do not exist in Euclid. Rather, a negation op
 
 ### String Literals
 
-String literals may include any ASCII characters. Since strings are tuples of integers in Euclid, each character is converted into its character code and stored in the resultant string. There are two types of string literals: short and long.
+String literals may include any ASCII characters. Unicode is currently not supported, but may be added at a later time. Since strings are tuples of integers in Euclid, each character is converted into its character code and stored in the resultant string. There are two types of string literals: short and long.
 
 #### Short String Literals
 
@@ -347,5 +347,3 @@ The Euclid standard library is a set of constructions which is standard in the E
 Tuple and string manipulation should be functional, but strict functional manipulation is too expensive.
 
 Using ... as the variadic tuple is inconsistent.
-
-How should we support unicode?
