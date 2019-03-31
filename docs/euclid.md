@@ -120,7 +120,33 @@ Literals are straightforward specifications of objects, the simplest type of exp
 
 ### Real Literals
 
-Real literals iin Euclid...
+Real literals in Euclid are based off of decimal real literals in C. Real literals are strings of at least one decimal digit. A decimal point (`.`) may be inserted anywere in this literal. Scientific notation may also be used by appending `e` or `E`, followed by an optional sign, (`+` or `-`), followed by an integer representing the exponent.
+
+Below are some examples of correct real literals:
+
+```text
+743
+743.
+34.59
+56.000
+.01
+0034    # leading zeros are allowed
+45e-3
+45.E+3
+3.460e3
+.0003e02
+```
+
+Below are some examples of incorrect real literals:
+
+```text
+.       # no digits present
+e03     # mantissa must contain at least one digit
+.e03    # mantissa must contain at least one digit
+54e 43  # literal may not contain spaces
+```
+
+Negative real literals technically do not exist in Euclid. Rather, a negation operator is applied to a real literal. The implications of this are minimal. For example, the expression `-4.5` evaluates to exactly what is expected, but it does include an operator call.
 
 ### String Literals
 
