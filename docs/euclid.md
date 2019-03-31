@@ -28,7 +28,7 @@ An "expression" is an instruction on how to compute the value of an object. Simp
 
 ### Statements
 
-A "statement" on how to change the state of the program. A Euclid program is a list of statement. Upon program execution, these statements are run in order unless they are part of a control flow structure that states to do otherwise (like an `if` statement).
+A "statement" is an instruction on how to change the state of the program. A Euclid program is a list of statements. Upon program execution, these statements are run in order unless they are part of a control flow structure that states to do otherwise (like an `if` statement).
 
 The Euclid syntax is specified in a way that it is always clear where a statement ends, so statement terminators (like semicolons) are not implemented. Hashtags denote single line comments: anything on the same line after a hashtag will be ignored by the Euclid interpreter.
 
@@ -64,7 +64,7 @@ omega = radius(         # assignment with a complex expression
 import("test.euclid")           # import a file
 import("olympiad")              # import a library
 import("folder/file.euclid")    # import from a different directory
-import("test.euclid")           # this line does nothing
+import("test.euclid")           # this line does nothing since test.euclid has already been imported
 import("a.euclid",              # multiple imports with one statement.
        "b.euclid",
        "c.euclid")
@@ -76,30 +76,34 @@ If a name can refer to both a file and a library, the library is imported instea
 
 The central data type of the is a figure: a set of points that exists in three dimensional space.
 
-Below is a list of all figure types in Euclid:
+Below is a table of all figure types in Euclid:
 
-* Point: just one point
-* Line: the set of all points on an infinitely long straight line
-* Segment: a line bounded by two endpoints
-* Ray: a line bounded by one endpoint
-* Plane: the set of all points on an infinitely large flat surface
-* Circle: the set of all points in a plane equidistant from a center
-* Arc: a circle that is bounded by two endpoints
-* Sphere: the set of all points in space equidistant from a center
-* Null: no points
-* Space: all points in three dimensional space
+| Figure  | Description                                                |
+|---------|------------------------------------------------------------|
+| Point   | just one point                                             |
+| Line    | the set of all points on an infinitely long straight line  |
+| Segment | a line bounded by two endpoints                            |
+| Ray     | a line bounded by one endpoint                             |
+| Plane   | the set of all points on an infinitely large flat surface  |
+| Circle  | the set of all points in a plane equidistant from a center |
+| Arc     | a circle that is bounded by two endpoints                  |
+| Sphere  | the set of all points in space equidistant from a center   |
+| Null    | no points                                                  |
+| Space   | all points in three dimensional space                      |
 
 Note that Circles and Spheres, by definition, do not include the points on their interiors.
 
-Below is a list of all non-figure types in Euclid:
+Below is a table of all non-figure types in Euclid:
 
-* Real: A real number (NaN, inf, etc. are not implemented)
-* Boolean: Either `true` or `false`
-* Tuple: A list of other types
-* String: A tuple of integers interpreted as text
-* Construction: A function
-* Type: Describes a type
-* Reference: Describes a variable
+| Type         | Description                                        |
+|--------------|----------------------------------------------------|
+| Real         | A real number (NaN, inf, etc. are not implemented) |
+| Boolean      | Either `true` or `false`                           |
+| Tuple        | A list of other types                              |
+| String       | A tuple of integers interpreted as text            |
+| Construction | A function                                         |
+| Type         | Describes a type                                   |
+| Reference    | Describes a variable                               |
 
 References and Types are non-assignable. That is, no variable in Euclid is allowed to be of type Reference or Type. Using a Type object in an assignment (explicit or implicit) will result in an error.
 
@@ -109,10 +113,12 @@ There are no custom types in Euclid.
 
 As convention, compound geometric figures are represented as tuples of figures. Each standard convention is documented below:
 
-* Angle: a pair of rays with a common endpoint
-* Polyline: a tuple of segments such that segments adjacent in the tuple share an endpoint
-* Polygon: a tuple of segments all in the same plane such that segments adjacent in the tuple (including the first and last) share an endpoint
-* Polyhedron: a tuple of polygons that enclose a region in space
+| Compound Figure | Description                                                                                                                         |
+|-----------------|-------------------------------------------------------------------------------------------------------------------------------------|
+| Angle           | a tuple of two rays with a common endpoint                                                                                          |
+| Polyline        | a tuple of segments such that segments adjacent in the tuple share an endpoint                                                      |
+| Polygon         | a tuple of segments all in the same plane such that segments adjacent in the tuple (including the first and last) share an endpoint |
+| Polyhedron      | a tuple of polygons that enclose a region in space                                                                                  |
 
 ## Literals
 
@@ -226,10 +232,12 @@ Tuple literals are comma seperated lists of objects. Note that References put in
 
 Global constants are global variables which may not be reassiged. Custom global constants can't be created. The full list of global constants is shown below:
 
-* `space`: The single possible Space figure
-* `null`: The single possible Null figure
-* `true`: True boolean
-* `false`: False boolean
+| Global Constant | Significance                     |
+|-----------------|----------------------------------|
+| `space`         | The single possible Space figure |
+| `null`          | The single possible Null figure  |
+| `true`          | True boolean                     |
+| `false`         | False boolean                    |
 
 The following global constants all describe Type objects:
 
@@ -253,7 +261,9 @@ The following global constants all describe Type objects:
 
 The following global constants are shorthand for Type expressions:
 
-* `Figure`: equivalent to `Point + Line + Segment + Ray + Circle + Arc + Sphere + Null + Space`
+| Global Constant | Significance                                                                        |
+|-----------------|-------------------------------------------------------------------------------------|
+| `Figure`        | equivalent to `Point + Line + Segment + Ray + Circle + Arc + Sphere + Null + Space` |
 
 ## The Postulates
 
@@ -339,5 +349,3 @@ Tuple and string manipulation should be functional, but strict functional manipu
 Using ... as the variadic tuple is inconsistent.
 
 How should we support unicode?
-
-Use tables instead of bulleted lists in the docs.
