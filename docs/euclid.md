@@ -99,7 +99,7 @@ Below is a table of all non-figure types in Euclid:
 |--------------|----------------------------------------------------|
 | Real         | A real number (NaN, inf, etc. are not implemented) |
 | Boolean      | Either `true` or `false`                           |
-| Tuple        | A list of other types                              |
+| Tuple        | A list of other objects (may be heterogeneous)     |
 | String       | A tuple of integers interpreted as text            |
 | Construction | A function                                         |
 | Type         | Describes a type                                   |
@@ -261,9 +261,10 @@ The following global constants all describe Type objects:
 
 The following global constants are shorthand for Type expressions:
 
-| Global Constant | Significance                                                                        |
-|-----------------|-------------------------------------------------------------------------------------|
-| `Figure`        | equivalent to `Point + Line + Segment + Ray + Circle + Arc + Sphere + Null + Space` |
+| Global Constant | Significance                                                                               |
+|-----------------|--------------------------------------------------------------------------------------------|
+| `Figure`        | equivalent to `Point + Line + Segment + Ray + Circle + Arc + Sphere + Null + Space`        |
+| `Any`           | equivalent to `Figure + Real + Boolean + Tuple + String + Construction + Type + Reference` |
 
 ## The Postulates
 
@@ -271,21 +272,39 @@ The postulates are the basis for figure manipulation in Euclid. They are impleme
 
 ### `plane(alpha : Point, beta : Point, gamma : Point)`
 
+Return the unique plane which contains points `alpha`, `beta`, and `gamma`. If there is no unique plane, return `null`.
+
 ### `sphere(center : Point, p : Point)`
+
+Return the unique sphere with center `center` such that `p` is a point on that circle. If `center` and `p` are the same point, return `null`.
 
 ### `point(x : Real, y : Real, z: Real)`
 
+Return the point with Cartesian coordinates (`x`, `y`, `z`).
+
 ### `ray(endpoint : Point, p : Point)`
+
+Return the unique ray with endpoint `endpoint` such that `p` is a point on that ray. If `center` and `p` are the same point, return `null`.
 
 ### `arc(start : Point, p : Point, end : Point)`
 
-### `intersection(alpha : Figure, beta : Figure, ... : Figure)`
+Return the unique arc with endpoints `start` and `end` such that point `p` is a point on that arc. If the three points are collinear or not pairwise distcint, return `null`.
 
-### `point_on(alpha : Figure and not Null, seed : Real, index : Real)`
+### `intersections(alpha : Figure, beta : Figure, omega... : Figure[])`
+
+Return a tuple of figures whose union represents the intersection of all the figures given in the input.
+
+### `point_on(alpha : Figure and not Null, seed : Real = -1, index : Real = -1)`
+
+Return a "random" point on `alpha`. FINISH WRITING
 
 ### `endpoints(alpha : Figure)`
 
-### `length(alpha : Figure)`
+Return a tuple of the "endpoints" of `alpha`. A ray has one endpoint. Arcs and segments have two enpoints each. The endpoint of a point is the point itself. All other figures have no endpoints. If `alpha` has no endpoints, return an empty tuple.
+
+### `distance(alpha : Point, beta : Point)`
+
+IReturn the Euclidean distance between `alpha` and `beta`.
 
 ## Operators
 
@@ -345,5 +364,3 @@ The Euclid standard library is a set of constructions which is standard in the E
 ## Issues
 
 Tuple and string manipulation should be functional, but strict functional manipulation is too expensive.
-
-Using ... as the variadic tuple is inconsistent.
