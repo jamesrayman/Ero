@@ -294,9 +294,9 @@ Return the unique arc with endpoints `start` and `end` such that point `p` is a 
 
 Return a tuple of figures whose union represents the intersection of all the figures given in the input.
 
-### `point_on(alpha : Figure and not Null, seed : Real = -1, index : Real = -1)`
+### `point_on(alpha : Figure and not Null, seed : Real = 0, index : Real = -1)`
 
-Return a "random" point on `alpha`. FINISH WRITING
+Return a "random" point on `alpha`. This "random" point is uniquely determined from `seed` and `index`. The default index is initiallized to 0 and incremented after every time `point_on` is called without `index` given.
 
 ### `endpoints(alpha : Figure)`
 
