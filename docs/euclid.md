@@ -113,7 +113,7 @@ There are no custom types in Euclid.
 
 As convention, compound geometric figures are represented as tuples of figures. Each standard convention is documented below:
 
-| Compound Figure | Description                                                                                                                         |
+| Compound figure | Description                                                                                                                         |
 |-----------------|-------------------------------------------------------------------------------------------------------------------------------------|
 | Angle           | a tuple of two rays with a common endpoint                                                                                          |
 | Polyline        | a tuple of segments such that segments adjacent in the tuple share an endpoint                                                      |
@@ -207,7 +207,7 @@ lines'''            # equivalent to 'Multiple\nlines"
 
 Within a String literal, long or short, a backslash indicates that the next character should be interpreted as part of the String. For example `"\'\"\\"` signifies a String containing a single quote, a double quote, and a backslash. Certain lowercase letters, when escaped, signify a special escape code. For example `\n` signifies the newline character. A full list of escape codes is shown below:
 
-| Escape Code | Significance                                                 |
+| Escape code | Significance                                                 |
 |-------------|--------------------------------------------------------------|
 | `\t`        | tab                                                          |
 | `\n`        | newline                                                      |
@@ -232,7 +232,7 @@ Tuple literals are comma seperated lists of objects. Note that References put in
 
 Global constants are global variables which may not be reassiged. Custom global constants can't be created. The full list of global constants is shown below:
 
-| Global Constant | Significance                     |
+| Global constant | Significance                     |
 |-----------------|----------------------------------|
 | `space`         | The single possible Space figure |
 | `null`          | The single possible Null figure  |
@@ -261,10 +261,10 @@ The following global constants all describe Type objects:
 
 The following global constants are shorthand for Type expressions:
 
-| Global Constant | Significance                                                                               |
+| Global constant | Significance                                                                               |
 |-----------------|--------------------------------------------------------------------------------------------|
 | `Figure`        | equivalent to `Point + Line + Segment + Ray + Circle + Arc + Sphere + Null + Space`        |
-| `Any`           | equivalent to `Figure + Real + Boolean + Tuple + String + Construction + Type + Reference` |
+| `Object`        | equivalent to `Figure + Real + Boolean + Tuple + String + Construction + Type + Reference` |
 
 ## The Postulates
 
@@ -314,15 +314,17 @@ Unless otherwise stated, when a Reference is passed as an operand, it is derefer
 
 ### Arithmetic
 
-All arithmetic operators take reals as operands.
+All arithmetic operators take reals as operands and evaluate to reals.
 
 There are two unary arithmetic operators: `-x` and `+x`. `-x` returns the additive inverse of `x` while `+x` returns `x`.
 
-The binary operators are: `x + y`, `x - y`, `x * y`, `x / y`, `x // y`, `x % y`, and `x ^ y`, returning the sum, difference, product, quotiont, integer quotient, remainder, and power of `x` and `y`, respectively. The integer quotient and remainder are defined as follows: `x // y` is an integer and `x % y` is the minimum nonnegative value such that `(x // y) * y + (x % y)` is equal to `x`.
+The binary operators are: `x + y`, `x - y`, `x * y`, `x / y`, `x // y`, `x % y`, and `x ^ y`, which return the sum, difference, product, quotiont, integer quotient, remainder, and power of `x` and `y`, respectively. The integer quotient and remainder are defined as follows: `x // y` is an integer and `x % y` is the minimum nonnegative value such that `(x // y) * y + (x % y)` is equal to `x`.
 
 #### Disputed Definitions
 
-Even though the definition of `0^0` has been disputed, this expression is defined in Euclid and has a value of `1`. `0^x`, where `x` is positive, is equal to `0`.
+Even though the definition of `0^0` is disputed, this expression is defined in Euclid and has a value of `1`. `0^x`, where `x` is positive, is equal to `0`.
+
+For values of `x ^ y` where `y` is not an integer, the expression is equal to `exp(log(x) * y)`. The definitions of `exp` and `log` are discussed in detail later.
 
 #### Undefined Expressions
 
@@ -336,9 +338,46 @@ The following expressions are all undefined. The errors which these expressions 
 
 ### Logic
 
+All logical operators take booleans as operands and evaluate to booleans.
+
+There is one unary logical operator: `not x` which returns the boolean negation of `x`.
+
+There are three binary logical operators: `x and y`, `x or y`, and `x xor y`, which return the conjunction, disjunction, and exclusive disjunction of `x` and `y`, respectively.
+
+Symbolic alternatives for logical operators are available:
+
+| Logical operator | Symbolic equivalent |
+|------------------|---------------------|
+| `not x`          | `!x`                |
+| `x and y`        | `x && y`            |
+| `x or y`         | `x || y`            |
+| `x xor y`        | `x ^^ y`            |
+
+
+### Comparison
+
+
 ### Assignment
 
+The assignment operator in Euclid is `x = y`.
+
+#### Ordinary Assignment
+
+Ordinary assignment occurs when `x` is a Reference. The value of `y` is copied into the variable `x`.
+
+Below are some examples of assignment:
+
+```text
+FINISH WRITING
+```
+
+#### Tuple-wise Assignment
+
+#### Implicit Assignment
+
 ### Compound Assignment
+
+Compound assignment operators
 
 ### Precedence
 
