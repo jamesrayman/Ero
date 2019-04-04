@@ -308,8 +308,47 @@ IReturn the Euclidean distance between `alpha` and `beta`.
 
 ## Operators
 
-Compound assignment operators, such as `+=` and `*=`, along with increment and decrement operators, i.e. `++` and `--`, are not supported in Euclid.
-> But should they?
+Operators are constructions which are invoked through a special notation for the purpose of readability. For example, the addition of two real numbers, `x` and `y`, is done by `x + y` rather than by some construction call (such as `add(x, y)`). All operators in Euclid are prefix unary (e.g. `~x`) or infix binary (e.g. `x ~ y`).
+
+Unless otherwise stated, when a Reference is passed as an operand, it is dereferenced, and operators do not return References.
+
+### Arithmetic
+
+All arithmetic operators take reals as operands.
+
+There are two unary arithmetic operators: `-x` and `+x`. `-x` returns the additive inverse of `x` while `+x` returns `x`.
+
+The binary operators are: `x + y`, `x - y`, `x * y`, `x / y`, `x // y`, `x % y`, and `x ^ y`, returning the sum, difference, product, quotiont, integer quotient, remainder, and power of `x` and `y`, respectively. The integer quotient and remainder are defined as follows: `x // y` is an integer and `x % y` is the minimum nonnegative value such that `(x // y) * y + (x % y)` is equal to `x`.
+
+#### Disputed Definitions
+
+Even though the definition of `0^0` has been disputed, this expression is defined in Euclid and has a value of `1`. `0^x`, where `x` is positive, is equal to `0`.
+
+#### Undefined Expressions
+
+The following expressions are all undefined. The errors which these expressions generate is discussed in detail later.
+
+* `x / 0`, for all `x`
+* `x // 0`, for all `x`
+* `x / 0`, for all `x`
+* `0 ^ x`, for all negative `x`
+* `x ^ y`, for all negative `x` and non-integer `y`
+
+### Logic
+
+### Assignment
+
+### Compound Assignment
+
+### Precedence
+
+
+
+Increment and decrement operators, i.e. `++` and `--`, are not supported in Euclid.
+
+There are no custom operators in Euclid.
+
+## Built-in Constructions
 
 ## Control Flow
 
@@ -357,10 +396,16 @@ The following streams are recommended to be implemented or aliased in Euclid:
 | `warning` | stream for logging non-fatal errors and warnings |
 | `log`     | stream for logging miscellaneous information     |
 
+## Errors
+
 ## Standard Library
 
 The Euclid standard library is a set of constructions which is standard in the Euclid language, but may be defined in terms of Euclid itself. However it is not necessary to define them in Euclid. In fact, it is recommended to implement standard constructions marked with an asterisk (`*`) outside of Euclid for efficiency and accuracy.
 
 ## Issues
 
-Tuple and string manipulation should be functional, but strict functional manipulation is too expensive.
+How should compilation/running be done?
+
+## Notes
+
+Undefined behavior (e.g. `1/0`) may be classified as a fatal error or a non-fatal error. In the non-fatal case, `null` is returned instead.
