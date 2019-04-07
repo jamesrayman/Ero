@@ -36,6 +36,9 @@ A "statement" is an instruction on how to change the state of the program. A Euc
 
 The Euclid syntax is specified in a way that it is always clear where a statement ends, so statement terminators (like semicolons) are not implemented. Hashtags denote single line comments: anything on the same line after a hashtag will be ignored by the Euclid interpreter.
 
+>> The Euclid syntax is specified in a way that it is always clear where a statement ends
+> This statement is not true.
+
 Euclid code samples thorughout this documentation is displayed like the sample below:
 
 ```text
@@ -272,7 +275,7 @@ The following global constants are shorthand for Type expressions:
 
 ## Operators
 
-Operators are constructions which are invoked through a special notation for the purpose of readability. For example, the addition of two real numbers, `x` and `y`, is done by `x + y` rather than by some construction call (such as `add(x, y)`). All operators in Euclid are prefix unary (e.g. `~x`), infix binary (e.g. `x ~ y`), or a bracket operator (`x(y)` or `x[y]`).
+Operators are constructions which are invoked through a special notation for the purpose of readability. For example, the addition of two real numbers, `x` and `y`, is done by `x + y` rather than by some construction call (such as `add(x, y)`). All operators in Euclid are prefix unary (e.g. `~x`), infix binary (e.g. `x ~ y`), or a bracket operator (`x(y...)` or `x[y...]`).
 
 Unless otherwise stated, when a Reference is passed as an operand, it is dereferenced, and operators do not return References.
 
@@ -348,6 +351,21 @@ The other relational operators can be written in terms of `==` and `<`:
 | `x <= y`            | `(x < y) or (x == y)`       |
 | `x > y`             | `not ((x < y) or (x == y))` |
 | `x >= y`            | `not (x < y)`               |
+
+### Tuple Operators
+
+```text
+x[y]
+*x    # first element
+x + y
+x - y # remove y last elemnts
+```
+
+### Construction Call
+
+```text
+x(y)
+```
 
 ### Assignment
 
