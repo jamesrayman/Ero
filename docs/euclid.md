@@ -10,13 +10,17 @@ Euclid is a functional scripting language intended to describe and render Euclid
 1. [Data Types](#data-types)
 1. [Global Constants](#global-constants)
 1. [Literals](#literals)
-1. [The Postulates](#the-postulates)
 1. [Operators](#operators)
+1. [Postulates](#postulates)
 1. [Control Flow](#control-flow)
 1. [Standard Library](#standard-library)
 1. [Issues](#issues)
 
 ## Basic Structure
+
+### File Format
+
+A Euclid program is an ASCII text file with the extension ".euclid", or multiple of such files.
 
 ### Objects
 
@@ -107,7 +111,7 @@ Below is a table of all non-figure types in Euclid:
 
 References and Types are non-assignable. That is, no variable in Euclid is allowed to be of type Reference or Type. Using a Type object in an assignment (explicit or implicit) will result in an error.
 
-The only implicit type conversion in Euclid is from Reference to another type, done when a Reference is used in any operation which does not explicitly take a reference as a parameter.
+The only implicit type conversion in Euclid is from Reference to another type, specifically, from a Reference to the value which it references. This is done when a Reference is used in any operation which does not explicitly take a reference as a parameter.
 
 There are no custom types in Euclid.
 
@@ -266,7 +270,138 @@ The following global constants are shorthand for Type expressions:
 | `Figure`        | equivalent to `Point + Line + Segment + Ray + Circle + Arc + Sphere + Null + Space`        |
 | `Object`        | equivalent to `Figure + Real + Boolean + Tuple + String + Construction + Type + Reference` |
 
-## The Postulates
+## Operators
+
+Operators are constructions which are invoked through a special notation for the purpose of readability. For example, the addition of two real numbers, `x` and `y`, is done by `x + y` rather than by some construction call (such as `add(x, y)`). All operators in Euclid are prefix unary (e.g. `~x`), infix binary (e.g. `x ~ y`), or a bracket operator (`x(y)` or `x[y]`).
+
+Unless otherwise stated, when a Reference is passed as an operand, it is dereferenced, and operators do not return References.
+
+### Arithmetic
+
+All arithmetic operators take reals as operands and evaluate to reals.
+
+There are two unary arithmetic operators: `-x` and `+x`. `-x` returns the additive inverse of `x` while `+x` returns `x`.
+
+The binary operators are: `x + y`, `x - y`, `x * y`, `x / y`, `x // y`, `x % y`, and `x ^ y`, which return the sum, difference, product, quotiont, integer quotient, remainder, and power of `x` and `y`, respectively. The integer quotient and remainder are defined as follows: `x // y` is an integer and `x % y` is the minimum nonnegative value such that `(x // y) * y + (x % y)` is equal to `x`.
+
+#### Disputed Definitions
+
+Even though the definition of `0^0` is disputed, this expression is defined in Euclid and has a value of `1`. `0^x`, where `x` is positive, is equal to `0`.
+
+For values of `x ^ y` where `y` is not an integer, the expression is equal to `exp(log(x) * y)`. The definitions of `exp` and `log` are discussed in detail later.
+
+#### Undefined Expressions
+
+The following expressions are all undefined. The errors which these expressions generate is discussed in detail later.
+
+* `x / 0`, for all `x`
+* `x // 0`, for all `x`
+* `x / 0`, for all `x`
+* `0 ^ x`, for all negative `x`
+* `x ^ y`, for all negative `x` and non-integer `y`
+
+### Logic
+
+All logical operators take booleans as operands and evaluate to booleans.
+
+There are two unary logical operators: `not x` which returns the boolean negation of `x`, and `+x`, which returns `x`.
+
+There are three binary logical operators: `x and y`, `x or y`, and `x xor y`, which return the conjunction, disjunction, and exclusive disjunction of `x` and `y`, respectively.
+
+Symbolic alternatives for logical operators are available:
+
+| Logical operator | Symbolic equivalents |
+|------------------|----------------------|
+| `not x`          | `!x` and `-x`        |
+| `x and y`        | `x && y` and `x * y` |
+| `x or y`         | `x || y` and `x + y` |
+| `x xor y`        | `x ^^ y` and `x - y` |
+
+Note that some of these symbolic equivalents have different precedences.
+
+### Comparison
+
+All comparison operators are binary and return booleans.
+
+#### Equivalence
+
+There are two equivalence operators: `x == y` and `x != y`, where `x` and `y` are any type. `x == y` returns `true` if and only if `x` and `y` are the same type and have equal values. `x != y` is equivalent to `not (x == y)`.
+
+#### Relational
+
+There are four relational operators: `x < y`, `x <= y`, `x > y`, and `x >= y`, where `x` and `y` are the same type. `x < y` returns true if and only if `x` is "less than" `y`. If `x` is equal to `y`, then `x` is not "less than" `y`.
+
+For reals, `x` is less than `y` under the standard mathematical definition.
+
+For booleans, `false` is less than `true`.
+
+Tuples are compared lexicographically. If `x` is a prefix of `y`, then `x` is less than `y`.
+
+Strings are compared as if they were tuples.
+
+For every other type, including all Figures, relational operators are undefined.
+
+The other relational operators can be written in terms of `==` and `<`:
+
+| Relational operator | Equivalent                  |
+|---------------------|-----------------------------|
+| `x <= y`            | `(x < y) or (x == y)`       |
+| `x > y`             | `not ((x < y) or (x == y))` |
+| `x >= y`            | `not (x < y)`               |
+
+### Assignment
+
+The assignment operator is `x = y`.
+
+#### Ordinary Assignment
+
+Ordinary assignment occurs when `x` is a Reference. The value of `y` is copied into the variable `x`, and the Reference `x` is returned.
+
+Below are some examples of assignment:
+
+```text
+x = 5+2       # x now has a value of 7
+y = x         # y now has the same value of x (7)
+x = 3         # x is 3, y is 7
+(z = 2) = 4   # z becomes 2, then z becomes 4
+x = (y = z)   # y becomes z, then x becomes y
+```
+
+#### Tuple-wise Assignment
+
+If `x` is a tuple of References and `y` is a tuple of the same size, then assignment is carried out for corresponding elements of both tuples, and `x` is returned.
+
+For example, every line below is equivalent:
+
+```text
+[a, b, c, d] = [2, 3, 2, 3]
+a = 2 b = 3 c = 2 d = 3
+a, b = c, d = 2, 3
+```
+
+### Compound Assignment
+
+Compound assignment operators are shorthand for updating a variable. The full list of compound assignment operators is shown below:
+
+| Operator  | Equivalent   |
+|-----------|--------------|
+| `x += y`  | `x = x + y`  |
+| `x -= y`  | `x = x - y`  |
+| `x *= y`  | `x = x * y`  |
+| `x /= y`  | `x = x / y`  |
+| `x //= y` | `x = x // y` |
+| `x %= y`  | `x = x % y`  |
+| `x ^= y`  | `x = x ^ y`  |
+
+### Precedence
+
+Below is the order of operator precedence in Euclid. Expressions within parentheses .
+
+Increment and decrement operators, i.e. `++` and `--`, are not supported in Euclid.
+
+There are no custom operators in Euclid.
+
+## Postulates
 
 The postulates are the basis for figure manipulation in Euclid. They are implemented using the following constructions:
 
@@ -304,90 +439,7 @@ Return a tuple of the "endpoints" of `alpha`. A ray has one endpoint. Arcs and s
 
 ### `distance(alpha : Point, beta : Point)`
 
-IReturn the Euclidean distance between `alpha` and `beta`.
-
-## Operators
-
-Operators are constructions which are invoked through a special notation for the purpose of readability. For example, the addition of two real numbers, `x` and `y`, is done by `x + y` rather than by some construction call (such as `add(x, y)`). All operators in Euclid are prefix unary (e.g. `~x`) or infix binary (e.g. `x ~ y`).
-
-Unless otherwise stated, when a Reference is passed as an operand, it is dereferenced, and operators do not return References.
-
-### Arithmetic
-
-All arithmetic operators take reals as operands and evaluate to reals.
-
-There are two unary arithmetic operators: `-x` and `+x`. `-x` returns the additive inverse of `x` while `+x` returns `x`.
-
-The binary operators are: `x + y`, `x - y`, `x * y`, `x / y`, `x // y`, `x % y`, and `x ^ y`, which return the sum, difference, product, quotiont, integer quotient, remainder, and power of `x` and `y`, respectively. The integer quotient and remainder are defined as follows: `x // y` is an integer and `x % y` is the minimum nonnegative value such that `(x // y) * y + (x % y)` is equal to `x`.
-
-#### Disputed Definitions
-
-Even though the definition of `0^0` is disputed, this expression is defined in Euclid and has a value of `1`. `0^x`, where `x` is positive, is equal to `0`.
-
-For values of `x ^ y` where `y` is not an integer, the expression is equal to `exp(log(x) * y)`. The definitions of `exp` and `log` are discussed in detail later.
-
-#### Undefined Expressions
-
-The following expressions are all undefined. The errors which these expressions generate is discussed in detail later.
-
-* `x / 0`, for all `x`
-* `x // 0`, for all `x`
-* `x / 0`, for all `x`
-* `0 ^ x`, for all negative `x`
-* `x ^ y`, for all negative `x` and non-integer `y`
-
-### Logic
-
-All logical operators take booleans as operands and evaluate to booleans.
-
-There is one unary logical operator: `not x` which returns the boolean negation of `x`.
-
-There are three binary logical operators: `x and y`, `x or y`, and `x xor y`, which return the conjunction, disjunction, and exclusive disjunction of `x` and `y`, respectively.
-
-Symbolic alternatives for logical operators are available:
-
-| Logical operator | Symbolic equivalent |
-|------------------|---------------------|
-| `not x`          | `!x`                |
-| `x and y`        | `x && y`            |
-| `x or y`         | `x || y`            |
-| `x xor y`        | `x ^^ y`            |
-
-
-### Comparison
-
-
-### Assignment
-
-The assignment operator in Euclid is `x = y`.
-
-#### Ordinary Assignment
-
-Ordinary assignment occurs when `x` is a Reference. The value of `y` is copied into the variable `x`.
-
-Below are some examples of assignment:
-
-```text
-FINISH WRITING
-```
-
-#### Tuple-wise Assignment
-
-#### Implicit Assignment
-
-### Compound Assignment
-
-Compound assignment operators
-
-### Precedence
-
-
-
-Increment and decrement operators, i.e. `++` and `--`, are not supported in Euclid.
-
-There are no custom operators in Euclid.
-
-## Built-in Constructions
+Return the Euclidean distance between `alpha` and `beta`.
 
 ## Control Flow
 
