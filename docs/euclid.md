@@ -34,19 +34,18 @@ An "expression" is an instruction on how to compute the value of an object. Simp
 
 A "statement" is an instruction on how to change the state of the program. A Euclid program is a list of statements. Upon program execution, these statements are run in order unless they are part of a control flow structure that states to do otherwise (like an `if` statement).
 
-The Euclid syntax is specified in a way that it is always clear where a statement ends, so statement terminators (like semicolons) are not implemented. Hashtags denote single line comments: anything on the same line after a hashtag will be ignored by the Euclid interpreter.
-
->> The Euclid syntax is specified in a way that it is always clear where a statement ends
-> This statement is not true.
+Statements are generally only one line long, so newlines, in most cases, end statements. Newlines do not end statements when a line ends in a backslash (`\`) or when a line ends in with an incomplete binary operator, an incomplete literal, unclosed parenthesis (`(` and `)`), or unclosed brackets (`[` and `]`). A semicolon (`;`) may be used to explicitly end a statement.
 
 Euclid code samples thorughout this documentation is displayed like the sample below:
 
 ```text
 p = point_on(space)  # single line statement
-q = p r = q          # multiple statements on one line
-a, b, c              # multiline statement
- =
-  p, q, r
+q = p; r = q         # multiple statements on one line
+a, b, c \            # multiline statement
+ =            # incomplete binary operator
+  p, q,       # incomplete literal
+   r
+
 # this is a comment
 ```
 
@@ -56,7 +55,7 @@ Possibly the most frequent statement in Euclid is an assignment. The assignment 
 
 ```text
 a = b                   # the value of variable b is copied into variable a
-a, b, c = p, q, r       # Python-like tuple assignment
+a, b, c = p, q, r       # Python-like tuple-wise assignment
 omega = radius(         # assignment with a complex expression
   sphere(
     point_on(space),
@@ -226,13 +225,19 @@ Reference literals are strings of uppercase letters, lowercase letters, numbers,
 
 ### Tuple Literals
 
-Tuple literals are comma seperated lists of objects. Note that References put into the Tuple literal are not dereferenced in the resultant Tuple. Tuple literals may be enclosed in brackets (`[` and `]`) to prevent ambiguity, but this is unnecessary in most cases. Below are some example Tuple literals:
+Tuple literals are comma seperated lists of objects. Note that References put into the Tuple literal are not dereferenced in the resultant Tuple. Tuple literals may be enclosed in brackets (`[` and `]`) to prevent ambiguity, but this is unnecessary in most cases. Tuple literals may span multiple lines as long as the literal is enclosed in brackets or the last token before a new line is a comma. Tuple literals have a precedence lower than all operators except assignment. Below are some example Tuple literals:
 
 ```text
 45, "Hello", alpha
 
 [5.6, 3.14
 , "]}}", x]
+
+43, 54,
+43, 32
+
+45, 32      # this is an invalid multiline tuple literal
+, 54, 43
 ```
 
 ## Global Constants
@@ -336,11 +341,9 @@ There are four relational operators: `x < y`, `x <= y`, `x > y`, and `x >= y`, w
 
 For reals, `x` is less than `y` under the standard mathematical definition.
 
-For booleans, `false` is less than `true`.
-
 Tuples are compared lexicographically. If `x` is a prefix of `y`, then `x` is less than `y`.
 
-Strings are compared as if they were tuples.
+Strings are compared as if they were tuples of integers.
 
 For every other type, including all Figures, relational operators are undefined.
 
@@ -358,7 +361,15 @@ The other relational operators can be written in terms of `==` and `<`:
 x[y]
 *x    # first element
 x + y
-x - y # remove y last elemnts
+x - y # remove y last elements
+```
+
+### String Operators
+
+```text
+x[y]
+x + y
+x - y
 ```
 
 ### Construction Call
@@ -379,10 +390,9 @@ Below are some examples of assignment:
 
 ```text
 x = 5+2       # x now has a value of 7
-y = x         # y now has the same value of x (7)
-x = 3         # x is 3, y is 7
-(z = 2) = 4   # z becomes 2, then z becomes 4
-x = (y = z)   # y becomes z, then x becomes y
+y = x         # y now has the same value of x (that value is 7)
+x = 3         # x is 3 and y is still 7
+x = y = z     # x and y both become z
 ```
 
 #### Tuple-wise Assignment
@@ -393,7 +403,7 @@ For example, every line below is equivalent:
 
 ```text
 [a, b, c, d] = [2, 3, 2, 3]
-a = 2 b = 3 c = 2 d = 3
+a = 2; b = 3; c = 2; d = 3
 a, b = c, d = 2, 3
 ```
 
@@ -413,7 +423,9 @@ Compound assignment operators are shorthand for updating a variable. The full li
 
 ### Precedence
 
-Below is the order of operator precedence in Euclid. Expressions within parentheses .
+Below is the order of operator precedence in Euclid. The table is organized such that higher precedence operations (i.e. operations which are evaluated first) are near the top.
+
+> `x = y = z` and `x = y = y + z` should be legal, but `x = y += z` and should be illegal
 
 Increment and decrement operators, i.e. `++` and `--`, are not supported in Euclid.
 
@@ -421,41 +433,43 @@ There are no custom operators in Euclid.
 
 ## Postulates
 
-The postulates are the basis for figure manipulation in Euclid. They are implemented using the following constructions:
+The postulates are the most basic constructions built into Euclid. Every other construction in Euclid can be written in terms of the postulates.
 
-### `plane(alpha : Point, beta : Point, gamma : Point)`
+### Figure Manipulation
+
+#### `plane(alpha : Point, beta : Point, gamma : Point)`
 
 Return the unique plane which contains points `alpha`, `beta`, and `gamma`. If there is no unique plane, return `null`.
 
-### `sphere(center : Point, p : Point)`
+#### `sphere(center : Point, p : Point)`
 
 Return the unique sphere with center `center` such that `p` is a point on that circle. If `center` and `p` are the same point, return `null`.
 
-### `point(x : Real, y : Real, z: Real)`
+#### `point(x : Real, y : Real, z: Real)`
 
 Return the point with Cartesian coordinates (`x`, `y`, `z`).
 
-### `ray(endpoint : Point, p : Point)`
+#### `ray(endpoint : Point, p : Point)`
 
 Return the unique ray with endpoint `endpoint` such that `p` is a point on that ray. If `center` and `p` are the same point, return `null`.
 
-### `arc(start : Point, p : Point, end : Point)`
+#### `arc(start : Point, p : Point, end : Point)`
 
 Return the unique arc with endpoints `start` and `end` such that point `p` is a point on that arc. If the three points are collinear or not pairwise distcint, return `null`.
 
-### `intersections(alpha : Figure, beta : Figure, omega... : Figure[])`
+#### `intersections(alpha : Figure, beta : Figure, omega... : Figure[])`
 
 Return a tuple of figures whose union represents the intersection of all the figures given in the input.
 
-### `point_on(alpha : Figure and not Null, seed : Real = 0, index : Real = -1)`
+#### `point_on(alpha : Figure and not Null, seed : Real = 0, index : Real = -1)`
 
 Return a "random" point on `alpha`. This "random" point is uniquely determined from `seed` and `index`. The default index is initiallized to 0 and incremented after every time `point_on` is called without `index` given.
 
-### `endpoints(alpha : Figure)`
+#### `endpoints(alpha : Figure)`
 
 Return a tuple of the "endpoints" of `alpha`. A ray has one endpoint. Arcs and segments have two enpoints each. The endpoint of a point is the point itself. All other figures have no endpoints. If `alpha` has no endpoints, return an empty tuple.
 
-### `distance(alpha : Point, beta : Point)`
+#### `distance(alpha : Point, beta : Point)`
 
 Return the Euclidean distance between `alpha` and `beta`.
 
@@ -463,7 +477,7 @@ Return the Euclidean distance between `alpha` and `beta`.
 
 ## Input/Output
 
-Input and output in Euclid is done through "streams." A "stream" is a collection of objects that can be added to using the `write` construction and taken from using the `read` construction. Streams are identified using strings, but unique names need not correspond to unique streams. In other words, streams may be aliased. Below is the documentation of the stream interface in Euclid:
+Input and output in Euclid is done through "streams." A "stream" is a collection of objects that can be added to using the `write` construction and taken from using the `read` construction. Streams are identified using strings, but unique names do not need to correspond to unique streams. In other words, streams may be aliased. Also, some streams may be read-only and some may be write-only. Below is the documentation of the stream interface in Euclid:
 
 ### `read(stream : String)`
 
@@ -491,13 +505,13 @@ Change the default write stream to `stream`.
 
 ### Implementation
 
-The specification of streams is intentionally vague to allow for versatility of the Euclid language. How objects are represented in streams, for example, is not standardized. It is recommended that either JSON or EON be used for representation (EON is Euclid Object Notation, which is documented in `eon.md`), but it is not necessary to follow this recommendation.
+The specification of streams is intentionally vague to allow for versatility of the Euclid language. How objects are represented in streams, for example, is not standardized. It is recommended that either JSON or EON be used for representation. However, it is not necessary to follow this recommendation. EON is Euclid Object Notation, and it is documented in `eon.md`. The recommended structure of JSON representing Euclid objects is given in `json.md`
 
 ### Standard Streams
 
 The following streams are recommended to be implemented or aliased in Euclid:
 
-| Stream    | Function                                         |
+| Stream    | Description                                      |
 |-----------|--------------------------------------------------|
 | `stdin`   | default input stream                             |
 | `stdout`  | default output stream                            |
