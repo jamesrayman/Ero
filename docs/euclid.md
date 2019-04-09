@@ -280,7 +280,7 @@ The following global constants are shorthand for Type expressions:
 
 ## Operators
 
-Operators are constructions which are invoked through a special notation for the purpose of readability. For example, the addition of two real numbers, `x` and `y`, is done by `x + y` rather than by some construction call (such as `add(x, y)`). All operators in Euclid are prefix unary (e.g. `~x`), infix binary (e.g. `x ~ y`), or a bracket operator (`x(y...)` or `x[y...]`).
+Operators are constructions which are invoked through a special notation for the purpose of readability. For example, the addition of two real numbers, `x` and `y`, is done by `x + y` rather than by some construction call (such as `add(x, y)`). All operators in Euclid are prefix unary (e.g. `~x`), infix binary (e.g. `x ~ y`), a bracket operator (`x(y...)` or `x[y...]`), or the assignment operator (`x = y = z = ...`).
 
 Unless otherwise stated, when a Reference is passed as an operand, it is dereferenced, and operators do not return References.
 
@@ -380,11 +380,11 @@ x(y)
 
 ### Assignment
 
-The assignment operator is `x = y`.
+The assignment operator is `x = y`. It is the only operator which has no return value.
 
 #### Ordinary Assignment
 
-Ordinary assignment occurs when `x` is a Reference. The value of `y` is copied into the variable `x`, and the Reference `x` is returned.
+Ordinary assignment occurs when `x` is a Reference. The value of `y` is copied into the variable `x`.
 
 Below are some examples of assignment:
 
@@ -392,12 +392,23 @@ Below are some examples of assignment:
 x = 5+2       # x now has a value of 7
 y = x         # y now has the same value of x (that value is 7)
 x = 3         # x is 3 and y is still 7
-x = y = z     # x and y both become z
+```
+
+#### Chain Assignment
+
+Chain assignment is shorthand way to carry out multiple assignments. Chain assignment has the form `x = y = ... = z` and is equivalent to `x = z; y = z; ...`. Parentheses may not enclose partial chain assignments. Below are some examples:
+
+```text
+x = y = 3               # x and y are both 3
+p = q = r = s = t = 0   # all the variables are set to 0
+
+x = (y = 4)             # syntax error
+(x = y = 4)             # OK
 ```
 
 #### Tuple-wise Assignment
 
-If `x` is a tuple of References and `y` is a tuple of the same size, then assignment is carried out for corresponding elements of both tuples, and `x` is returned.
+If `x` is a tuple of References and `y` is a tuple of the same size, then assignment is carried out for corresponding elements of both tuples.
 
 For example, every line below is equivalent:
 
@@ -421,11 +432,11 @@ Compound assignment operators are shorthand for updating a variable. The full li
 | `x %= y`  | `x = x % y`  |
 | `x ^= y`  | `x = x ^ y`  |
 
+Compound assigment operators may not be used in chain assignment.
+
 ### Precedence
 
 Below is the order of operator precedence in Euclid. The table is organized such that higher precedence operations (i.e. operations which are evaluated first) are near the top.
-
-> `x = y = z` and `x = y = y + z` should be legal, but `x = y += z` and should be illegal
 
 Increment and decrement operators, i.e. `++` and `--`, are not supported in Euclid.
 
@@ -483,6 +494,8 @@ Input and output in Euclid is done through "streams." A "stream" is a collection
 
 Read and return an object from the stream called `stream`.
 
+> Change this so constructions are always functional
+
 ### `read()`
 
 Read and return an object from the default read stream. The default read stream is `"stdin"` unless set otherwise.
@@ -528,6 +541,8 @@ The Euclid standard library is a set of constructions which is standard in the E
 ## Issues
 
 How should compilation/running be done?
+
+Implement capturing which creating constructions.
 
 ## Notes
 
