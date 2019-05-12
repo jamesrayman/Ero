@@ -359,18 +359,23 @@ The other relational operators can be written in terms of `==` and `<`:
 
 ```text
 x[y]
+x[a:b]
+x[a:b:c]
 *x    # first element
 x + y
-x - y # remove y last elements
 ```
 
 ### String Operators
 
 ```text
 x[y]
+x[a:b]
+x[a:b:c]
+*x
 x + y
-x - y
 ```
+
+These string operators are almost analogous to their respective tuple operators, as Strings are actually tuples of characters. There are some differences, however. Both `*x` and `x[y]` return a string of lenght one, not a character (as there is no character type in Euclid). Note that strings and tuples, despite having this similarity, are not interchangable. For example, `"hello" + [1, 2]` is not a valid operation. 
 
 ### Construction Call
 
@@ -543,6 +548,7 @@ The Euclid standard library is a set of constructions which is standard in the E
 How should compilation/running be done?
 
 Implement capturing which creating constructions.
+Why?
 
 ## Notes
 
