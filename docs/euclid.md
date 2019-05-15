@@ -225,7 +225,7 @@ Reference literals are strings of uppercase letters, lowercase letters, numbers,
 
 ### Tuple Literals
 
-Tuple literals are comma seperated lists of objects. Note that References put into the Tuple literal are not dereferenced in the resultant Tuple. Tuple literals may be enclosed in brackets (`[` and `]`) to prevent ambiguity, but this is unnecessary in most cases. Tuple literals may span multiple lines as long as the literal is enclosed in brackets or the last token before a new line is a comma. Tuple literals have a precedence lower than all operators except assignment. Below are some example Tuple literals:
+Tuple literals are comma seperated lists of objects. Note that References put into the Tuple literal are not dereferenced in the resultant Tuple. Tuple literals may be enclosed in brackets (`[` and `]`) to prevent ambiguity, but this is unnecessary in most cases. Because of their nature in Euclid, parentheses may be used instead of brackets to serve the same purpose, but this is not recommended. Tuple literals may span multiple lines as long as the literal is enclosed in brackets or the last token before a new line is a comma. Tuple literals have a precedence lower than all operators except assignment. Below are some example Tuple literals:
 
 ```text
 45, "Hello", alpha
@@ -243,6 +243,8 @@ Tuple literals are comma seperated lists of objects. Note that References put in
 ## Global Constants
 
 Global constants are global variables which may not be reassiged. Custom global constants can't be created. The full list of global constants is shown below:
+
+> add custom global constants
 
 | Global constant | Significance                     |
 |-----------------|----------------------------------|
@@ -282,7 +284,7 @@ The following global constants are shorthand for Type expressions:
 
 Operators are constructions which are invoked through a special notation for the purpose of readability. For example, the addition of two real numbers, `x` and `y`, is done by `x + y` rather than by some construction call (such as `add(x, y)`). All operators in Euclid are prefix unary (e.g. `~x`), infix binary (e.g. `x ~ y`), a bracket operator (`x(y...)` or `x[y...]`), or the assignment operator (`x = y = z = ...`).
 
-Unless otherwise stated, when a Reference is passed as an operand, it is dereferenced, and operators do not return References.
+Unless otherwise stated, when a Reference is passed as an operand, it is dereferenced. Similarly, operators do not return References unless otherwise stated.
 
 ### Arithmetic
 
@@ -290,7 +292,7 @@ All arithmetic operators take reals as operands and evaluate to reals.
 
 There are two unary arithmetic operators: `-x` and `+x`. `-x` returns the additive inverse of `x` while `+x` returns `x`.
 
-The binary operators are: `x + y`, `x - y`, `x * y`, `x / y`, `x // y`, `x % y`, and `x ^ y`, which return the sum, difference, product, quotiont, integer quotient, remainder, and power of `x` and `y`, respectively. The integer quotient and remainder are defined as follows: `x // y` is an integer and `x % y` is the minimum nonnegative value such that `(x // y) * y + (x % y)` is equal to `x`.
+The binary operators are: `x + y`, `x - y`, `x * y`, `x / y`, `x // y`, `x % y`, and `x ^ y`, which return the sum, difference, product, quotiont, integer quotient, remainder, and power of `x` and `y`, respectively. The integer quotient and remainder are defined as follows: `x % y` is the minimum nonnegative value such that `(x // y) * y + (x % y)` is equal to `x` where `x // y` is an integer.
 
 #### Disputed Definitions
 
@@ -300,11 +302,11 @@ For values of `x ^ y` where `y` is not an integer, the expression is equal to `e
 
 #### Undefined Expressions
 
-The following expressions are all undefined. The errors which these expressions generate is discussed in detail later.
+The following expressions are all undefined. The errors which these expressions generate, if any, is discussed in detail later.
 
 * `x / 0`, for all `x`
 * `x // 0`, for all `x`
-* `x / 0`, for all `x`
+* `x % 0`, for all `x`
 * `0 ^ x`, for all negative `x`
 * `x ^ y`, for all negative `x` and non-integer `y`
 
@@ -333,7 +335,9 @@ All comparison operators are binary and return booleans.
 
 #### Equivalence
 
-There are two equivalence operators: `x == y` and `x != y`, where `x` and `y` are any type. `x == y` returns `true` if and only if `x` and `y` are the same type and have equal values. `x != y` is equivalent to `not (x == y)`.
+There are two equivalence operators: `x == y` and `x != y`, where `x` and `y` are any type. `x == y` returns `true` if and only if `x` and `y` are the same type and have "equal" values. Two non-tuple non-real values are considered "equal" if and only if they are exactly the same. Two tuples are considered "equal" if both have the same size and corresponding elements are "equal." Two reals are considered "equal" if and only if their absolute difference does not exceed a certain limit. This limit can be zero, but if floating points are used to represent reals, a nonzero limit is recommended to mitigate floating point error.
+
+ `x != y` is equivalent to `not (x == y)`.
 
 #### Relational
 
@@ -341,7 +345,7 @@ There are four relational operators: `x < y`, `x <= y`, `x > y`, and `x >= y`, w
 
 For reals, `x` is less than `y` under the standard mathematical definition.
 
-Tuples are compared lexicographically. If `x` is a prefix of `y`, then `x` is less than `y`.
+Tuples are compared lexicographically. If `x` is a proper prefix of `y`, then `x` is less than `y`.
 
 Strings are compared as if they were tuples of integers.
 
@@ -357,25 +361,23 @@ The other relational operators can be written in terms of `==` and `<`:
 
 ### Tuple Operators
 
-```text
-x[y]
-x[a:b]
-x[a:b:c]
-*x    # first element
-x + y
-```
+#### Indexing and Slicing
+
+Below is a list of indexing and slicing operators.
 
 ### String Operators
 
-```text
-x[y]
-x[a:b]
-x[a:b:c]
-*x
-x + y
-```
+Below is a list of string operators. `x` and `y` are strings and `i`, `j`, and `k` are integers.
 
-These string operators are almost analogous to their respective tuple operators, as Strings are actually tuples of characters. There are some differences, however. Both `*x` and `x[y]` return a string of lenght one, not a character (as there is no character type in Euclid). Note that strings and tuples, despite having this similarity, are not interchangable. For example, `"hello" + [1, 2]` is not a valid operation. 
+| Operator   | Name                    | Notes                                                |
+|------------|-------------------------|------------------------------------------------------|
+| `x[i]`     | Index operator          |                                                      |
+| `x[i:j]`   | Slice operator          | `i` or `j` (or both) may be excluded                 |
+| `x[i:j:k]` | Extended slice operator | Any combination of `i` or `j` or `k` may be excluded |
+| `*x`       | First element operator  |                                                      |
+| `x + y`    | Concatenation operator  |                                                      |
+
+These string operators are almost analogous to their respective tuple operators, as Strings are actually tuples of characters. There are some differences, however. Both `*x` and `x[y]` return a string of lenght one, not a character (as there is no character type in Euclid).
 
 ### Construction Call
 
