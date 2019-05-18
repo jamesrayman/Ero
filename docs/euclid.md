@@ -225,7 +225,7 @@ Reference literals are strings of uppercase letters, lowercase letters, numbers,
 
 ### Tuple Literals
 
-Tuple literals are comma seperated lists of objects. Note that References put into the Tuple literal are not dereferenced in the resultant Tuple. Tuple literals may be enclosed in brackets (`[` and `]`) to prevent ambiguity, but this is unnecessary in most cases. Because of their nature in Euclid, parentheses may be used instead of brackets to serve the same purpose, but this is not recommended. Tuple literals may span multiple lines as long as the literal is enclosed in brackets or the last token before a new line is a comma. Tuple literals have a precedence lower than all operators except assignment. Below are some example Tuple literals:
+Tuple literals are comma seperated lists of objects. Note that References put into the Tuple literal are not dereferenced in the resultant Tuple. Tuple literals may be enclosed in brackets (`[` and `]`) to prevent ambiguity, or to create tuples with fewer than two elements, but this is not necessary in all cases. Tuple literals may span multiple lines as long as the literal is enclosed in brackets or the last token before a new line is a comma. Tuple literals have a precedence lower than all operators except assignment. Below are some example Tuple literals:
 
 ```text
 45, "Hello", alpha
@@ -292,7 +292,7 @@ All arithmetic operators take reals as operands and evaluate to reals.
 
 There are two unary arithmetic operators: `-x` and `+x`. `-x` returns the additive inverse of `x` while `+x` returns `x`.
 
-The binary operators are: `x + y`, `x - y`, `x * y`, `x / y`, `x // y`, `x % y`, and `x ^ y`, which return the sum, difference, product, quotiont, integer quotient, remainder, and power of `x` and `y`, respectively. The integer quotient and remainder are defined as follows: `x % y` is the minimum nonnegative value such that `(x // y) * y + (x % y)` is equal to `x` where `x // y` is an integer.
+The binary operators are: `x + y`, `x - y`, `x * y`, `x / y`, `x // y`, `x % y`, and `x ^ y`, which return the sum, difference, product, quotiont, integer quotient, remainder, and power of `x` and `y`, respectively. The integer quotient and remainder are defined as follows: `x % y` is the minimum nonnegative value such that `(x // y) * y + (x % y)` is equal to `x`, where `x // y` is an integer.
 
 #### Disputed Definitions
 
@@ -337,7 +337,7 @@ All comparison operators are binary and return booleans.
 
 There are two equivalence operators: `x == y` and `x != y`, where `x` and `y` are any type. `x == y` returns `true` if and only if `x` and `y` are the same type and have "equal" values. Two non-tuple non-real values are considered "equal" if and only if they are exactly the same. Two tuples are considered "equal" if both have the same size and corresponding elements are "equal." Two reals are considered "equal" if and only if their absolute difference does not exceed a certain limit. This limit can be zero, but if floating points are used to represent reals, a nonzero limit is recommended to mitigate floating point error.
 
- `x != y` is equivalent to `not (x == y)`.
+`x != y` is equivalent to `not (x == y)`.
 
 #### Relational
 
@@ -363,7 +363,18 @@ The other relational operators can be written in terms of `==` and `<`:
 
 #### Indexing and Slicing
 
-Below is a list of indexing and slicing operators.
+Below is a list of indexing and slicing operators. `x` is a tuple and `i`, `j`, and `k` are integers.
+
+| Operator   | Name                    | Notes                                                |
+|------------|-------------------------|------------------------------------------------------|
+| `x[i]`     | Index operator          |                                                      |
+| `x[i:j]`   | Slice operator          | `i` or `j` (or both) may be excluded                 |
+| `x[i:j:k]` | Extended slice operator | Any combination of `i` or `j` or `k` may be excluded |
+| `*x`       | First element operator  |                                                      |
+
+`x[i]`, the index operator, returns a Reference to element at position `i` in `x`. The first element in `x` is at position `0`. Negative indexes and indexes greater than or equal to the size of the tuple are allowed. Indexes wrap around such that `x[i]` is always equivalent to `x[i % size(x)]`. For example, `x[-1]` returns a Reference to the last element of `x`.
+
+`x[i:j]`, the slice operator, returns either a Reference or the value of the subtuple of `x` starting at position `i`, inclusive, and ending at position `j`, exclusive. `j` must be greater than or equal to `i`. The slice operator follows the same index conventions as the index operator. If the resultant subtuple includes the last and first indexes (in succession and in that order), the value of the subtuple is returned. Otherwise, a Reference to the subtuple is returned. The resultant subtuple will always have size `j-i`. If `i` is not given, the resultant subtuple will begin at the first element, inclusive, never wrapping around. If `j` is not given, the resultant subtuple will end at the last element, inclusive, never wrapping around.
 
 ### String Operators
 
@@ -374,16 +385,17 @@ Below is a list of string operators. `x` and `y` are strings and `i`, `j`, and `
 | `x[i]`     | Index operator          |                                                      |
 | `x[i:j]`   | Slice operator          | `i` or `j` (or both) may be excluded                 |
 | `x[i:j:k]` | Extended slice operator | Any combination of `i` or `j` or `k` may be excluded |
-| `*x`       | First element operator  |                                                      |
 | `x + y`    | Concatenation operator  |                                                      |
 
-These string operators are almost analogous to their respective tuple operators, as Strings are actually tuples of characters. There are some differences, however. Both `*x` and `x[y]` return a string of lenght one, not a character (as there is no character type in Euclid).
+These string operators are almost analogous to their respective tuple operators, as Strings are actually tuples of characters. There are some differences, however. `x[y]` returns a string of length one, not a character (as there is no character type in Euclid).
 
 ### Construction Call
 
 ```text
 x(y)
 ```
+
+### Type Operators
 
 ### Assignment
 
