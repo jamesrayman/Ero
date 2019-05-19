@@ -286,6 +286,8 @@ Operators are constructions which are invoked through a special notation for the
 
 Unless otherwise stated, when a Reference is passed as an operand, it is dereferenced. Similarly, operators do not return References unless otherwise stated.
 
+There are no custom operators in Euclid.
+
 ### Arithmetic
 
 All arithmetic operators take reals as operands and evaluate to reals.
@@ -361,20 +363,58 @@ The other relational operators can be written in terms of `==` and `<`:
 
 ### Tuple Operators
 
-#### Indexing and Slicing
-
-Below is a list of indexing and slicing operators. `x` is a tuple and `i`, `j`, and `k` are integers.
+Below is a list of string operators. `x` and `y` are tuples and `i`, `j`, and `k` are integers.
 
 | Operator   | Name                    | Notes                                                |
 |------------|-------------------------|------------------------------------------------------|
 | `x[i]`     | Index operator          |                                                      |
 | `x[i:j]`   | Slice operator          | `i` or `j` (or both) may be excluded                 |
 | `x[i:j:k]` | Extended slice operator | Any combination of `i` or `j` or `k` may be excluded |
-| `*x`       | First element operator  |                                                      |
+| `x + y`    | Concatenation operator  |                                                      |
+| `x * i`    | Repetition operator     | Commutative: can also be `i * x`                     |
+
+#### Indexing and Slicing
 
 `x[i]`, the index operator, returns a Reference to element at position `i` in `x`. The first element in `x` is at position `0`. Negative indexes and indexes greater than or equal to the size of the tuple are allowed. Indexes wrap around such that `x[i]` is always equivalent to `x[i % size(x)]`. For example, `x[-1]` returns a Reference to the last element of `x`.
 
-`x[i:j]`, the slice operator, returns either a Reference or the value of the subtuple of `x` starting at position `i`, inclusive, and ending at position `j`, exclusive. `j` must be greater than or equal to `i`. The slice operator follows the same index conventions as the index operator. If the resultant subtuple includes the last and first indexes (in succession and in that order), the value of the subtuple is returned. Otherwise, a Reference to the subtuple is returned. The resultant subtuple will always have size `j-i`. If `i` is not given, the resultant subtuple will begin at the first element, inclusive, never wrapping around. If `j` is not given, the resultant subtuple will end at the last element, inclusive, never wrapping around.
+`x[i:j]`, the slice operator, returns either a Reference or the value of the subtuple of `x` starting at position `i`, inclusive, and ending at position `j`, exclusive, wrapping around if necessary. `j` must be greater than or equal to `i`. The slice operator follows the same index conventions as the index operator. If the resultant subtuple includes the last and first indexes (in succession and in that order), the value of the subtuple is returned. Otherwise, a Reference to the subtuple is returned. A Reference returned by the slice operator may be assigned any tuple, including ones not of the same length. This is useful for inserting or deleting elements of a tuple, as shown in the examples below. The resultant subtuple will always have size `j-i`. If `i` is not given, the resultant subtuple will begin at the first element, inclusive, never wrapping around. If `j` is not given, the resultant subtuple will end at the last element, inclusive, never wrapping around.
+
+`x[i:j:k]`, the extended slice operator, returns either a Reference or the value of the subtuple of `x` starting at position `i`, inclusive, and ending at position `j`, exclusive, skipping by `k` elements, wrapping around if necessary. `j` must be greater than or equal to `i` and `k` must not be equal to zero. The extended slice operator follows the same index conventions as the index operator. A Reference is returned if and only if the resultant subtuple includes each index at most once. Unlike with the normal slice operator, these References can only be assigned with tuples of the exact same size. If `k` is not given, it defaults to `1`. If `i` is not given, the resultant subtuple will begin at the first element if `k` is positive, or the last element if `k` is negative, inclusive, never wrapping around. If `j` is not given, the resultant subtuple will be as large as possible without wrapping around.
+
+Below are some examples of the use of the indexing and slicing operators.
+
+```text
+x = 1, 3, 0, 3      # Here are the contents of x after each statemetn
+x[0] = 3            # 3, 3, 0, 3
+x[-1] = 0           # 3, 3, 0, 0
+x[-3] = 2           # 3, 2, 0, 0
+x[2] = 2            # 3, 2, 2, 0
+x[5] = 1            # 3, 1, 0, 0
+
+x[2:4] = 4, 5       # 3, 1, 4, 5
+x[1:3] = 1, 2, 3    # 3, 1, 2, 3, 5
+x[0:2] = 0          # Illegal: right hand side is not a tuple
+x[0:2] = [0]        # 0, 2, 3, 5
+x[2:] = []          # 0, 2
+x[1:1] = 1, 2       # 0, 1, 2, 2
+x[:-2] = 1, 0       # 1, 0, 2, 2
+x[:] = 1, 2, 3      # 1, 2, 3
+x = x[1:7]          # 2, 3, 1, 2, 3, 1
+x[1:10] = []        # Illegal: left hand side is not a Reference
+
+x[0::2] = x[1::2]   # 3, 3, 2, 2, 1, 1
+x[0::2] = 1, 2      # Illegal: tuples are not of the same size
+x = x[::-1]         # 1, 1, 2, 2, 3, 3
+x[0:3:] = x[::2]    # 1, 2, 3, 2, 3, 3
+x[-3::] = 4, 5, 6   # 1, 2, 3, 4, 5, 6
+x = x[2:10:3]       # 3, 6, 3
+```
+
+## Concatonation and Repetition
+
+`x + y`, the concatonation operator, returns a tuple which is the elements of `x` followed by the elements of `y`, in the order which they appear in `x` and `y`.
+
+`x * i`, the repetition operator, returns `x` concatonated to itself `i` times. `i` must be a nonnegative integer. The operator is commutative: `x * i` is equivalent to `i * x`. For example, `x * 1` is equivalent to `x`, and `x * 0` is equivalent to `[]`, the empty tuple.
 
 ### String Operators
 
@@ -386,8 +426,17 @@ Below is a list of string operators. `x` and `y` are strings and `i`, `j`, and `
 | `x[i:j]`   | Slice operator          | `i` or `j` (or both) may be excluded                 |
 | `x[i:j:k]` | Extended slice operator | Any combination of `i` or `j` or `k` may be excluded |
 | `x + y`    | Concatenation operator  |                                                      |
+| `x * i`    | Repetition operator     | Commutative: can also be `i * x`                     |
 
-These string operators are almost analogous to their respective tuple operators, as Strings are actually tuples of characters. There are some differences, however. `x[y]` returns a string of length one, not a character (as there is no character type in Euclid).
+These string operators are almost analogous to their respective tuple operators, as Strings are actually tuples of characters. There are some differences, however.
+
+`x[i]` is equivalent to `x[i:i+1:1]`, so it returns a Reference to a string of length one, not a character (as there is no character type in Euclid), which can only be assigned with strings of length one.
+
+Below are some examples of the use of string operators.
+
+```text
+
+```
 
 ### Construction Call
 
@@ -408,7 +457,7 @@ Ordinary assignment occurs when `x` is a Reference. The value of `y` is copied i
 Below are some examples of assignment:
 
 ```text
-x = 5+2       # x now has a value of 7
+x = 5 + 2     # x now has a value of 7
 y = x         # y now has the same value of x (that value is 7)
 x = 3         # x is 3 and y is still 7
 ```
@@ -455,15 +504,15 @@ Compound assigment operators may not be used in chain assignment.
 
 ### Precedence
 
-Below is the order of operator precedence in Euclid. The table is organized such that higher precedence operations (i.e. operations which are evaluated first) are near the top.
+Below is the order of operator precedence in Euclid. The table is organized such that higher precedence operations (i.e. operations which are evaluated first) are near the top. Operators listed in the same group have the same precedence.
 
-Increment and decrement operators, i.e. `++` and `--`, are not supported in Euclid.
-
-There are no custom operators in Euclid.
+| Operators | Group name | Associativity |
+|---|---|---|
+| | | |
 
 ## Postulates
 
-The postulates are the most basic constructions built into Euclid. Every other construction in Euclid can be written in terms of the postulates.
+The postulates are the most basic constructions built into Euclid. Every other construction in Euclid can be written in terms of the postulates and operators.
 
 ### Figure Manipulation
 
@@ -512,8 +561,6 @@ Input and output in Euclid is done through "streams." A "stream" is a collection
 ### `read(stream : String)`
 
 Read and return an object from the stream called `stream`.
-
-> Change this so constructions are always functional
 
 ### `read()`
 
