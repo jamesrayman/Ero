@@ -554,9 +554,9 @@ Return the Euclidean distance between `alpha` and `beta`.
 
 ## Control Flow
 
-## Input/Output
+## Input and Output
 
-Input and output in Euclid is done through "streams." A "stream" is a collection of objects that can be added to using the `write` construction and taken from using the `read` construction. Streams are identified using strings, but unique names do not need to correspond to unique streams. In other words, streams may be aliased. Also, some streams may be read-only and some may be write-only. Below is the documentation of the stream interface in Euclid:
+Input and output in Euclid is done through "streams." A "stream" is a collection of objects that can be added to using the `write` construction and taken from using the `read` construction. Streams are identified using strings, but unique names do not need to correspond to unique streams. In other words, streams may be aliased. Also, some streams may be read-only and some may be write-only. Below is the documentation of the stream interface in Euclid.
 
 ### `read(stream : String)`
 
@@ -581,6 +581,14 @@ Change the default read stream to `stream`.
 ### `write_to(stream : String)`
 
 Change the default write stream to `stream`.
+
+### `read_default()`
+
+Return the name of the current default read stream.
+
+### `write_default()`
+
+Return the name of the current default write stream.
 
 ### Implementation
 
@@ -608,8 +616,7 @@ The Euclid standard library is a set of constructions which is standard in the E
 
 How should compilation/running be done?
 
-Implement capturing which creating constructions.
-Why?
+Implement capturing which creating constructions so constructions can modify themselves.
 
 ## Notes
 
