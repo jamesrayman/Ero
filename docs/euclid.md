@@ -379,12 +379,12 @@ Below is a list of string operators. `x` and `y` are tuples and `i`, `j`, and `k
 
 `x[i:j]`, the slice operator, returns either a Reference or the value of the subtuple of `x` starting at position `i`, inclusive, and ending at position `j`, exclusive, wrapping around if necessary. `j` must be greater than or equal to `i`. The slice operator follows the same index conventions as the index operator. If the resultant subtuple includes the last and first indexes (in succession and in that order), the value of the subtuple is returned. Otherwise, a Reference to the subtuple is returned. A Reference returned by the slice operator may be assigned any tuple, including ones not of the same length. This is useful for inserting or deleting elements of a tuple, as shown in the examples below. The resultant subtuple will always have size `j-i`. If `i` is not given, the resultant subtuple will begin at the first element, inclusive, never wrapping around. If `j` is not given, the resultant subtuple will end at the last element, inclusive, never wrapping around.
 
-`x[i:j:k]`, the extended slice operator, returns either a Reference or the value of the subtuple of `x` starting at position `i`, inclusive, and ending at position `j`, exclusive, skipping by `k` elements, wrapping around if necessary. `j` must be greater than or equal to `i` and `k` must not be equal to zero. The extended slice operator follows the same index conventions as the index operator. A Reference is returned if and only if the resultant subtuple includes each index at most once. Unlike with the normal slice operator, these References can only be assigned with tuples of the exact same size. If `k` is not given, it defaults to `1`. If `i` is not given, the resultant subtuple will begin at the first element if `k` is positive, or the last element if `k` is negative, inclusive, never wrapping around. If `j` is not given, the resultant subtuple will be as large as possible without wrapping around.
+`x[i:j:k]`, the extended slice operator, returns a tuple of either the values of or the references to the elements in the subtuple of `x` starting at position `i`, inclusive, and ending at position `j`, exclusive, skipping by `k` elements, wrapping around if necessary. `j` must be greater than or equal to `i`, and `k` must not be equal to zero. The extended slice operator follows the same index conventions as the index operator. A Reference is returned if and only if the resultant subtuple includes each index at most once. Note that since a tuple of References is returned (not a Reference itself), it may only be assigned with tuples of the same size. If `k` is not given, it defaults to `1`. If `i` is not given, the resultant subtuple will begin at the first element if `k` is positive, or the last element if `k` is negative, inclusive, never wrapping around. If `j` is not given, the resultant subtuple will be as large as possible without wrapping around.
 
 Below are some examples of the use of the indexing and slicing operators.
 
 ```text
-x = 1, 3, 0, 3      # Here are the contents of x after each statemetn
+x = 1, 3, 0, 3      # Here are the contents of x after each statement
 x[0] = 3            # 3, 3, 0, 3
 x[-1] = 0           # 3, 3, 0, 0
 x[-3] = 2           # 3, 2, 0, 0
@@ -431,12 +431,6 @@ Below is a list of string operators. `x` and `y` are strings and `i`, `j`, and `
 These string operators are almost analogous to their respective tuple operators, as Strings are actually tuples of characters. There are some differences, however.
 
 `x[i]` is equivalent to `x[i:i+1:1]`, so it returns a Reference to a string of length one, not a character (as there is no character type in Euclid), which can only be assigned with strings of length one.
-
-Below are some examples of the use of string operators.
-
-```text
-
-```
 
 ### Construction Call
 
@@ -508,7 +502,9 @@ Below is the order of operator precedence in Euclid. The table is organized such
 
 | Operators | Group name | Associativity |
 |---|---|---|
-| | | |
+| `x = y`\
+  `x += y` \
+  `x -= y` | Assignment | Not applicable |
 
 ## Postulates
 
