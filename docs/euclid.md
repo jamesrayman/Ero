@@ -502,9 +502,7 @@ Below is the order of operator precedence in Euclid. The table is organized such
 
 | Operators | Group name | Associativity |
 |---|---|---|
-| `x = y`\
-  `x += y` \
-  `x -= y` | Assignment | Not applicable |
+| `x = y`, `x += y`, `x -= y`, `x *= y`, `x /= y`, `x //= y`, `x %= y`, `x ^= y` | Assignment | Not applicable |
 
 ## Postulates
 
