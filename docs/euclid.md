@@ -312,11 +312,11 @@ The following expressions are all undefined. The errors which these expressions 
 * `0 ^ x`, for all negative `x`
 * `x ^ y`, for all negative `x` and non-integer `y`
 
-### Logic
+### Logical
 
 All logical operators take booleans as operands and evaluate to booleans.
 
-There are two unary logical operators: `not x` which returns the boolean negation of `x`, and `+x`, which returns `x`.
+There is one unary logical operator: `not x` which returns the boolean negation of `x`.
 
 There are three binary logical operators: `x and y`, `x or y`, and `x xor y`, which return the conjunction, disjunction, and exclusive disjunction of `x` and `y`, respectively.
 
@@ -328,8 +328,6 @@ Symbolic alternatives for logical operators are available:
 | `x and y`        | `x && y` and `x * y` |
 | `x or y`         | `x || y` and `x + y` |
 | `x xor y`        | `x ^^ y` and `x - y` |
-
-Note that some of these symbolic equivalents have different precedences.
 
 ### Comparison
 
