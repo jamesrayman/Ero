@@ -242,7 +242,7 @@ Tuple literals are comma seperated lists of objects. Note that References put in
 
 ## Global Constants
 
-Global constants are global variables which may not be reassiged. Custom global constants can't be created. The full list of global constants is shown below:
+Global constants are global variables which may not be reassiged. The list of predefined global constants is shown below:
 
 | Global constant | Significance                     |
 |-----------------|----------------------------------|
@@ -277,6 +277,8 @@ The following global constants are shorthand for Type expressions:
 |-----------------|--------------------------------------------------------------------------------------------|
 | `Figure`        | equivalent to `Point + Line + Segment + Ray + Circle + Arc + Sphere + Null + Space`        |
 | `Object`        | equivalent to `Figure + Real + Boolean + Tuple + String + Construction + Type + Reference` |
+
+### Custom Global Constants
 
 ## Operators
 
@@ -499,8 +501,6 @@ Input and output in Euclid is done through "streams." A "stream" is a collection
 
 Read and return an object from the stream called `stream`.
 
-> Change this so constructions are always functional
-
 ### `read()`
 
 Read and return an object from the default read stream. The default read stream is `"stdin"` unless set otherwise.
@@ -521,7 +521,7 @@ Change the default read stream to `stream`.
 
 Change the default write stream to `stream`.
 
-### Implementation
+### Stream Implementation
 
 The specification of streams is intentionally vague to allow for versatility of the Euclid language. How objects are represented in streams, for example, is not standardized. It is recommended that either JSON or EON be used for representation. However, it is not necessary to follow this recommendation. EON is Euclid Object Notation, and it is documented in `eon.md`. The recommended structure of JSON representing Euclid objects is given in `json.md`
 
