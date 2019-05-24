@@ -225,7 +225,7 @@ Reference literals are strings of uppercase letters, lowercase letters, numbers,
 
 ### Tuple Literals
 
-Tuple literals are comma seperated lists of objects. Note that References put into the Tuple literal are not dereferenced in the resultant Tuple. Tuple literals may be enclosed in brackets (`[` and `]`) to prevent ambiguity, but this is unnecessary in most cases. Tuple literals may span multiple lines as long as the literal is enclosed in brackets or the last token before a new line is a comma. Tuple literals have a precedence lower than all operators except assignment. Below are some example Tuple literals:
+Tuple literals are comma seperated lists of objects. Note that References put into the Tuple literal are not dereferenced in the resultant Tuple. Tuple literals may be enclosed in brackets (`[` and `]`) to prevent ambiguity, or to create tuples with fewer than two elements, but this is not necessary in all cases. Tuple literals may span multiple lines as long as the literal is enclosed in brackets or the last token before a new line is a comma. Tuple literals have a precedence lower than all operators except assignment. Below are some example Tuple literals:
 
 ```text
 45, "Hello", alpha
@@ -243,6 +243,8 @@ Tuple literals are comma seperated lists of objects. Note that References put in
 ## Global Constants
 
 Global constants are global variables which may not be reassiged. The list of predefined global constants is shown below:
+
+> add custom global constants
 
 | Global constant | Significance                     |
 |-----------------|----------------------------------|
@@ -284,7 +286,9 @@ The following global constants are shorthand for Type expressions:
 
 Operators are constructions which are invoked through a special notation for the purpose of readability. For example, the addition of two real numbers, `x` and `y`, is done by `x + y` rather than by some construction call (such as `add(x, y)`). All operators in Euclid are prefix unary (e.g. `~x`), infix binary (e.g. `x ~ y`), a bracket operator (`x(y...)` or `x[y...]`), or the assignment operator (`x = y = z = ...`).
 
-Unless otherwise stated, when a Reference is passed as an operand, it is dereferenced, and operators do not return References.
+Unless otherwise stated, when a Reference is passed as an operand, it is dereferenced. Similarly, operators do not return References unless otherwise stated.
+
+There are no custom operators in Euclid.
 
 ### Arithmetic
 
@@ -292,7 +296,7 @@ All arithmetic operators take reals as operands and evaluate to reals.
 
 There are two unary arithmetic operators: `-x` and `+x`. `-x` returns the additive inverse of `x` while `+x` returns `x`.
 
-The binary operators are: `x + y`, `x - y`, `x * y`, `x / y`, `x // y`, `x % y`, and `x ^ y`, which return the sum, difference, product, quotiont, integer quotient, remainder, and power of `x` and `y`, respectively. The integer quotient and remainder are defined as follows: `x // y` is an integer and `x % y` is the minimum nonnegative value such that `(x // y) * y + (x % y)` is equal to `x`.
+The binary operators are: `x + y`, `x - y`, `x * y`, `x / y`, `x // y`, `x % y`, and `x ^ y`, which return the sum, difference, product, quotiont, integer quotient, remainder, and power of `x` and `y`, respectively. The integer quotient and remainder are defined as follows: `x % y` is the minimum nonnegative value such that `(x // y) * y + (x % y)` is equal to `x`, where `x // y` is an integer.
 
 #### Disputed Definitions
 
@@ -302,19 +306,19 @@ For values of `x ^ y` where `y` is not an integer, the expression is equal to `e
 
 #### Undefined Expressions
 
-The following expressions are all undefined. The errors which these expressions generate is discussed in detail later.
+The following expressions are all undefined. The errors which these expressions generate, if any, is discussed in detail later.
 
 * `x / 0`, for all `x`
 * `x // 0`, for all `x`
-* `x / 0`, for all `x`
+* `x % 0`, for all `x`
 * `0 ^ x`, for all negative `x`
 * `x ^ y`, for all negative `x` and non-integer `y`
 
-### Logic
+### Logical
 
 All logical operators take booleans as operands and evaluate to booleans.
 
-There are two unary logical operators: `not x` which returns the boolean negation of `x`, and `+x`, which returns `x`.
+There is one unary logical operator: `not x` which returns the boolean negation of `x`.
 
 There are three binary logical operators: `x and y`, `x or y`, and `x xor y`, which return the conjunction, disjunction, and exclusive disjunction of `x` and `y`, respectively.
 
@@ -327,15 +331,15 @@ Symbolic alternatives for logical operators are available:
 | `x or y`         | `x || y` and `x + y` |
 | `x xor y`        | `x ^^ y` and `x - y` |
 
-Note that some of these symbolic equivalents have different precedences.
-
 ### Comparison
 
 All comparison operators are binary and return booleans.
 
 #### Equivalence
 
-There are two equivalence operators: `x == y` and `x != y`, where `x` and `y` are any type. `x == y` returns `true` if and only if `x` and `y` are the same type and have equal values. `x != y` is equivalent to `not (x == y)`.
+There are two equivalence operators: `x == y` and `x != y`, where `x` and `y` are any type. `x == y` returns `true` if and only if `x` and `y` are the same type and have "equal" values. Two non-tuple non-real values are considered "equal" if and only if they are exactly the same. Two tuples are considered "equal" if both have the same size and corresponding elements are "equal." Two reals are considered "equal" if and only if their absolute difference does not exceed a certain limit. This limit can be zero, but if floating points are used to represent reals, a nonzero limit is recommended to mitigate floating point error.
+
+`x != y` is equivalent to `not (x == y)`.
 
 #### Relational
 
@@ -343,7 +347,7 @@ There are four relational operators: `x < y`, `x <= y`, `x > y`, and `x >= y`, w
 
 For reals, `x` is less than `y` under the standard mathematical definition.
 
-Tuples are compared lexicographically. If `x` is a prefix of `y`, then `x` is less than `y`.
+Tuples are compared lexicographically. If `x` is a proper prefix of `y`, then `x` is less than `y`.
 
 Strings are compared as if they were tuples of integers.
 
@@ -359,31 +363,82 @@ The other relational operators can be written in terms of `==` and `<`:
 
 ### Tuple Operators
 
+Below is a list of string operators. `x` and `y` are tuples and `i`, `j`, and `k` are integers.
+
+| Operator   | Name                    | Notes                                                |
+|------------|-------------------------|------------------------------------------------------|
+| `x[i]`     | Index operator          |                                                      |
+| `x[i:j]`   | Slice operator          | `i` or `j` (or both) may be excluded                 |
+| `x[i:j:k]` | Extended slice operator | Any combination of `i` or `j` or `k` may be excluded |
+| `x + y`    | Concatenation operator  |                                                      |
+| `x * i`    | Repetition operator     | Commutative: can also be `i * x`                     |
+
+#### Indexing and Slicing
+
+`x[i]`, the index operator, returns a Reference to element at position `i` in `x`. The first element in `x` is at position `0`. Negative indexes and indexes greater than or equal to the size of the tuple are allowed. Indexes wrap around such that `x[i]` is always equivalent to `x[i % size(x)]`. For example, `x[-1]` returns a Reference to the last element of `x`.
+
+`x[i:j]`, the slice operator, returns either a Reference or the value of the subtuple of `x` starting at position `i`, inclusive, and ending at position `j`, exclusive, wrapping around if necessary. `j` must be greater than or equal to `i`. The slice operator follows the same index conventions as the index operator. If the resultant subtuple includes the last and first indexes (in succession and in that order), the value of the subtuple is returned. Otherwise, a Reference to the subtuple is returned. A Reference returned by the slice operator may be assigned any tuple, including ones not of the same length. This is useful for inserting or deleting elements of a tuple, as shown in the examples below. The resultant subtuple will always have size `j-i`. If `i` is not given, the resultant subtuple will begin at the first element, inclusive, never wrapping around. If `j` is not given, the resultant subtuple will end at the last element, inclusive, never wrapping around.
+
+`x[i:j:k]`, the extended slice operator, returns a tuple of either the values of or the references to the elements in the subtuple of `x` starting at position `i`, inclusive, and ending at position `j`, exclusive, skipping by `k` elements, wrapping around if necessary. `j` must be greater than or equal to `i`, and `k` must not be equal to zero. The extended slice operator follows the same index conventions as the index operator. A Reference is returned if and only if the resultant subtuple includes each index at most once. Note that since a tuple of References is returned (not a Reference itself), it may only be assigned with tuples of the same size. If `k` is not given, it defaults to `1`. If `i` is not given, the resultant subtuple will begin at the first element if `k` is positive, or the last element if `k` is negative, inclusive, never wrapping around. If `j` is not given, the resultant subtuple will be as large as possible without wrapping around.
+
+Below are some examples of the use of the indexing and slicing operators.
+
 ```text
-x[y]
-x[a:b]
-x[a:b:c]
-*x    # first element
-x + y
+x = 1, 3, 0, 3      # Here are the contents of x after each statement
+x[0] = 3            # 3, 3, 0, 3
+x[-1] = 0           # 3, 3, 0, 0
+x[-3] = 2           # 3, 2, 0, 0
+x[2] = 2            # 3, 2, 2, 0
+x[5] = 1            # 3, 1, 0, 0
+
+x[2:4] = 4, 5       # 3, 1, 4, 5
+x[1:3] = 1, 2, 3    # 3, 1, 2, 3, 5
+x[0:2] = 0          # Illegal: right hand side is not a tuple
+x[0:2] = [0]        # 0, 2, 3, 5
+x[2:] = []          # 0, 2
+x[1:1] = 1, 2       # 0, 1, 2, 2
+x[:-2] = 1, 0       # 1, 0, 2, 2
+x[:] = 1, 2, 3      # 1, 2, 3
+x = x[1:7]          # 2, 3, 1, 2, 3, 1
+x[1:10] = []        # Illegal: left hand side is not a Reference
+
+x[0::2] = x[1::2]   # 3, 3, 2, 2, 1, 1
+x[0::2] = 1, 2      # Illegal: tuples are not of the same size
+x = x[::-1]         # 1, 1, 2, 2, 3, 3
+x[0:3:] = x[::2]    # 1, 2, 3, 2, 3, 3
+x[-3::] = 4, 5, 6   # 1, 2, 3, 4, 5, 6
+x = x[2:10:3]       # 3, 6, 3
 ```
+
+## Concatonation and Repetition
+
+`x + y`, the concatonation operator, returns a tuple which is the elements of `x` followed by the elements of `y`, in the order which they appear in `x` and `y`.
+
+`x * i`, the repetition operator, returns `x` concatonated to itself `i` times. `i` must be a nonnegative integer. The operator is commutative: `x * i` is equivalent to `i * x`. For example, `x * 1` is equivalent to `x`, and `x * 0` is equivalent to `[]`, the empty tuple.
 
 ### String Operators
 
-```text
-x[y]
-x[a:b]
-x[a:b:c]
-*x
-x + y
-```
+Below is a list of string operators. `x` and `y` are strings and `i`, `j`, and `k` are integers.
 
-These string operators are almost analogous to their respective tuple operators, as Strings are actually tuples of characters. There are some differences, however. Both `*x` and `x[y]` return a string of lenght one, not a character (as there is no character type in Euclid). Note that strings and tuples, despite having this similarity, are not interchangable. For example, `"hello" + [1, 2]` is not a valid operation. 
+| Operator   | Name                    | Notes                                                |
+|------------|-------------------------|------------------------------------------------------|
+| `x[i]`     | Index operator          |                                                      |
+| `x[i:j]`   | Slice operator          | `i` or `j` (or both) may be excluded                 |
+| `x[i:j:k]` | Extended slice operator | Any combination of `i` or `j` or `k` may be excluded |
+| `x + y`    | Concatenation operator  |                                                      |
+| `x * i`    | Repetition operator     | Commutative: can also be `i * x`                     |
+
+These string operators are almost analogous to their respective tuple operators, as Strings are actually tuples of characters. There are some differences, however.
+
+`x[i]` is equivalent to `x[i:i+1:1]`, so it returns a Reference to a string of length one, not a character (as there is no character type in Euclid), which can only be assigned with strings of length one.
 
 ### Construction Call
 
 ```text
 x(y)
 ```
+
+### Type Operators
 
 ### Assignment
 
@@ -396,7 +451,7 @@ Ordinary assignment occurs when `x` is a Reference. The value of `y` is copied i
 Below are some examples of assignment:
 
 ```text
-x = 5+2       # x now has a value of 7
+x = 5 + 2     # x now has a value of 7
 y = x         # y now has the same value of x (that value is 7)
 x = 3         # x is 3 and y is still 7
 ```
@@ -443,15 +498,15 @@ Compound assigment operators may not be used in chain assignment.
 
 ### Precedence
 
-Below is the order of operator precedence in Euclid. The table is organized such that higher precedence operations (i.e. operations which are evaluated first) are near the top.
+Below is the order of operator precedence in Euclid. The table is organized such that higher precedence operations (i.e. operations which are evaluated first) are near the top. Operators listed in the same group have the same precedence.
 
-Increment and decrement operators, i.e. `++` and `--`, are not supported in Euclid.
-
-There are no custom operators in Euclid.
+| Operators | Group name | Associativity |
+|---|---|---|
+| `x = y`, `x += y`, `x -= y`, `x *= y`, `x /= y`, `x //= y`, `x %= y`, `x ^= y` | Assignment | Not applicable |
 
 ## Postulates
 
-The postulates are the most basic constructions built into Euclid. Every other construction in Euclid can be written in terms of the postulates.
+The postulates are the most basic constructions built into Euclid. Every other construction in Euclid can be written in terms of the postulates and operators.
 
 ### Figure Manipulation
 
@@ -493,9 +548,9 @@ Return the Euclidean distance between `alpha` and `beta`.
 
 ## Control Flow
 
-## Input/Output
+## Input and Output
 
-Input and output in Euclid is done through "streams." A "stream" is a collection of objects that can be added to using the `write` construction and taken from using the `read` construction. Streams are identified using strings, but unique names do not need to correspond to unique streams. In other words, streams may be aliased. Also, some streams may be read-only and some may be write-only. Below is the documentation of the stream interface in Euclid:
+Input and output in Euclid is done through "streams." A "stream" is a collection of objects that can be added to using the `write` construction and taken from using the `read` construction. Streams are identified using strings, but unique names do not need to correspond to unique streams. In other words, streams may be aliased. Also, some streams may be read-only and some may be write-only. Below is the documentation of the stream interface in Euclid.
 
 ### `read(stream : String)`
 
@@ -520,6 +575,14 @@ Change the default read stream to `stream`.
 ### `write_to(stream : String)`
 
 Change the default write stream to `stream`.
+
+### `read_default()`
+
+Return the name of the current default read stream.
+
+### `write_default()`
+
+Return the name of the current default write stream.
 
 ### Stream Implementation
 
@@ -547,8 +610,7 @@ The Euclid standard library is a set of constructions which is standard in the E
 
 How should compilation/running be done?
 
-Implement capturing which creating constructions.
-Why?
+Implement capturing which creating constructions so constructions can modify themselves.
 
 ## Notes
 
