@@ -324,12 +324,12 @@ There are three binary logical operators: `x and y`, `x or y`, and `x xor y`, wh
 
 Symbolic alternatives for logical operators are available:
 
-| Logical operator | Symbolic equivalents |
-|------------------|----------------------|
-| `not x`          | `!x` and `-x`        |
-| `x and y`        | `x && y` and `x * y` |
-| `x or y`         | `x || y` and `x + y` |
-| `x xor y`        | `x ^^ y` and `x - y` |
+| Logical operator | Symbolic equivalent |
+|------------------|---------------------|
+| `not x`          | `!x`                |
+| `x and y`        | `x && y`            |
+| `x or y`         | `x || y`            |
+| `x xor y`        | `x ^^ y`            |
 
 ### Comparison
 
@@ -353,7 +353,7 @@ Strings are compared as if they were tuples of integers.
 
 For every other type, including all Figures, relational operators are undefined.
 
-The other relational operators can be written in terms of `==` and `<`:
+All other relational operators can be written in terms of `==` and `<`:
 
 | Relational operator | Equivalent                  |
 |---------------------|-----------------------------|
@@ -498,10 +498,19 @@ Compound assigment operators may not be used in chain assignment.
 
 ### Precedence
 
-Below is the order of operator precedence in Euclid. The table is organized such that higher precedence operations (i.e. operations which are evaluated first) are near the top. Operators listed in the same group have the same precedence.
+Below is a table containing the operator precedence in Euclid, sorted in order of decreasing precedence. Operators listed in the same group have the same precedence. Parenthesis override precedence in the expected manner.
 
 | Operators | Group name | Associativity |
 |---|---|---|
+| | Postfix Unary | Not applicable |
+| | Prefix Unary | Not applicable |
+| `x ^ y` | Exponentiation | Right |
+| `x * y`, `x / y`, `x // y`, `x % y` | Multiplicative Operators | Left |
+| `x + y`, `x - y` | Additive Operators | Left |
+| `x == y`, `x != y`, `x < y`, `x > y`, `x >= y`, `x <= y` | Comparison | Left |
+| `x and y`, `x && y` | Logical And | Left |
+| `x xor y`, `x ^^ y` | Logical Exclusive Or | Left |
+| `x or y`, `x || y` | Logical Or | Left |
 | `x = y`, `x += y`, `x -= y`, `x *= y`, `x /= y`, `x //= y`, `x %= y`, `x ^= y` | Assignment | Not applicable |
 
 ## Postulates
