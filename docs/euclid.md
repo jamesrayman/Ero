@@ -205,8 +205,7 @@ lines'''            # equivalent to 'Multiple\nlines"
 '' \
 '\'' \
 ''\
-'''         # equivalent to "'' ''' ''"
-            # notice how the middle ''' was escaped
+'''         # equivalent to "'' ''' ''", notice how the middle ''' was escaped
 ```
 
 #### Escape Codes
@@ -433,9 +432,10 @@ These string operators are almost analogous to their respective tuple operators,
 
 `x[i]` is equivalent to `x[i:i+1:1]`, so it returns a Reference to a string of length one, not a character (as there is no character type in Euclid), which can only be assigned with strings of length one.
 
-### Construction Call
+### Construction Operators
 
 ```text
+create construction
 x(y)
 ```
 
@@ -545,9 +545,9 @@ Return the unique arc with endpoints `start` and `end` such that point `p` is a 
 
 Return a tuple of figures whose union represents the intersection of all the figures given in the input.
 
-#### `point_on(alpha : Figure and not Null, seed : Real = 0, index : Real = -1)`
+#### `point_on(alpha : Figure and not Null, seed : Real = 0, index : Real)`
 
-Return a "random" point on `alpha`. This "random" point is uniquely determined from `seed` and `index`. The default index is initiallized to 0 and incremented after every time `point_on` is called without `index` given.
+Return a "random" point on `alpha`. This "random" point is uniquely determined from `seed` and `index`, which must both be integers. The default index is initiallized to zero and incremented after every time `point_on` is called without `index` given.
 
 #### `endpoints(alpha : Figure)`
 
@@ -558,6 +558,18 @@ Return a tuple of the "endpoints" of `alpha`. A ray has one endpoint. Arcs and s
 Return the Euclidean distance between `alpha` and `beta`.
 
 ## Control Flow
+
+```text
+if x {
+
+}
+while x {
+
+}
+for x in y {
+
+}
+```
 
 ## Input and Output
 
@@ -587,11 +599,11 @@ Change the default read stream to `stream`.
 
 Change the default write stream to `stream`.
 
-### `read_default()`
+### `default_read()`
 
 Return the name of the current default read stream.
 
-### `write_default()`
+### `default_write()`
 
 Return the name of the current default write stream.
 
@@ -621,7 +633,7 @@ The Euclid standard library is a set of constructions which is standard in the E
 
 How should compilation/running be done?
 
-Implement capturing which creating constructions so constructions can modify themselves.
+Implement capturing which creating constructions so constructions can modify themselves. Implement a different type of capturing when values from an outer scope need to be used in an inner construction.
 
 ## Notes
 
