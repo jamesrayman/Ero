@@ -86,7 +86,7 @@ Below is a table of all figure types in Euclid:
 
 | Figure  | Description                                                |
 |---------|------------------------------------------------------------|
-| Point   | just one point                                             |
+| Point   | a sigular point                                            |
 | Line    | the set of all points on an infinitely long straight line  |
 | Segment | a line bounded by two endpoints                            |
 | Ray     | a line bounded by one endpoint                             |
@@ -94,8 +94,8 @@ Below is a table of all figure types in Euclid:
 | Circle  | the set of all points in a plane equidistant from a center |
 | Arc     | a circle that is bounded by two endpoints                  |
 | Sphere  | the set of all points in space equidistant from a center   |
-| Null    | no points                                                  |
-| Space   | all points in three dimensional space                      |
+| Null    | the set which contains no points                           |
+| Space   | the set which contains all points in three dimensional space |
 
 Note that Circles and Spheres, by definition, do not include the points on their interiors.
 
@@ -111,7 +111,7 @@ Below is a table of all non-figure types in Euclid:
 | Type         | Describes a type                                   |
 | Reference    | Describes a variable                               |
 
-References and Types are non-assignable. That is, no variable in Euclid is allowed to be of type Reference or Type. Using a Type object in an assignment (explicit or implicit) will result in an error.
+References are non-assignable. That is, it is impossible for a variable in Euclid to be of type Reference.
 
 The only implicit type conversion in Euclid is from Reference to another type, specifically, from a Reference to the value which it references. This is done when a Reference is used in any operation which does not explicitly take a reference as a parameter.
 
@@ -217,7 +217,7 @@ Within a String literal, long or short, a backslash indicates that the next char
 |-------------|--------------------------------------------------------------|
 | `\t`        | tab                                                          |
 | `\n`        | newline                                                      |
-| `\x**`      | hexadecimal character `**`, where `*` is a hexadecimal digit |
+| `\x@@`      | hexadecimal character `@@`, where `@` is a hexadecimal digit |
 
 ### Reference Literals
 
@@ -236,15 +236,13 @@ Tuple literals are comma seperated lists of objects. Note that References put in
 43, 54,
 43, 32
 
-45, 32      # this is an invalid multiline tuple literal
+45, 32      # invalid multiline tuple literal
 , 54, 43
 ```
 
 ## Global Constants
 
 Global constants are global variables which may not be reassiged. The list of predefined global constants is shown below:
-
-> add custom global constants
 
 | Global constant | Significance                     |
 |-----------------|----------------------------------|
@@ -278,7 +276,8 @@ The following global constants are shorthand for Type expressions:
 | Global constant | Significance                                                                               |
 |-----------------|--------------------------------------------------------------------------------------------|
 | `Figure`        | equivalent to `Point + Line + Segment + Ray + Circle + Arc + Sphere + Null + Space`        |
-| `Object`        | equivalent to `Figure + Real + Boolean + Tuple + String + Construction + Type + Reference` |
+| `Singleton`     | equivalent to `Figure + Real + Boolean + String + Construction + Type + Reference` |
+| `Object`        | equivalent to `Tuple + Singleton` |
 
 ### Custom Global Constants
 
@@ -318,18 +317,20 @@ The following expressions are all undefined. The errors which these expressions 
 
 All logical operators take booleans as operands and evaluate to booleans.
 
-There is one unary logical operator: `not x` which returns the boolean negation of `x`.
+There are two unary logical operators: `not x` which returns the boolean negation of `x`, and `+x`, which returns `x`.
 
 There are three binary logical operators: `x and y`, `x or y`, and `x xor y`, which return the conjunction, disjunction, and exclusive disjunction of `x` and `y`, respectively.
 
 Symbolic alternatives for logical operators are available:
 
-| Logical operator | Symbolic equivalent |
-|------------------|---------------------|
-| `not x`          | `!x`                |
-| `x and y`        | `x && y`            |
-| `x or y`         | `x || y`            |
-| `x xor y`        | `x ^^ y`            |
+| Logical operator | Symbolic equivalents |
+|------------------|----------------------|
+| `not x`          | `!x` and `-x`        |
+| `x and y`        | `x && y` and `x * y` |
+| `x or y`         | `x || y` and `x + y` |
+| `x xor y`        | `x ^^ y` and `x @ y` |
+
+Note that some of these symbolic equivalents have different precedences.
 
 ### Comparison
 
@@ -505,12 +506,13 @@ Below is a table containing the operator precedence in Euclid, sorted in order o
 | | Postfix Unary | Not applicable |
 | | Prefix Unary | Not applicable |
 | `x ^ y` | Exponentiation | Right |
-| `x * y`, `x / y`, `x // y`, `x % y` | Multiplicative Operators | Left |
-| `x + y`, `x - y` | Additive Operators | Left |
+| `x * y`, `x / y`, `x // y`, `x % y` | Multiplication | Left |
+| `x @ y` | Alternative Exclusive Disjunction | Left |
+| `x + y`, `x - y` | Addition | Left |
 | `x == y`, `x != y`, `x < y`, `x > y`, `x >= y`, `x <= y` | Comparison | Left |
-| `x and y`, `x && y` | Logical And | Left |
-| `x xor y`, `x ^^ y` | Logical Exclusive Or | Left |
-| `x or y`, `x || y` | Logical Or | Left |
+| `x and y`, `x && y` | Conjunction | Left |
+| `x xor y`, `x ^^ y` | Exclusive Disjunction | Left |
+| `x or y`, `x || y` | Disjunction | Left |
 | `x = y`, `x += y`, `x -= y`, `x *= y`, `x /= y`, `x //= y`, `x %= y`, `x ^= y` | Assignment | Not applicable |
 
 ## Postulates
