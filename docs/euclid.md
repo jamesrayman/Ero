@@ -562,6 +562,10 @@ Return the Euclidean distance between `alpha` and `beta`.
 ```text
 if x {
 
+} else if y {
+
+} else {
+
 }
 while x {
 
