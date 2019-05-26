@@ -1,0 +1,17 @@
+# On execution, prints a tetrahedron with a given edge
+
+A, B = read(), read()
+
+locus_C = intersection(sphere(A, B),
+                       sphere(B, A))
+C = point_on(locus_C)
+
+D = intersection(sphere(A, B),
+                 sphere(B, C),
+                 sphere(C, A))
+
+write([polygon(A, B, C),
+       polygon(B, C, D),
+       polygon(C, D, A),
+       polygon(D, A, B)])
+

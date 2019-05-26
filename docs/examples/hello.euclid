@@ -1,0 +1,3 @@
+# On execution, prints "Hello, world!" to stdout
+
+write("Hello, world!")
