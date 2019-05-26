@@ -547,7 +547,7 @@ Return a tuple of figures whose union represents the intersection of all the fig
 
 #### `point_on(alpha : Figure and not Null, seed : Real = 0, index : Real)`
 
-Return a "random" point on `alpha`. This "random" point is uniquely determined from `seed` and `index`, which must both be integers. The default index is initiallized to zero and incremented after every time `point_on` is called without `index` given.
+Return a "random" point on `alpha`. This "random" point is uniquely determined from `seed` and `index`, which must both be integers. The default index is initiallized to zero and incremented after every time `point_on` is called without `index` given. `point_on` is continuous with respect to `alpha`. That is, for fixed `seed` and `index`, sufficiently small changes in `alpha` will result in arbitrarily small changes in `point_on(alpha)`.
 
 #### `endpoints(alpha : Figure)`
 
