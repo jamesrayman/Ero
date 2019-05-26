@@ -551,7 +551,7 @@ Return a "random" point on `alpha`. This "random" point is uniquely determined f
 
 #### `endpoints(alpha : Figure)`
 
-Return a tuple of the "endpoints" of `alpha`. A ray has one endpoint. Arcs and segments have two enpoints each. The endpoint of a point is the point itself. All other figures have no endpoints. If `alpha` has no endpoints, return an empty tuple.
+Return a tuple of the "endpoints" of `alpha`. A ray has one endpoint. Arcs and segments each have two enpoints. The endpoint of a point is the point itself. All other figures have no endpoints. If `alpha` has no endpoints, return an empty tuple.
 
 #### `distance(alpha : Point, beta : Point)`
 
