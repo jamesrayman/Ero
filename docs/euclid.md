@@ -20,7 +20,7 @@ Euclid is a functional scripting language intended to describe and render Euclid
 
 ### File Format
 
-A Euclid program is an ASCII text file with the extension ".euclid", or multiple of such files.
+A Euclid program is an ASCII text file with the extension "`.euclid`", or multiple of such files.
 
 ### Objects
 
@@ -36,22 +36,22 @@ A "statement" is an instruction on how to change the state of the program. A Euc
 
 Statements are generally only one line long, so newlines, in most cases, end statements. Newlines do not end statements when a line ends in a backslash (`\`) or when a line ends in with an incomplete binary operator, an incomplete literal, unclosed parenthesis (`(` and `)`), or unclosed brackets (`[` and `]`). A semicolon (`;`) may be used to explicitly end a statement.
 
-Euclid code samples thorughout this documentation is displayed like the sample below:
+Euclid code samples thorughout this documentation is displayed like the sample below.
 
 ```text
+# this is a comment
+
 p = point_on(space)  # single line statement
 q = p; r = q         # multiple statements on one line
 a, b, c \            # multiline statement
- =            # incomplete binary operator
-  p, q,       # incomplete literal
-   r
-
-# this is a comment
+ =                   # incomplete binary operator
+  [p, q,             # incomplete brackets
+   r]
 ```
 
 A block statement is a list of statements enclosed by braces (`{` and `}`). Block statements are used in control flow. If a block statement is encountered outside of a control flow statement, every individual statement within the block is run in order as if the braces were never there.
 
-Possibly the most frequent statement in Euclid is an assignment. The assignment operator is discussed in detail later. Below are some examples of assignment statements:
+Possibly the most frequent statement in Euclid is an assignment. The assignment operator is discussed in detail later. Below are some examples of assignment statements.
 
 ```text
 a = b                   # the value of variable b is copied into variable a
@@ -64,7 +64,7 @@ omega = radius(         # assignment with a complex expression
 
 #### `import` Statements
 
-`import` statements are statements which run another Euclid file. These statements have the syntax `import(name)` where `name` is a string which contains the library or file path to import. Multiple imports can be done with one import by adding multiple names as parameters. Each library or file may only be imported once per execution. Duplicate imports are ignored and should not generate any warnings or errors. Below are some examples of imports:
+`import` statements are statements which run another Euclid file. These statements have the syntax `import(name)` where `name` is a string which contains the library or file path to import. Multiple imports can be done with one import by adding multiple names as parameters. Each library or file may only be imported once per execution. Duplicate imports are ignored and should not generate any warnings or errors. Below are some examples of imports.
 
 ```text
 import("test.euclid")           # import a file
@@ -82,24 +82,24 @@ If a name can refer to both a file and a library, the library is imported instea
 
 The central data type of the is a figure: a set of points that exists in three dimensional space.
 
-Below is a table of all figure types in Euclid:
+Below is a table of all figure types in Euclid.
 
-| Figure  | Description                                                |
-|---------|------------------------------------------------------------|
-| Point   | a sigular point                                            |
-| Line    | the set of all points on an infinitely long straight line  |
-| Segment | a line bounded by two endpoints                            |
-| Ray     | a line bounded by one endpoint                             |
-| Plane   | the set of all points on an infinitely large flat surface  |
-| Circle  | the set of all points in a plane equidistant from a center |
-| Arc     | a circle that is bounded by two endpoints                  |
-| Sphere  | the set of all points in space equidistant from a center   |
-| Null    | the set which contains no points                           |
+| Figure  | Description                                                  |
+|---------|--------------------------------------------------------------|
+| Point   | a sigular point                                              |
+| Line    | the set of all points on an infinitely long straight line    |
+| Segment | a line bounded by two endpoints                              |
+| Ray     | a line bounded by one endpoint                               |
+| Plane   | the set of all points on an infinitely large flat surface    |
+| Circle  | the set of all points in a plane equidistant from a center   |
+| Arc     | a circle that is bounded by two endpoints                    |
+| Sphere  | the set of all points in space equidistant from a center     |
+| Null    | the set which contains no points                             |
 | Space   | the set which contains all points in three dimensional space |
 
 Note that Circles and Spheres, by definition, do not include the points on their interiors.
 
-Below is a table of all non-figure types in Euclid:
+Below is a table of all non-figure types in Euclid.
 
 | Type         | Description                                        |
 |--------------|----------------------------------------------------|
@@ -117,7 +117,7 @@ The only implicit type conversion in Euclid is from Reference to another type, s
 
 There are no custom types in Euclid.
 
-As convention, compound geometric figures are represented as tuples of figures. Each standard convention is documented below:
+As convention, compound geometric figures are represented as tuples of figures. Each standard convention is documented below.
 
 | Compound figure | Description                                                                                                                         |
 |-----------------|-------------------------------------------------------------------------------------------------------------------------------------|
@@ -128,13 +128,13 @@ As convention, compound geometric figures are represented as tuples of figures. 
 
 ## Literals
 
-Literals are straightforward specifications of objects, the simplest type of expression. Below is a list of all types of literals in Euclid:
+Literals are straightforward specifications of objects, the simplest type of expression. Below is a list of all types of literals in Euclid.
 
 ### Real Literals
 
 Real literals in Euclid are based off of decimal real literals in C. Real literals are strings of at least one decimal digit. A decimal point (`.`) may be inserted anywere in this literal. Scientific notation may also be used by appending `e` or `E`, followed by an optional sign, (`+` or `-`), followed by an integer representing the exponent.
 
-Below are some examples of correct real literals:
+Below are some examples of correct real literals.
 
 ```text
 743
@@ -149,7 +149,7 @@ Below are some examples of correct real literals:
 .0003e02
 ```
 
-Below are some examples of incorrect real literals:
+Below are some examples of incorrect real literals.
 
 ```text
 .       # no digits present
@@ -168,7 +168,7 @@ String literals may include any ASCII characters. Unicode is currently not suppo
 
 Short string literals begin and end with one unescaped quote character. The quote character used may be a single quote (`'`) or a double quote (`"`), but a single string literal can't use both. If a short string literal continues onto the next line, the previous line must end with a backslash (`\`), and the newline will not be included in the resultant string.
 
-Below are some valid short string literals:
+Below are some valid short string literals.
 
 ```text
 "Hello, world!"
@@ -180,7 +180,7 @@ ns multi\
 ple lines"          # equivalent to "This literal spans multiple lines"
 ```
 
-The following literals are not valid:
+The following literals are not valid.
 
 ```text
 'Mismatched quotes"
@@ -195,7 +195,7 @@ lines"
 
 Long string literals begin and end with three consecutive unescaped quote characters. Again, either a single quote or a double quote may be used, but the quote character must be the same within a single string literal. Long string literals can span multiple lines without a backslash indicator, and newlines from continuation are preseved. Adding the backslash at the end of a line will remove the newline from the resultant string.
 
-Below are some valid long string literals:
+Below are some valid long string literals.
 
 ```text
 '''Multiple
@@ -210,7 +210,7 @@ lines'''            # equivalent to 'Multiple\nlines"
 
 #### Escape Codes
 
-Within a String literal, long or short, a backslash indicates that the next character should be interpreted as part of the String. For example `"\'\"\\"` signifies a String containing a single quote, a double quote, and a backslash. Certain lowercase letters, when escaped, signify a special escape code. For example `\n` signifies the newline character. A full list of escape codes is shown below:
+Within a String literal, long or short, a backslash indicates that the next character should be interpreted as part of the String. For example `"\'\"\\"` signifies a String containing a single quote, a double quote, and a backslash. Certain lowercase letters, when escaped, signify a special escape code. For example `\n` signifies the newline character. A full list of escape codes is shown below.
 
 | Escape code | Significance                                                 |
 |-------------|--------------------------------------------------------------|
@@ -224,7 +224,7 @@ Reference literals are strings of uppercase letters, lowercase letters, numbers,
 
 ### Tuple Literals
 
-Tuple literals are comma seperated lists of objects. Note that References put into the Tuple literal are not dereferenced in the resultant Tuple. Tuple literals may be enclosed in brackets (`[` and `]`) to prevent ambiguity, or to create tuples with fewer than two elements, but this is not necessary in all cases. Tuple literals may span multiple lines as long as the literal is enclosed in brackets or the last token before a new line is a comma. Tuple literals have a precedence lower than all operators except assignment. Below are some example Tuple literals:
+Tuple literals are comma seperated lists of objects. Note that References put into the Tuple literal are not dereferenced in the resultant Tuple. Tuple literals may be enclosed in brackets (`[` and `]`) to prevent ambiguity, or to create tuples with fewer than two elements, but this is not necessary in all cases. Tuple literals may span multiple lines as long as the literal is enclosed in brackets or the last token before a new line is a comma. Tuple literals have a precedence lower than all operators except assignment. Below are some example Tuple literals.
 
 ```text
 45, "Hello", alpha
@@ -241,7 +241,7 @@ Tuple literals are comma seperated lists of objects. Note that References put in
 
 ## Global Constants
 
-Global constants are global variables which may not be reassiged. The list of predefined global constants is shown below:
+Global constants are global variables which may not be reassiged. The list of predefined global constants is shown below.
 
 | Global constant | Significance                     |
 |-----------------|----------------------------------|
@@ -250,7 +250,7 @@ Global constants are global variables which may not be reassiged. The list of pr
 | `true`          | True boolean                     |
 | `false`         | False boolean                    |
 
-The following global constants all describe Type objects:
+The following global constants all describe Type objects.
 
 * `Point`
 * `Line`
@@ -270,13 +270,13 @@ The following global constants all describe Type objects:
 * `Type`
 * `Reference`
 
-The following global constants are shorthand for Type expressions:
+The following global constants are shorthand for Type expressions.
 
 | Global constant | Significance                                                                               |
 |-----------------|--------------------------------------------------------------------------------------------|
 | `Figure`        | equivalent to `Point + Line + Segment + Ray + Circle + Arc + Sphere + Null + Space`        |
-| `Singleton`     | equivalent to `Figure + Real + Boolean + String + Construction + Type + Reference` |
-| `Object`        | equivalent to `Tuple + Singleton` |
+| `Singleton`     | equivalent to `Figure + Real + Boolean + String + Construction + Type + Reference`         |
+| `Object`        | equivalent to `Tuple + Singleton`                                                          |
 
 ### Custom Global Constants
 
@@ -320,7 +320,7 @@ There are two unary logical operators: `not x` which returns the boolean negatio
 
 There are three binary logical operators: `x and y`, `x or y`, and `x xor y`, which return the conjunction, disjunction, and exclusive disjunction of `x` and `y`, respectively.
 
-Symbolic alternatives for logical operators are available:
+Symbolic alternatives for logical operators are available.
 
 | Logical operator | Symbolic equivalents |
 |------------------|----------------------|
@@ -353,7 +353,7 @@ Strings are compared as if they were tuples of integers.
 
 For every other type, including all Figures, relational operators are undefined.
 
-All other relational operators can be written in terms of `==` and `<`:
+All other relational operators can be written in terms of `==` and `<`.
 
 | Relational operator | Equivalent                  |
 |---------------------|-----------------------------|
@@ -449,7 +449,7 @@ The assignment operator is `x = y`. It is the only operator which has no return 
 
 Ordinary assignment occurs when `x` is a Reference. The value of `y` is copied into the variable `x`.
 
-Below are some examples of assignment:
+Below are some examples of assignment.
 
 ```text
 x = 5 + 2     # x now has a value of 7
@@ -459,7 +459,7 @@ x = 3         # x is 3 and y is still 7
 
 #### Chain Assignment
 
-Chain assignment is shorthand way to carry out multiple assignments. Chain assignment has the form `x = y = ... = z` and is equivalent to `x = z; y = z; ...`. Parentheses may not enclose partial chain assignments. Below are some examples:
+Chain assignment is shorthand way to carry out multiple assignments. Chain assignment has the form `x = y = ... = z` and is equivalent to `x = z; y = z; ...`. Parentheses may not enclose partial chain assignments. Below are some examples.
 
 ```text
 x = y = 3               # x and y are both 3
@@ -473,7 +473,7 @@ x = (y = 4)             # syntax error
 
 If `x` is a tuple of References and `y` is a tuple of the same size, then assignment is carried out for corresponding elements of both tuples.
 
-For example, every line below is equivalent:
+For example, every line below is equivalent.
 
 ```text
 [a, b, c, d] = [2, 3, 2, 3]
@@ -483,7 +483,7 @@ a, b = c, d = 2, 3
 
 ### Compound Assignment
 
-Compound assignment operators are shorthand for updating a variable. The full list of compound assignment operators is shown below:
+Compound assignment operators are shorthand for updating a variable. The full list of compound assignment operators is shown below.
 
 | Operator  | Equivalent   |
 |-----------|--------------|
@@ -512,7 +512,7 @@ Below is a table containing the operator precedence in Euclid, sorted in order o
 | `x == y`, `x != y`, `x < y`, `x > y`, `x >= y`, `x <= y` | Comparison | Left |
 | `x and y`, `x && y` | Conjunction | Left |
 | `x xor y`, `x ^^ y` | Exclusive Disjunction | Left |
-| `x or y`, `x || y` | Disjunction | Left |
+| `x or y`, `x \|\| y` | Disjunction | Left |
 | `x = y`, `x += y`, `x -= y`, `x *= y`, `x /= y`, `x //= y`, `x %= y`, `x ^= y` | Assignment | Not applicable |
 
 ## Postulates
@@ -617,7 +617,7 @@ The specification of streams is intentionally vague to allow for versatility of 
 
 ### Standard Streams
 
-The following streams are recommended to be implemented or aliased in Euclid:
+The following streams are recommended to be implemented or aliased in Euclid.
 
 | Stream    | Description                                      |
 |-----------|--------------------------------------------------|
