@@ -64,16 +64,13 @@ omega = radius(         # assignment with a complex expression
 
 #### `import` Statements
 
-`import` statements are statements which run another Euclid file. These statements have the syntax `import(name)` where `name` is a string which contains the library or file path to import. Multiple imports can be done with one import by adding multiple names as parameters. Each library or file may only be imported once per execution. Duplicate imports are ignored and should not generate any warnings or errors. Below are some examples of imports:
+`import` statements are statements which run another Euclid file. These statements have the syntax `import name` where `name` is a string which contains the library or file path to import. Each library or file may only be imported once per execution. Duplicate imports are ignored and should not generate any warnings or errors. Below are some examples of imports:
 
 ```text
-import("test.euclid")           # import a file
-import("olympiad")              # import a library
-import("folder/file.euclid")    # import from a different directory
-import("test.euclid")           # this line does nothing since test.euclid has already been imported
-import("a.euclid",              # multiple imports with one statement.
-       "b.euclid",
-       "c.euclid")
+import "test.euclid"            # import a file
+import "olympiad"               # import a library
+import "folder/file.euclid"     # import from a different directory
+import "test.euclid"            # this line does nothing since test.euclid has already been imported
 ```
 
 If a name can refer to both a file and a library, the library is imported instead of a file. The standard Euclid libraries are discussed in detail later. Custom library implementation is not standardized.
@@ -437,6 +434,7 @@ These string operators are almost analogous to their respective tuple operators,
 ```text
 create construction
 x(y)
+x + y
 ```
 
 ### Type Operators

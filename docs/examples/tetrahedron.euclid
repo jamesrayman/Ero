@@ -1,4 +1,4 @@
-# On execution, prints a tetrahedron with a given edge
+# Prints a tetrahedron with a given edge
 
 A, B = read(), read()
 
