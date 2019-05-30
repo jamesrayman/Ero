@@ -328,6 +328,10 @@ Symbolic alternatives for logical operators are available.
 
 Note that some of these symbolic equivalents have different precedences.
 
+#### Short-Circuit Evaluation
+
+The operators `x and y` and `x or y`, along with their symbolic equivalents, are subject to short-circuit evaluation. That is, if the result of an operation can be determined from the first operand only, the second operand is not evaluated. More specifically, in `x and y`, if `x` is false, then `y` is never evaluated and the expression evaluates to `false`, and, in `x or y`, if `x` is true, then `y` is never evaluated and the expression evaluates to `true`.
+
 ### Comparison
 
 All comparison operators are binary and return booleans.

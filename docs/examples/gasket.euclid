@@ -1,21 +1,19 @@
-# Prints an Apollonian gasket with given initial circles to a given number of iterations
+# Prints an Apollonian gasket with given initial circles to all circles with a radius greater than a given limit
 
 import "olympiad"
 
-A, B, C, n = read(), read(), read(), read()
+A, B, C, alpha = read(), read(), read(), read()
 
-gasket = (A, B, C, G, n) -> (G) {
-    if (n <= 0) return
-
+gasket = (A, B, C, G, alpha) -> (G) {
     candidates = apollonius(A, B, C)
     
     for (candidate : candidates) {
-        if (not G.contains(candidate)) {
+        if (not G.contains(candidate) and candidate.radius() > alpha) {
             G += [candidate]
             for ([a, b] in [A, B, C].choose(2))
-                G = gasket(a, b, candidate, G, n-1)
+                G = gasket(a, b, candidate, G, alpha)
         }
     }
 }
 
-print(gasket(A, B, C, n, [A, B, C]))
+print(gasket(A, B, C, [A, B, C], alpha))
