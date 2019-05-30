@@ -2,5 +2,20 @@
 
 import "olympiad"
 
+A, B, C, n = read(), read(), read(), read()
 
+gasket = (A, B, C, G, n) -> (G) {
+    if (n <= 0) return
 
+    candidates = apollonius(A, B, C)
+    
+    for (candidate : candidates) {
+        if (not G.contains(candidate)) {
+            G += [candidate]
+            for ([a, b] in [A, B, C].choose(2))
+                G = gasket(a, b, candidate, G, n-1)
+        }
+    }
+}
+
+print(gasket(A, B, C, n, [A, B, C]))
