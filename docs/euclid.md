@@ -64,7 +64,7 @@ omega = radius(         # assignment with a complex expression
 
 #### `import` Statements
 
-`import` statements are statements which run another Euclid file. These statements have the syntax `import name` where `name` is a string which contains the library or file path to import. Each library or file may only be imported once per execution. Duplicate imports are ignored and should not generate any warnings or errors. Below are some examples of imports.
+`import` statements are statements which run another Euclid file. These statements have the syntax `import name` where `name` is a string literal which contains the library or file path to import. Each library or file may only be imported once per execution. Duplicate imports are ignored and should not generate any warnings or errors. Below are some examples of imports.
 
 ```text
 import "test.euclid"            # import a file
@@ -334,7 +334,7 @@ All comparison operators are binary and return booleans.
 
 #### Equivalence
 
-There are two equivalence operators: `x == y` and `x != y`, where `x` and `y` are any type. `x == y` returns `true` if and only if `x` and `y` are the same type and have "equal" values. Two non-tuple non-real values are considered "equal" if and only if they are exactly the same. Two tuples are considered "equal" if both have the same size and corresponding elements are "equal." Two reals are considered "equal" if and only if their absolute difference does not exceed a certain limit. This limit can be zero, but if floating points are used to represent reals, a nonzero limit is recommended to mitigate floating point error.
+There are two equivalence operators: `x == y` and `x != y`, where `x` and `y` are any type. `x == y` returns `true` if and only if `x` and `y` are the same type and have "equal" values. Two tuples are considered "equal" if both have the same size and corresponding elements are "equal." Two reals are considered "equal" if and only if their absolute difference does not exceed a certain limit. This limit can be zero, but if floating points are used to represent reals, a nonzero limit is recommended to mitigate floating point error. Two Figures are allowed "equality tolerances" for the same reason. For every remaining type, two values are considered "equal" if and only if they are exactly the same.
 
 `x != y` is equivalent to `not (x == y)`.
 
@@ -558,17 +558,17 @@ Return the Euclidean distance between `alpha` and `beta`.
 ## Control Flow
 
 ```text
-if x {
+if (x) {
 
-} else if y {
+} else if (y) {
 
 } else {
 
 }
-while x {
+while (x) {
 
 }
-for x in y {
+for (x : y) {
 
 }
 ```
