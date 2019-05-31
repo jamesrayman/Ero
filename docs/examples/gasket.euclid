@@ -8,7 +8,7 @@ gasket = (A, B, C, G, alpha) -> (G) {
     candidates = apollonius(A, B, C)
     
     for (candidate : candidates) {
-        if (not G.contains(candidate) and candidate.radius() > alpha) {
+        if (not G.contains(candidate) and (candidate is Line or candidate.radius() > alpha)) {
             G += [candidate]
             for ([a, b] in [A, B, C].choose(2))
                 G = gasket(a, b, candidate, G, alpha)

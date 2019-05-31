@@ -236,6 +236,53 @@ Tuple literals are comma seperated lists of objects. Note that References put in
 , 54, 43
 ```
 
+#### Tuple Unpacking
+
+### Construction Literal
+
+Construction literals have the form `(params) -> (res) { process }`, where `{ process }` is optional.
+
+`params` is the parameter list specification, interpreted as a modified tuple literal. Each element in the parameter list has the form `type name = default`, where `type` and `= default` are both optional. `name` is a Reference which the parameter is tied to. `type` is a Type which imposes a type restriction on the parameter. `default` is the default value of the parameter, which is used if no value is passed. Up to one of the parameters may include an unpack specification (`*name`) to make the construction variadic. These variadic parameters may also have type restriction and default values.
+
+`res` is the expression which the construction evaluates to. If `process` has been provided, `res` is evaluated after `process` has been executed.
+
+`{ process }` is a block statement which is executed after the parameters have been assigned and before `res` is evaluated.
+
+Below are some examples of construction literals.
+
+```text
+# all the following constructions return the sum of x and y
+(x, y) -> (x + y)
+(x, y) -> (z) { z = x + y }
+(Real x, Real y) -> (x + y)
+
+sum_1 = (x, y) -> (x + y)
+sum_1(5, 7)                 # 12
+
+# all the following constructions return the sum of all the parameters passed
+(*v) -> (sum) {
+    sum = 0
+    for (x in v) sum += x
+}
+(Real[] *v) -> (sum) {
+    sum = 0
+    for (x in v) sum += x
+}
+
+sum_2 = (*v) -> (sum) {
+    sum = 0
+    for (x in v) sum += x
+}
+sum_2(4, 5, 6, 10)          # 25
+
+# all the following constructions return the sum of two or more numbers
+(x, y, *v) -> (x + y + sum_2(v))
+(x, *v, y) -> (x + y + sum_2(v))
+
+sum_3 = (x, y, *v) -> (x + y + sum_2(v))
+sum_3(4)                    # error
+```
+
 ## Global Constants
 
 Global constants are global variables which may not be reassiged. The list of predefined global constants is shown below.
@@ -344,11 +391,11 @@ There are two equivalence operators: `x == y` and `x != y`, where `x` and `y` ar
 
 #### Relational
 
-There are four relational operators: `x < y`, `x <= y`, `x > y`, and `x >= y`, where `x` and `y` are the same type. `x < y` returns true if and only if `x` is "less than" `y`. If `x` is equal to `y`, then `x` is not "less than" `y`.
+There are four relational operators: `x < y`, `x <= y`, `x > y`, and `x >= y`, where `x` and `y` are the same type. `x < y` returns `true` if and only if `x` is "less than" `y`. If `x` is equal to `y`, then `x` is not "less than" `y`.
 
-For reals, `x` is less than `y` under the standard mathematical definition.
+For reals, `x` is "less than" `y` under the standard mathematical definition.
 
-Tuples are compared lexicographically. If `x` is a proper prefix of `y`, then `x` is less than `y`.
+Tuples are compared lexicographically. If `x` is a proper prefix of `y`, then `x` is "less than" `y`.
 
 Strings are compared as if they were tuples of integers.
 
@@ -436,9 +483,9 @@ These string operators are almost analogous to their respective tuple operators,
 ### Construction Operators
 
 ```text
-create construction
 x(y)
 x + y
+x.y
 ```
 
 ### Type Operators
@@ -511,6 +558,7 @@ Below is a table containing the operator precedence in Euclid, sorted in order o
 | `x * y`, `x / y`, `x // y`, `x % y` | Multiplication | Left |
 | `x @ y` | Alternative Exclusive Disjunction | Left |
 | `x + y`, `x - y` | Addition | Left |
+| `x is y` | Type Check | Left |
 | `x == y`, `x != y`, `x < y`, `x > y`, `x >= y`, `x <= y` | Comparison | Left |
 | `x and y`, `x && y` | Conjunction | Left |
 | `x xor y`, `x ^^ y` | Exclusive Disjunction | Left |
@@ -523,39 +571,39 @@ The postulates are the most basic constructions built into Euclid. Every other c
 
 ### Figure Manipulation
 
-#### `plane(alpha : Point, beta : Point, gamma : Point)`
+#### `plane(Point alpha, Point beta, Point gamma)`
 
 Return the unique plane which contains points `alpha`, `beta`, and `gamma`. If there is no unique plane, return `null`.
 
-#### `sphere(center : Point, p : Point)`
+#### `sphere(Point center, Point p)`
 
-Return the unique sphere with center `center` such that `p` is a point on that circle. If `center` and `p` are the same point, return `null`.
+Return the unique sphere with center `center` such that `p` is a point on that sphere. If `center` and `p` are the same point, return `null`.
 
-#### `point(x : Real, y : Real, z: Real)`
+#### `point(Real x, Real y, Real z)`
 
 Return the point with Cartesian coordinates (`x`, `y`, `z`).
 
-#### `ray(endpoint : Point, p : Point)`
+#### `ray(Point endpoint, Point p)`
 
 Return the unique ray with endpoint `endpoint` such that `p` is a point on that ray. If `center` and `p` are the same point, return `null`.
 
-#### `arc(start : Point, p : Point, end : Point)`
+#### `arc(Point start, Point p, Point end)`
 
 Return the unique arc with endpoints `start` and `end` such that point `p` is a point on that arc. If the three points are collinear or not pairwise distcint, return `null`.
 
-#### `intersections(alpha : Figure, beta : Figure, omega... : Figure[])`
+#### `intersections(Figure[] *omega)`
 
 Return a tuple of figures whose union represents the intersection of all the figures given in the input.
 
-#### `point_on(alpha : Figure and not Null, seed : Real = 0, index : Real)`
+#### `point_on(Figure and not Null alpha, Real seed = 0, Real index)`
 
 Return a "random" point on `alpha`. This "random" point is uniquely determined from `seed` and `index`, which must both be integers. The default index is initiallized to zero and incremented after every time `point_on` is called without `index` given. `point_on` is continuous with respect to `alpha`. That is, for fixed `seed` and `index`, sufficiently small changes in `alpha` will result in arbitrarily small changes in `point_on(alpha)`.
 
-#### `endpoints(alpha : Figure)`
+#### `endpoints(Point alpha)`
 
 Return a tuple of the "endpoints" of `alpha`. A ray has one endpoint. Arcs and segments each have two enpoints. The endpoint of a point is the point itself. All other figures have no endpoints. If `alpha` has no endpoints, return an empty tuple.
 
-#### `distance(alpha : Point, beta : Point)`
+#### `distance(Point alpha, Point beta)`
 
 Return the Euclidean distance between `alpha` and `beta`.
 
@@ -581,7 +629,7 @@ for (x : y) {
 
 Input and output in Euclid is done through "streams." A "stream" is a collection of objects that can be added to using the `write` construction and taken from using the `read` construction. Streams are identified using strings, but unique names do not need to correspond to unique streams. In other words, streams may be aliased. Also, some streams may be read-only and some may be write-only. Below is the documentation of the stream interface in Euclid.
 
-### `read(stream : String)`
+### `read(String stream)`
 
 Read and return an object from the stream called `stream`.
 
@@ -589,7 +637,7 @@ Read and return an object from the stream called `stream`.
 
 Read and return an object from the default read stream. The default read stream is `"stdin"` unless set otherwise.
 
-### `write(obj, stream : String)`
+### `write(obj, String stream)`
 
 Write `obj` to the stream called `stream`.
 
@@ -597,11 +645,11 @@ Write `obj` to the stream called `stream`.
 
 Write `obj` to the default write stream. The default write stream is `"stdout"` unless set otherwise.
 
-### `read_from(stream : String)`
+### `read_from(String stream)`
 
 Change the default read stream to `stream`.
 
-### `write_to(stream : String)`
+### `write_to(String stream)`
 
 Change the default write stream to `stream`.
 

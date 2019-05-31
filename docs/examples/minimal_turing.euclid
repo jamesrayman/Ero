@@ -1,0 +1,28 @@
+"""
+This file contains a minimalistic proof by simulation that the Euclid language is Turing-complete, under the assumption that it is implemented to be infinitely precise.
+
+The machine simulated is a Minsky machine with two registers, which is known to be Turing-complete. Each register contains a nonnegative integer. The machine has the following instruction set:
+
+INC(x)          # increment register x
+JZDEC(x, z)     # if register x is set to zero, jump to the instruction labelled z. Otherwise, decrement register x
+
+The minimal instruction set used to implement such a machine in Euclid is outlined below.
+
+plane(alpha, beta, gamma)
+sphere(center, p)
+intersections(alpha, beta)
+point_on(alpha)
+if (x is t) {}              # type check if statement
+() -> () {}                 # constructions
+"""
+
+origin = point_on(space)
+xhat = point_on(space)
+
+INC = (origin, xhat) -> (xhat) {
+
+}
+DEC = (origin, xhat) -> (xhat) {
+
+}
+
