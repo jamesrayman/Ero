@@ -238,11 +238,27 @@ Tuple literals are comma seperated lists of objects. Note that References put in
 
 #### Tuple Unpacking
 
+In a tuple literal, another tuple can be "unpacked" into the literal by using the notation `*v`. When less than two unpackings are done in a single literal, the reference to the unpacked tuple is preserved. If a Reference which does not reference a tuple is unpacked by reference, an error is not thrown unless the reference is broken.
+
+Below are some examples of tuple unpacking.
+
+```text
+v = "Hello"
+x, *v = 1, 2, 3, 4      # x = 1; v = 2, 3, 4
+                        # notice how no error is generated
+u = *x, 2, 3            # error: x does not reference a tuple
+u = 1, 2
+*u, *v = 3, 4, 5        # error: left hand side is not a Reference or tuple of References
+
+u, v = [1, 2], [3, 4]
+w = *u, *v, 5             # w = 1, 2, 3, 4, 5
+```
+
 ### Construction Literal
 
 Construction literals have the form `(params) -> (res) { process }`, where `{ process }` is optional.
 
-`params` is the parameter list specification, interpreted as a modified tuple literal. Each element in the parameter list has the form `type name = default`, where `type` and `= default` are both optional. `name` is a Reference which the parameter is tied to. `type` is a Type which imposes a type restriction on the parameter. `default` is the default value of the parameter, which is used if no value is passed. Up to one of the parameters may include an unpack specification (`*name`) to make the construction variadic. These variadic parameters may also have type restriction and default values.
+`params` is the parameter list specification, interpreted like a tuple literal. Each element in the parameter list has the form `T name = val`, where `T` and `= val` are both optional. `name` is a Reference which the parameter is tied to. `T` is a Type, and if it is specified, values passed as the parameter must be of type `T`. `val` is the default value of the parameter, which is used if no value is passed. If both `T` and `val` are specified, `val` must be of type `T`. Up to one of the parameters may include an unpack specification (`*name`) to make the construction variadic. These variadic parameters may also have type restriction and default values.
 
 `res` is the expression which the construction evaluates to. If `process` has been provided, `res` is evaluated after `process` has been executed.
 
@@ -264,7 +280,7 @@ sum_1(5, 7)                 # 12
     sum = 0
     for (x in v) sum += x
 }
-(Real[] *v) -> (sum) {
+(Tuple(Real) *v) -> (sum) {
     sum = 0
     for (x in v) sum += x
 }
@@ -281,6 +297,43 @@ sum_2(4, 5, 6, 10)          # 25
 
 sum_3 = (x, y, *v) -> (x + y + sum_2(v))
 sum_3(4)                    # error
+```
+
+#### Construction Statements
+
+There are two statements which may only be used in the `process` block of construction: the `return` and `pass` statements. Both statements end construction execution immediately.
+
+`return` indicates that the `process` block has finished execution successfully, and the construction will return a value.
+
+`pass` indicates that the parameters passed are not in the domain of this overload of the construction, in which case another overload of the construction is called instead. `pass str`, where `str` is a string, is equivalent to `pass`, except when the parameters passed are in none of the domains of the overloads, in which case `str` is treated as the error message.
+
+> Do we really need `pass` statements? Why not regular error messages?
+
+Below are some examples of `return` and `pass` statements.
+
+```text
+gcd += (Real x, Real y) -> (d) {        # greatest common divisor for nonnegative integers
+    if (x == 0 and y == 0) pass "greatest common divisor is infinite"
+    if (x % 1 != 0 or y % 1 != 0) pass "x and y must be integers"
+    if (x < 0 or y < 0) pass
+
+    if (y == 0) {
+        d = x
+        return
+    }
+
+    d = gcd(y, x % y)
+}
+
+gcd += (Real x, Real y) -> (d) {        # greatest common divisor for negative integers
+    if (x == 0 and y == 0) pass "greatest common divisor is infinite"
+    if (x % 1 != 0 or y % 1 != 0) pass "x and y must be integers"
+
+    if (x < 0) x *= -1
+    if (y < 0) y *= -1
+
+    d = gcd(x, y)
+}
 ```
 
 ## Global Constants
@@ -591,7 +644,7 @@ Return the unique ray with endpoint `endpoint` such that `p` is a point on that 
 
 Return the unique arc with endpoints `start` and `end` such that point `p` is a point on that arc. If the three points are collinear or not pairwise distcint, return `null`.
 
-#### `intersections(Figure[] *omega)`
+#### `intersections(Tuple(Figure) *omega)`
 
 Return a tuple of figures whose union represents the intersection of all the figures given in the input.
 
