@@ -32,9 +32,13 @@ An "expression" is an instruction on how to compute the value of an object. Simp
 
 ### Statements
 
-A "statement" is an instruction on how to change the state of the program. A Euclid program is a list of statements. Upon program execution, these statements are run in order unless they are part of a control flow structure that states to do otherwise (like an `if` statement).
+A "statement" is an instruction on how to change the state of the program. A Euclid program is a list of statements. Upon program execution, these statements are run in order unless they are part of a control flow structure that dictates otherwise (like an `if` statement).
 
-Statements are generally only one line long, so newlines, in most cases, end statements. Newlines do not end statements when a line ends in a backslash (`\`) or when a line ends in with an incomplete binary operator, an incomplete literal, unclosed parenthesis (`(` and `)`), or unclosed brackets (`[` and `]`). A semicolon (`;`) may be used to explicitly end a statement.
+Statements are generally only one line long, so newlines, in most cases, end statements. Newlines do not end statements when a line ends in a backslash (`\`) or when a line ends in with an incomplete binary operator, an incomplete literal, unclosed parentheses (`(` and `)`), or unclosed brackets (`[` and `]`). A semicolon (`;`) may be used to explicitly end a statement.
+
+Single line comments in Euclid begin with a hashtag (`#`) which is not part of a string literal and continue until the end of the line. Everything after the hashtag is ignored by the Euclid interpreter.
+
+> Multiline comments?
 
 Euclid code samples thorughout this documentation is displayed like the sample below.
 
@@ -258,6 +262,10 @@ w = *u, *v, 5             # w = 1, 2, 3, 4, 5
 
 Construction literals have the form `(params) -> (res) { process }`, where `{ process }` is optional.
 
+> Should the type come after the name?
+> This syntax doesn't allow the `{` to start a line
+> Should exactly one of `(res)` and `{ process }` be required?
+
 `params` is the parameter list specification, interpreted like a tuple literal. Each element in the parameter list has the form `T name = val`, where `T` and `= val` are both optional. `name` is a Reference which the parameter is tied to. `T` is a Type, and if it is specified, values passed as the parameter must be of type `T`. `val` is the default value of the parameter, which is used if no value is passed. If both `T` and `val` are specified, `val` must be of type `T`. Up to one of the parameters may include an unpack specification (`*name`) to make the construction variadic. These variadic parameters may also have type restriction and default values.
 
 `res` is the expression which the construction evaluates to. If `process` has been provided, `res` is evaluated after `process` has been executed.
@@ -273,14 +281,14 @@ Below are some examples of construction literals.
 (Real x, Real y) -> (x + y)
 
 sum_1 = (x, y) -> (x + y)
-sum_1(5, 7)                 # 12
+sum_1(5, 7)                 # evaluates to 12
 
 # all the following constructions return the sum of all the parameters passed
 (*v) -> (sum) {
     sum = 0
     for (x in v) sum += x
 }
-(Tuple(Real) *v) -> (sum) {
+(Real[] *v) -> (sum) {
     sum = 0
     for (x in v) sum += x
 }
@@ -289,7 +297,7 @@ sum_2 = (*v) -> (sum) {
     sum = 0
     for (x in v) sum += x
 }
-sum_2(4, 5, 6, 10)          # 25
+sum_2(4, 5, 6, 10)          # evaluates to 25
 
 # all the following constructions return the sum of two or more numbers
 (x, y, *v) -> (x + y + sum_2(v))
@@ -413,20 +421,18 @@ The following expressions are all undefined. The errors which these expressions 
 
 All logical operators take booleans as operands and evaluate to booleans.
 
-There are two unary logical operators: `not x` which returns the boolean negation of `x`, and `+x`, which returns `x`.
+There is one unary logical operator: `not x` which returns the boolean negation of `x`.
 
 There are three binary logical operators: `x and y`, `x or y`, and `x xor y`, which return the conjunction, disjunction, and exclusive disjunction of `x` and `y`, respectively.
 
-Symbolic alternatives for logical operators are available.
+Symbolic alternatives for logical operators are available, as shown in the table below.
 
 | Logical operator | Symbolic equivalents |
 |------------------|----------------------|
-| `not x`          | `!x` and `-x`        |
-| `x and y`        | `x && y` and `x * y` |
-| `x or y`         | `x || y` and `x + y` |
-| `x xor y`        | `x ^^ y` and `x @ y` |
-
-Note that some of these symbolic equivalents have different precedences.
+| `not x`          | `!x`                 |
+| `x and y`        | `x && y`             |
+| `x or y`         | `x || y`             |
+| `x xor y`        | `x ^^ y`             |
 
 #### Short-Circuit Evaluation
 
@@ -587,15 +593,18 @@ a, b = c, d = 2, 3
 
 Compound assignment operators are shorthand for updating a variable. The full list of compound assignment operators is shown below.
 
-| Operator  | Equivalent   |
-|-----------|--------------|
-| `x += y`  | `x = x + y`  |
-| `x -= y`  | `x = x - y`  |
-| `x *= y`  | `x = x * y`  |
-| `x /= y`  | `x = x / y`  |
-| `x //= y` | `x = x // y` |
-| `x %= y`  | `x = x % y`  |
-| `x ^= y`  | `x = x ^ y`  |
+| Operator    | Equivalent     |
+|-------------|----------------|
+| `x += y`    | `x = x + y`    |
+| `x -= y`    | `x = x - y`    |
+| `x *= y`    | `x = x * y`    |
+| `x /= y`    | `x = x / y`    |
+| `x //= y`   | `x = x // y`   |
+| `x %= y`    | `x = x % y`    |
+| `x ^= y`    | `x = x ^ y`    |
+| `x &&= y`   | `x = x && y`   |
+| `x \|\|= y` | `x = x \|\| y` |
+| `x ^^= y`   | `x = x ^^ y`   |
 
 Compound assigment operators may not be used in chain assignment.
 
@@ -609,7 +618,6 @@ Below is a table containing the operator precedence in Euclid, sorted in order o
 | | Prefix Unary | Not applicable |
 | `x ^ y` | Exponentiation | Right |
 | `x * y`, `x / y`, `x // y`, `x % y` | Multiplication | Left |
-| `x @ y` | Alternative Exclusive Disjunction | Left |
 | `x + y`, `x - y` | Addition | Left |
 | `x is y` | Type Check | Left |
 | `x == y`, `x != y`, `x < y`, `x > y`, `x >= y`, `x <= y` | Comparison | Left |
@@ -644,7 +652,7 @@ Return the unique ray with endpoint `endpoint` such that `p` is a point on that 
 
 Return the unique arc with endpoints `start` and `end` such that point `p` is a point on that arc. If the three points are collinear or not pairwise distcint, return `null`.
 
-#### `intersections(Tuple(Figure) *omega)`
+#### `intersections(Figure[] *omega)`
 
 Return a tuple of figures whose union represents the intersection of all the figures given in the input.
 
@@ -735,6 +743,10 @@ The following streams are recommended to be implemented or aliased in Euclid.
 ## Standard Library
 
 The Euclid standard library is a set of constructions which is standard in the Euclid language, but may be defined in terms of Euclid itself. However it is not necessary to define them in Euclid. In fact, it is recommended to implement standard constructions marked with an asterisk (`*`) outside of Euclid for efficiency and accuracy.
+
+```text
+
+```
 
 ## Issues
 
