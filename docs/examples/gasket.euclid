@@ -2,10 +2,8 @@
 
 import "olympiad"
 
-A, B, C, alpha = read(), read(), read(), read()
-
-gasket = (A, B, C, G, alpha) -> (G) {
-    candidates = apollonius(A, B, C)
+gasket = (A, B, C, G, alpha) -> {
+    candidates = tangents(Circle or Line, A, B, C)
     
     for (candidate : candidates) {
         if (not G.contains(candidate) and (candidate is Line or candidate.radius() > alpha)) {
@@ -14,6 +12,10 @@ gasket = (A, B, C, G, alpha) -> (G) {
                 G = gasket(a, b, candidate, G, alpha)
         }
     }
+    return G
 }
 
-print(gasket(A, B, C, [A, B, C], alpha))
+main = () -> {
+    A, B, C, alpha = read(), read(), read(), read()
+    print(gasket(A, B, C, [A, B, C], alpha))
+}

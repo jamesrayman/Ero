@@ -36,9 +36,7 @@ A "statement" is an instruction on how to change the state of the program. A Euc
 
 Statements are generally only one line long, so newlines, in most cases, end statements. Newlines do not end statements when a line ends in a backslash (`\`) or when a line ends in with an incomplete binary operator, an incomplete literal, unclosed parentheses (`(` and `)`), or unclosed brackets (`[` and `]`). A semicolon (`;`) may be used to explicitly end a statement.
 
-Single line comments in Euclid begin with a hashtag (`#`) which is not part of a string literal and continue until the end of the line. Everything after the hashtag is ignored by the Euclid interpreter.
-
-> Multiline comments?
+Single line comments in Euclid begin with a hashtag (`#`) which is not part of a string literal and continue until the end of the line. Everything after the hashtag is ignored by the Euclid interpreter. Multiline comments are delimited by double hastags (`##`) not part of a string literal. Multiline comments do not necessarily span more than one line.
 
 Euclid code samples thorughout this documentation is displayed like the sample below.
 
@@ -51,6 +49,12 @@ a, b, c \            # multiline statement
  =                   # incomplete binary operator
   [p, q,             # incomplete brackets
    r]
+
+## This
+is a
+multiline comment ##
+
+## This is a multiline comment as well ##
 ```
 
 A block statement is a list of statements enclosed by braces (`{` and `}`). Block statements are used in control flow. If a block statement is encountered outside of a control flow statement, every individual statement within the block is run in order as if the braces were never there.
@@ -745,7 +749,27 @@ The following streams are recommended to be implemented or aliased in Euclid.
 The Euclid standard library is a set of constructions which is standard in the Euclid language, but may be defined in terms of Euclid itself. However it is not necessary to define them in Euclid. In fact, it is recommended to implement standard constructions marked with an asterisk (`*`) outside of Euclid for efficiency and accuracy.
 
 ```text
+length(alpha)
+radius(alpha)
+area(alpha)
+volume(alpha)
+angle(alpha)
 
+interpolate(v0, v1, t)
+
+intersection(*omega)
+binormal(alpha, beta)
+tangents(T, *omega)
+
+polygon(*omega)
+
+filter(v, f)
+apply(v, f)
+min(v, cmp)
+max(v, cmp)
+min(a, *v, cmp)
+max(a, *v, cmp)
+accumulate(a, f)
 ```
 
 ## Issues
@@ -757,3 +781,5 @@ Implement capturing which creating constructions so constructions can modify the
 ## Notes
 
 Undefined behavior (e.g. `1/0`) may be classified as a fatal error or a non-fatal error. In the non-fatal case, `null` is returned instead.
+
+Lazy evaluation
