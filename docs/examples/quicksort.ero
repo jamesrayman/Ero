@@ -1,0 +1,10 @@
+# Sort the given list of real numbers in ascending order
+
+qsort = v -> {
+    if (v.size() < 2) return v
+    
+    p = random_element(v)
+    return v.filter({ $p >= ? }).qsort() ++ v.filter({ $p < ? }).qsort()
+}
+
+main = qsort

@@ -1,0 +1,10 @@
+# Calculate the millionth fibonacci number mod 10^9 + 7
+
+const mod = 10^9 + 7
+
+fib = n -> {
+    if (n in [0, 1]) return n
+    return (fib(n-1) + fib(n-2)) % mod
+}
+
+main = () -> fib(1_000_000)

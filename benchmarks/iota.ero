@@ -1,0 +1,12 @@
+# return an array of the first million natural numbers
+
+main = () -> {
+    res = []
+    i = 0
+    while (i < 10^6) {
+        res += [i]
+        i += 1
+    }
+
+    return res
+}

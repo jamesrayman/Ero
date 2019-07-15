@@ -4,9 +4,9 @@ obj = $(src:.cpp=.o)
 
 LDFLAGS = -std=c++17
 
-euclid: $(obj)
+ero: $(obj)
 	$(CXX) -o $@ $^ $(LDFLAGS)
 
 .PHONY: clean
 clean:
-	rm -f $(obj) euclid
+	rm -f $(obj) ero

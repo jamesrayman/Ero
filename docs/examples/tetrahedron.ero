@@ -1,0 +1,14 @@
+# Prints a tetrahedron with a given edge
+
+main = (A, B) -> {
+    locus_C = intersection(sphere(A, B), sphere(B, A))
+    
+    C = point_on(locus_C)
+
+    D = intersection([A, B, C].permute(2).apply(sphere))
+
+    return [A, B, C, D].choose(3).apply(polygon)
+}
+
+
+

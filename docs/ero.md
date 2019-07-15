@@ -1,6 +1,6 @@
-# Euclid
+# Ero Language Specification
 
-Euclid is a functional scripting language intended to describe and render Euclidean constructions in two or three dimensions. The Euclid language is inspired by _Elements_, an ancient geometry textbook by Euclid of Alexandria. As a result, the Euclid language does not focus on algebra or arithmetic. Rather, it relies on geometry as its main method of computation, even though real arithmetic is still supported. Euclid is Turing complete (able to compute anything which is computable) and Euclid complete (able to construct any Euclidean construction). Euclid can also be used to create non-Euclidean constructions (such as an angle trisection and squaring the circle).
+This document contains the Ero language specification, which defines precisely how Ero should operate.
 
 > For editing purposes, put comments and suggested changes in block quotes.
 
@@ -20,11 +20,11 @@ Euclid is a functional scripting language intended to describe and render Euclid
 
 ### File Format
 
-A Euclid program is an ASCII text file with the extension "`.euclid`", or multiple of such files.
+An Ero program is an ASCII text file with the extension "`.ero`", or multiple of such files which execute each other.
 
 ### Objects
 
-In Euclid, an "object" is some piece of data that signifies something. For example the sphere with center (3, 4, 2) and radius 2 is an object. The real number -4.34 is also an object. Data types in Euclid are discussed in detail later.
+An "object" is a piece of data that signifies something. For example the sphere with center (3, 4, 2) and radius 2 is an object. The real number 4.34 is also an object. Data types are discussed in detail later.
 
 ### Expressions
 
@@ -32,13 +32,13 @@ An "expression" is an instruction on how to compute the value of an object. Simp
 
 ### Statements
 
-A "statement" is an instruction on how to change the state of the program. A Euclid program is a list of statements. Upon program execution, these statements are run in order unless they are part of a control flow structure that dictates otherwise (like an `if` statement).
+A "statement" is an instruction on how to change the state of the program. An Ero program is a list of statements. The result of a program execution may be determined by executing these statements in order, unless a control flow structure dictates otherwise (such as an `if` statement).
 
 Statements are generally only one line long, so newlines, in most cases, end statements. Newlines do not end statements when a line ends in a backslash (`\`) or when a line ends in with an incomplete binary operator, an incomplete literal, unclosed parentheses (`(` and `)`), or unclosed brackets (`[` and `]`). A semicolon (`;`) may be used to explicitly end a statement.
 
-Single line comments in Euclid begin with a hashtag (`#`) which is not part of a string literal and continue until the end of the line. Everything after the hashtag is ignored by the Euclid interpreter. Multiline comments are delimited by double hastags (`##`) not part of a string literal. Multiline comments do not necessarily span more than one line.
+Single line comments begin with a hashtag (`#`) not part of a string literal and continue until the end of the line. Everything after the hashtag is ignored by the interpreter. Multiline comments are delimited by double hastags (`##`) not part of a string literal. Multiline comments do not necessarily span more than one line.
 
-Euclid code samples thorughout this documentation is displayed like the sample below.
+Code samples thorughout this document are displayed like the sample below.
 
 ```text
 # this is a comment
@@ -59,7 +59,7 @@ multiline comment ##
 
 A block statement is a list of statements enclosed by braces (`{` and `}`). Block statements are used in control flow. If a block statement is encountered outside of a control flow statement, every individual statement within the block is run in order as if the braces were never there.
 
-Possibly the most frequent statement in Euclid is an assignment. The assignment operator is discussed in detail later. Below are some examples of assignment statements.
+Possibly the most frequent statement in Ero is an assignment. The assignment operator is discussed in detail later. Below are some examples of assignment statements.
 
 ```text
 a = b                   # the value of variable b is copied into variable a
@@ -70,24 +70,24 @@ omega = radius(         # assignment with a complex expression
     point_on(space)))
 ```
 
-#### `import` Statements
+#### `import` Directives
 
-`import` statements are statements which run another Euclid file. These statements have the syntax `import name` where `name` is a string literal which contains the library or file path to import. Each library or file may only be imported once per execution. Duplicate imports are ignored and should not generate any warnings or errors. Below are some examples of imports.
+`import` directives are instructions to import certain objects from another Ero file. These directives have the syntax `import name` where `name` is the library or file path to import. Each library or file may only be imported once per execution. Duplicate imports are ignored. All `import` directives are exactly one line long and must precede every statement in a file. Below are some examples of imports.
 
 ```text
-import "test.euclid"            # import a file
-import "olympiad"               # import a library
-import "folder/file.euclid"     # import from a different directory
-import "test.euclid"            # this line does nothing since test.euclid has already been imported
+import test.ero                 # import a file
+import olympiad                 # import a library
+import folder/file.ero          # import from a different directory
+import test.ero                 # this line does nothing since test.ero has already been imported
 ```
 
-If a name can refer to both a file and a library, the library is imported instead of a file. The standard Euclid libraries are discussed in detail later. Custom library implementation is not standardized.
+If a name can refer to both a file and a library, the library is imported instead of a file. The Ero standard libraries are discussed in detail later. Custom library implementation is not standardized.
 
 ## Data Types
 
-The central data type of the is a figure: a set of points that exists in three dimensional space.
+The central data type of Ero is the figure: a set of points that exists in three dimensional space.
 
-Below is a table of all figure types in Euclid.
+Below is a table of all figure types.
 
 | Figure  | Description                                                  |
 |---------|--------------------------------------------------------------|
@@ -99,12 +99,12 @@ Below is a table of all figure types in Euclid.
 | Circle  | the set of all points in a plane equidistant from a center   |
 | Arc     | a circle that is bounded by two endpoints                    |
 | Sphere  | the set of all points in space equidistant from a center     |
-| Null    | the set which contains no points                             |
+| Empty   | the set which contains no points                             |
 | Space   | the set which contains all points in three dimensional space |
 
 Note that Circles and Spheres, by definition, do not include the points on their interiors.
 
-Below is a table of all non-figure types in Euclid.
+Below is a table of all non-figure types.
 
 | Type         | Description                                        |
 |--------------|----------------------------------------------------|
@@ -116,28 +116,28 @@ Below is a table of all non-figure types in Euclid.
 | Type         | Describes a type                                   |
 | Reference    | Describes a variable                               |
 
-References are non-assignable. That is, it is impossible for a variable in Euclid to be of type Reference.
+References are non-assignable. That is, it is impossible for a variable to be of type Reference.
 
-The only implicit type conversion in Euclid is from Reference to another type, specifically, from a Reference to the value which it references. This is done when a Reference is used in any operation which does not explicitly take a reference as a parameter.
+The only implicit type conversion is from Reference to another type. Specifically, a Reference may be converted to the value which it references. This is done when a Reference is used in any operation which does not explicitly take a reference as a parameter.
 
-There are no custom types in Euclid.
+There are no custom types.
 
 As convention, compound geometric figures are represented as tuples of figures. Each standard convention is documented below.
 
-| Compound figure | Description                                                                                                                         |
-|-----------------|-------------------------------------------------------------------------------------------------------------------------------------|
-| Angle           | a tuple of two rays with a common endpoint                                                                                          |
-| Polyline        | a tuple of segments such that segments adjacent in the tuple share an endpoint                                                      |
-| Polygon         | a tuple of segments all in the same plane such that segments adjacent in the tuple (including the first and last) share an endpoint |
-| Polyhedron      | a tuple of polygons that enclose a region in space                                                                                  |
+| Compound figure | Description                                        |
+|-----------------|----------------------------------------------------|
+| Angle           | a tuple of two rays with a common endpoint         |
+| Polyline        | a tuple of points                                  |
+| Polygon         | a tuple of points all in the same plane            |
+| Polyhedron      | a tuple of polygons that enclose a region in space |
 
 ## Literals
 
-Literals are straightforward specifications of objects, the simplest type of expression. Below is a list of all types of literals in Euclid.
+Literals are straightforward specifications of objects. Below is a list of all types of literals.
 
 ### Real Literals
 
-Real literals in Euclid are based off of decimal real literals in C. Real literals are strings of at least one decimal digit. A decimal point (`.`) may be inserted anywere in this literal. Scientific notation may also be used by appending `e` or `E`, followed by an optional sign, (`+` or `-`), followed by an integer representing the exponent.
+Real literals are strings of at least one decimal digit. A decimal point (`.`) may be inserted anywere in this literal. Scientific notation may also be used by appending `e` or `E`, followed by an optional sign, (`+` or `-`), followed by an integer representing the exponent. Underscores (`_`) may be used as digit seperators within a literal. Digits separators are ignored. Their purpose is solely readability. A digit separator may not begin a real literal.
 
 Below are some examples of correct real literals.
 
@@ -147,7 +147,9 @@ Below are some examples of correct real literals.
 34.59
 56.000
 .01
-0034    # leading zeros are allowed
+0034        # leading zeros are allowed
+1_000_000
+3.141_592
 45e-3
 45.E+3
 3.460e3
@@ -157,17 +159,18 @@ Below are some examples of correct real literals.
 Below are some examples of incorrect real literals.
 
 ```text
+_234_2  # not allowed to start with a digit separator
 .       # no digits present
 e03     # mantissa must contain at least one digit
 .e03    # mantissa must contain at least one digit
-54e 43  # literal may not contain spaces
+54e 43  # literal may not contain whitespace
 ```
 
-Negative real literals technically do not exist in Euclid. Rather, a negation operator is applied to a real literal. The implications of this are minimal. For example, the expression `-4.5` evaluates to exactly what is expected, but it does include an operator call.
+Negative real literals technically do not exist in Ero. Rather, a negation operator is applied to a real literal. The implications of this are minimal. For example, the expression `-4.5` evaluates to exactly what is expected, but it does include an operator call.
 
 ### String Literals
 
-String literals may include any ASCII characters. Unicode is currently not supported, but may be added at a later time. Since strings are tuples of integers in Euclid, each character is converted into its character code and stored in the resultant string. There are two types of string literals: short and long.
+String literals may include any ASCII characters. Unicode is currently not supported, but may be added at a later time. Since strings are tuples of integers in Ero, each character is converted into its character code and stored in the resultant string. There are two types of string literals: short and long.
 
 #### Short String Literals
 
@@ -225,7 +228,7 @@ Within a String literal, long or short, a backslash indicates that the next char
 
 ### Reference Literals
 
-Reference literals are strings of uppercase letters, lowercase letters, numbers, and underscores which are not keywords in Euclid. Also, Reference literals may not start with numbers. Each unique Reference literal points to a unique variable. Example Reference literals are `x`, `redCounter`, `var_3`, and `b324_nx04`.
+Reference literals are strings of uppercase letters, lowercase letters, numbers, and underscores which are not keywords in Ero. Also, Reference literals may not start with numbers. Each unique Reference literal points to a unique variable. Example Reference literals are `x`, `redCounter`, `var_3`, and `b324_nx04`.
 
 ### Tuple Literals
 
@@ -253,13 +256,14 @@ Below are some examples of tuple unpacking.
 ```text
 v = "Hello"
 x, *v = 1, 2, 3, 4      # x = 1; v = 2, 3, 4
-                        # notice how no error is generated
+
 u = *x, 2, 3            # error: x does not reference a tuple
+
 u = 1, 2
 *u, *v = 3, 4, 5        # error: left hand side is not a Reference or tuple of References
 
 u, v = [1, 2], [3, 4]
-w = *u, *v, 5             # w = 1, 2, 3, 4, 5
+w = *u, *v, 5           # w = 1, 2, 3, 4, 5
 ```
 
 ### Construction Literal
@@ -355,7 +359,7 @@ Global constants are global variables which may not be reassiged. The list of pr
 | Global constant | Significance                     |
 |-----------------|----------------------------------|
 | `space`         | The single possible Space figure |
-| `null`          | The single possible Null figure  |
+| `empty`         | The single possible Empty figure |
 | `true`          | True boolean                     |
 | `false`         | False boolean                    |
 
@@ -369,7 +373,7 @@ The following global constants all describe Type objects.
 * `Circle`
 * `Arc`
 * `Sphere`
-* `Null`
+* `Empty`
 * `Space`
 * `Real`
 * `Boolean`
@@ -381,21 +385,21 @@ The following global constants all describe Type objects.
 
 The following global constants are shorthand for Type expressions.
 
-| Global constant | Significance                                                                               |
-|-----------------|--------------------------------------------------------------------------------------------|
-| `Figure`        | equivalent to `Point + Line + Segment + Ray + Circle + Arc + Sphere + Null + Space`        |
-| `Singleton`     | equivalent to `Figure + Real + Boolean + String + Construction + Type + Reference`         |
-| `Object`        | equivalent to `Tuple + Singleton`                                                          |
+| Global constant | Significance                                                                                 |
+|-----------------|----------------------------------------------------------------------------------------------|
+| `Figure`        | equivalent to `Point or Line or Segment or Ray or Circle or Arc or Sphere or Empty or Space` |
+| `Singleton`     | equivalent to `Figure or Real or Boolean or String or Construction or Type or Reference`     |
+| `Object`        | equivalent to `Tuple or Singleton`                                                           |
 
 ### Custom Global Constants
 
 ## Operators
 
-Operators are constructions which are invoked through a special notation for the purpose of readability. For example, the addition of two real numbers, `x` and `y`, is done by `x + y` rather than by some construction call (such as `add(x, y)`). All operators in Euclid are prefix unary (e.g. `~x`), infix binary (e.g. `x ~ y`), a bracket operator (`x(y...)` or `x[y...]`), or the assignment operator (`x = y = z = ...`).
+Operators are constructions which are invoked through a special notation for the purpose of readability. For example, the addition of two real numbers, `x` and `y`, is done by `x + y` rather than by some construction call (such as `add(x, y)`). All operators are prefix unary (e.g. `~x`), infix binary (e.g. `x ~ y`), a bracket operator (`x(y...)` or `x[y...]`), or the assignment operator (`x = y = z = ...`).
 
 Unless otherwise stated, when a Reference is passed as an operand, it is dereferenced. Similarly, operators do not return References unless otherwise stated.
 
-There are no custom operators in Euclid.
+There are no custom operators.
 
 ### Arithmetic
 
@@ -407,13 +411,13 @@ The binary operators are: `x + y`, `x - y`, `x * y`, `x / y`, `x // y`, `x % y`,
 
 #### Disputed Definitions
 
-Even though the definition of `0^0` is disputed, this expression is defined in Euclid and has a value of `1`. `0^x`, where `x` is positive, is equal to `0`.
+Even though the definition of `0^0` is disputed, this expression is defined in Ero and has a value of `1`. `0^x`, where `x` is positive, is equal to `0`.
 
 For values of `x ^ y` where `y` is not an integer, the expression is equal to `exp(log(x) * y)`. The definitions of `exp` and `log` are discussed in detail later.
 
 #### Undefined Expressions
 
-The following expressions are all undefined. The errors which these expressions generate, if any, is discussed in detail later.
+The following expressions are all undefined.
 
 * `x / 0`, for all `x`
 * `x // 0`, for all `x`
@@ -481,8 +485,8 @@ Below is a list of string operators. `x` and `y` are tuples and `i`, `j`, and `k
 | `x[i]`     | Index operator          |                                                      |
 | `x[i:j]`   | Slice operator          | `i` or `j` (or both) may be excluded                 |
 | `x[i:j:k]` | Extended slice operator | Any combination of `i` or `j` or `k` may be excluded |
-| `x + y`    | Concatenation operator  |                                                      |
-| `x * i`    | Repetition operator     | Commutative: can also be `i * x`                     |
+| `x ++ y`   | Concatenation operator  |                                                      |
+| `x ** i`   | Repetition operator     | Commutative: can also be `i ** x`                    |
 
 #### Indexing and Slicing
 
@@ -523,9 +527,9 @@ x = x[2:10:3]       # 3, 6, 3
 
 ## Concatonation and Repetition
 
-`x + y`, the concatonation operator, returns a tuple which is the elements of `x` followed by the elements of `y`, in the order which they appear in `x` and `y`.
+`x ++ y`, the concatonation operator, returns a tuple which is the elements of `x` followed by the elements of `y`, in the order which they appear in `x` and `y`.
 
-`x * i`, the repetition operator, returns `x` concatonated to itself `i` times. `i` must be a nonnegative integer. The operator is commutative: `x * i` is equivalent to `i * x`. For example, `x * 1` is equivalent to `x`, and `x * 0` is equivalent to `[]`, the empty tuple.
+`x ** i`, the repetition operator, returns `x` concatonated to itself `i` times. `i` must be a nonnegative integer. The operator is commutative: `x ** i` is equivalent to `i ** x`. For example, `x ** 1` is equivalent to `x`, and `x ** 0` is equivalent to `[]`, the empty tuple.
 
 ### String Operators
 
@@ -536,18 +540,18 @@ Below is a list of string operators. `x` and `y` are strings and `i`, `j`, and `
 | `x[i]`     | Index operator          |                                                      |
 | `x[i:j]`   | Slice operator          | `i` or `j` (or both) may be excluded                 |
 | `x[i:j:k]` | Extended slice operator | Any combination of `i` or `j` or `k` may be excluded |
-| `x + y`    | Concatenation operator  |                                                      |
-| `x * i`    | Repetition operator     | Commutative: can also be `i * x`                     |
+| `x ++ y`   | Concatenation operator  |                                                      |
+| `x ** i`   | Repetition operator     | Commutative: can also be `i ** x`                    |
 
 These string operators are almost analogous to their respective tuple operators, as Strings are actually tuples of characters. There are some differences, however.
 
-`x[i]` is equivalent to `x[i:i+1:1]`, so it returns a Reference to a string of length one, not a character (as there is no character type in Euclid), which can only be assigned with strings of length one.
+`x[i]` is equivalent to `x[i:i+1:1]`, so it returns a Reference to a string of length one, not a character (as there is no character type in Ero), which can only be assigned with strings of length one.
 
 ### Construction Operators
 
 ```text
 x(y)
-x + y
+x :: y
 x.y
 ```
 
@@ -614,7 +618,7 @@ Compound assigment operators may not be used in chain assignment.
 
 ### Precedence
 
-Below is a table containing the operator precedence in Euclid, sorted in order of decreasing precedence. Operators listed in the same group have the same precedence. Parenthesis override precedence in the expected manner.
+Below is a table containing the order of operations. Operators listed in the same group have the same precedence. Parenthesis override precedence in the expected manner.
 
 | Operators | Group name | Associativity |
 |---|---|---|
@@ -623,8 +627,7 @@ Below is a table containing the operator precedence in Euclid, sorted in order o
 | `x ^ y` | Exponentiation | Right |
 | `x * y`, `x / y`, `x // y`, `x % y` | Multiplication | Left |
 | `x + y`, `x - y` | Addition | Left |
-| `x is y` | Type Check | Left |
-| `x == y`, `x != y`, `x < y`, `x > y`, `x >= y`, `x <= y` | Comparison | Left |
+| `x in y`, `x not in y`, `x is y`, `x is not y`, `x == y`, `x != y`, `x < y`, `x > y`, `x >= y`, `x <= y` | Comparison | Left |
 | `x and y`, `x && y` | Conjunction | Left |
 | `x xor y`, `x ^^ y` | Exclusive Disjunction | Left |
 | `x or y`, `x \|\| y` | Disjunction | Left |
@@ -632,17 +635,17 @@ Below is a table containing the operator precedence in Euclid, sorted in order o
 
 ## Postulates
 
-The postulates are the most basic constructions built into Euclid. Every other construction in Euclid can be written in terms of the postulates and operators.
+The postulates are the most basic constructions built into Ero. Every other construction can be written in terms of the postulates and operators.
 
 ### Figure Manipulation
 
 #### `plane(Point alpha, Point beta, Point gamma)`
 
-Return the unique plane which contains points `alpha`, `beta`, and `gamma`. If there is no unique plane, return `null`.
+Return the unique plane which contains points `alpha`, `beta`, and `gamma`. If there is no unique plane, return `undefined`.
 
 #### `sphere(Point center, Point p)`
 
-Return the unique sphere with center `center` such that `p` is a point on that sphere. If `center` and `p` are the same point, return `null`.
+Return the unique sphere with center `center` such that `p` is a point on that sphere. If `center` and `p` are the same point, return `undefined`.
 
 #### `point(Real x, Real y, Real z)`
 
@@ -650,17 +653,17 @@ Return the point with Cartesian coordinates (`x`, `y`, `z`).
 
 #### `ray(Point endpoint, Point p)`
 
-Return the unique ray with endpoint `endpoint` such that `p` is a point on that ray. If `center` and `p` are the same point, return `null`.
+Return the unique ray with endpoint `endpoint` such that `p` is a point on that ray. If `center` and `p` are the same point, return `undefined`.
 
 #### `arc(Point start, Point p, Point end)`
 
-Return the unique arc with endpoints `start` and `end` such that point `p` is a point on that arc. If the three points are collinear or not pairwise distcint, return `null`.
+Return the unique arc with endpoints `start` and `end` such that point `p` is a point on that arc. If the three points are collinear or not pairwise distcint, return `undefined`.
 
-#### `intersections(Figure[] *omega)`
+#### `intersections(Figure *omega)`
 
 Return a tuple of figures whose union represents the intersection of all the figures given in the input.
 
-#### `point_on(Figure and not Null alpha, Real seed = 0, Real index)`
+#### `point_on(Figure and not Empty alpha, Real seed = 0, Real index)`
 
 Return a "random" point on `alpha`. This "random" point is uniquely determined from `seed` and `index`, which must both be integers. The default index is initiallized to zero and incremented after every time `point_on` is called without `index` given. `point_on` is continuous with respect to `alpha`. That is, for fixed `seed` and `index`, sufficiently small changes in `alpha` will result in arbitrarily small changes in `point_on(alpha)`.
 
@@ -677,22 +680,24 @@ Return the Euclidean distance between `alpha` and `beta`.
 ```text
 if (x) {
 
-} else if (y) {
+}
+else if (y) {
 
-} else {
+}
+else {
 
 }
 while (x) {
 
 }
-for (x : y) {
+for (x in y) {
 
 }
 ```
 
 ## Input and Output
 
-Input and output in Euclid is done through "streams." A "stream" is a collection of objects that can be added to using the `write` construction and taken from using the `read` construction. Streams are identified using strings, but unique names do not need to correspond to unique streams. In other words, streams may be aliased. Also, some streams may be read-only and some may be write-only. Below is the documentation of the stream interface in Euclid.
+Input and output is done through "streams." A "stream" is a collection of objects that can be added to using the `write` construction and taken from using the `read` construction. Streams are identified using strings, but unique names do not need to correspond to unique streams. In other words, streams may be aliased. Also, some streams may be read-only and some may be write-only. Below is the documentation of the stream interface.
 
 ### `read(String stream)`
 
@@ -728,11 +733,11 @@ Return the name of the current default write stream.
 
 ### Stream Implementation
 
-The specification of streams is intentionally vague to allow for versatility of the Euclid language. How objects are represented in streams, for example, is not standardized. It is recommended that either JSON or EON be used for representation. However, it is not necessary to follow this recommendation. EON is Euclid Object Notation, and it is documented in `eon.md`. The recommended structure of JSON representing Euclid objects is given in `json.md`
+The specification of streams is intentionally vague to allow for versatility of the Ero language. How objects are represented in streams, for example, is not standardized. It is recommended that either JSON or EON be used for representation. However, it is not necessary to follow this recommendation. EON is Ero Object Notation, and it is documented in `eon.md`. The recommended structure of JSON representing Ero objects is given in `json.md`
 
 ### Standard Streams
 
-The following streams are recommended to be implemented or aliased in Euclid.
+The following streams are recommended to be implemented or aliased.
 
 | Stream    | Description                                      |
 |-----------|--------------------------------------------------|
@@ -746,7 +751,9 @@ The following streams are recommended to be implemented or aliased in Euclid.
 
 ## Standard Library
 
-The Euclid standard library is a set of constructions which is standard in the Euclid language, but may be defined in terms of Euclid itself. However it is not necessary to define them in Euclid. In fact, it is recommended to implement standard constructions marked with an asterisk (`*`) outside of Euclid for efficiency and accuracy.
+The Ero standard library is a set of constructions which is standard in the Ero language, but may be defined in terms of Ero itself. It is documented in `lib.md`.
+
+However it is not necessary to define them using Ero. In fact, it is recommended to implement standard constructions marked with an asterisk (`*`) outside of Ero for efficiency and accuracy.
 
 ```text
 length(alpha)
@@ -757,29 +764,93 @@ angle(alpha)
 
 interpolate(v0, v1, t)
 
-intersection(*omega)
-binormal(alpha, beta)
+intersection(alpha, *omega)
+normal(alpha, *omega)
+midnormal(alpha)
 tangents(T, *omega)
+tangent(T, *omega)
+is_collinear(*omega)
+is_coplanar(*omega)
+is_parallel(*omega)
+parallel(alpha, beta)
 
 polygon(*omega)
+polyhedron(*omega)
+
+range(start, end, delta)
 
 filter(v, f)
 apply(v, f)
+reduce(v, f)
+reduce(v, f, i)
 min(v, cmp)
 max(v, cmp)
 min(a, *v, cmp)
 max(a, *v, cmp)
-accumulate(a, f)
+count(v, x)
+unique(v)
+shuffle(v)
+random_element(v)
+next_permutation(v, cmp)
+prev_permutation(v, cmp)
+sorted(v, cmp)
+
+choose(n, k)
+permute(n, k)
+power_set(v)
 ```
 
 ## Issues
 
-How should compilation/running be done?
+Javascript-like objects?
 
-Implement capturing which creating constructions so constructions can modify themselves. Implement a different type of capturing when values from an outer scope need to be used in an inner construction.
+Error system - Use undefined
+
+Rename "null" as empty. Add "undefined"
+
+Ternary logic?
+
+Repl? Main function?
+
+Should we have overloading?
+
+Change definition of polygon? Yes: tuple of points
+
+a %% b
+Construction combination
+
+x @ "dfsa"
+Annotation
+
+x.f
+Partial application
+
+(a, b, c).f
+Partial application
+
+x .. y
+List concatenation
+
+x  y
+List repetition
+
+$x
+Variable capture
+
+?
+Wildcard variable
+
+import * from "lib"
+import a, b, c from "lib"
+import "lib" as lib
+import "lib"
+
+export a, b, c, d
+
+Disallow ' as quote character?
 
 ## Notes
 
-Undefined behavior (e.g. `1/0`) may be classified as a fatal error or a non-fatal error. In the non-fatal case, `null` is returned instead.
-
 Lazy evaluation
+
+Hot swapping
