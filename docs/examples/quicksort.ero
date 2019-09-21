@@ -4,7 +4,7 @@ qsort = v -> {
     if (v.size() < 2) return v
     
     p = random_element(v)
-    return v.filter({ $p >= ? }).qsort() ++ v.filter({ $p < ? }).qsort()
+    return v.filter(x -> { $p >= x }).qsort() .. v.filter(x -> { $p < x }).qsort()
 }
 
 main = qsort

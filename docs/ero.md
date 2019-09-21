@@ -831,14 +831,11 @@ Partial application
 x .. y
 List concatenation
 
-x  y
+x :: y
 List repetition
 
 $x
 Variable capture
-
-?
-Wildcard variable
 
 import * from "lib"
 import a, b, c from "lib"
